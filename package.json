@@ -11,7 +11,11 @@
     "prepare": "husky",
     "lint": "pnpm -r --if-present run lint",
     "typecheck": "pnpm -r --if-present run typecheck",
-    "test": "pnpm -r --if-present run test && node ./tools/verify-boundary-violation.mjs"
+    "test": "pnpm -r --if-present run test && node ./tools/verify-boundary-violation.mjs",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:migrate": "pnpm --filter @rental/api run db:migrate",
+    "db:generate": "pnpm --filter @rental/api run db:generate"
   },
   "lint-staged": {
     "*.{js,cjs,mjs,ts,tsx,json,md,yml,yaml}": [
