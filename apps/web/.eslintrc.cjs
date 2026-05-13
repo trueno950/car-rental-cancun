@@ -1,13 +1,21 @@
 const baseConfig = require("../../packages/config/.eslintrc.base.js");
 
 const apiBoundaryPattern = {
-  group: ["../../api/**", "../api/**", "apps/api/**", "@rental/api", "@rental/api/*"],
-  message: "apps/web cannot import from apps/api. Move shared contracts into packages/*.",
+  group: [
+    "../../api/**",
+    "../api/**",
+    "apps/api/**",
+    "@rental/api",
+    "@rental/api/*",
+  ],
+  message:
+    "apps/web cannot import from apps/api. Move shared contracts into packages/*.",
 };
 
 const leafletBoundaryPattern = {
   group: ["leaflet", "leaflet/*", "react-leaflet", "react-leaflet/*"],
-  message: "Leaflet imports are restricted to apps/web/src/features/map/components/** via the SSR-safe wrapper boundary.",
+  message:
+    "Leaflet imports are restricted to apps/web/src/features/map/components/** via the SSR-safe wrapper boundary.",
 };
 
 const iconBoundaryPattern = {
@@ -26,17 +34,20 @@ const iconBoundaryPattern = {
 
 const motionBoundaryPattern = {
   group: ["framer-motion"],
-  message: "Framer Motion must stay inside explicit leaf client components, never in app page/layout files.",
+  message:
+    "Framer Motion must stay inside explicit leaf client components, never in app page/layout files.",
 };
 
 const inlineZodBoundaryPattern = {
   group: ["zod/*"],
-  message: "Use shared Zod contracts from @rental/validations at form and API boundaries; inline schemas are forbidden here.",
+  message:
+    "Use shared Zod contracts from @rental/validations at form and API boundaries; inline schemas are forbidden here.",
 };
 
 const inlineZodBoundaryPath = {
   name: "zod",
-  message: "Use shared Zod contracts from @rental/validations at form and API boundaries; inline schemas are forbidden here.",
+  message:
+    "Use shared Zod contracts from @rental/validations at form and API boundaries; inline schemas are forbidden here.",
 };
 
 const boundariesElements = [
@@ -145,7 +156,8 @@ module.exports = {
                 internalPath: "!index.ts",
               },
             },
-            message: "app/ must import features only through each feature index.ts barrel.",
+            message:
+              "app/ must import features only through each feature index.ts barrel.",
           },
           {
             from: {
@@ -183,32 +195,36 @@ module.exports = {
     ],
     "no-restricted-imports": [
       "error",
-        {
-          patterns: [
-            apiBoundaryPattern,
-            leafletBoundaryPattern,
-            iconBoundaryPattern,
-          ],
-        },
-      ],
+      {
+        patterns: [
+          apiBoundaryPattern,
+          leafletBoundaryPattern,
+          iconBoundaryPattern,
+        ],
+      },
+    ],
   },
   overrides: [
     {
-      files: ["src/features/map/components/**/*.ts", "src/features/map/components/**/*.tsx"],
+      files: [
+        "src/features/map/components/**/*.ts",
+        "src/features/map/components/**/*.tsx",
+      ],
       rules: {
         "no-restricted-imports": [
           "error",
           {
-            patterns: [
-              apiBoundaryPattern,
-              iconBoundaryPattern,
-            ],
+            patterns: [apiBoundaryPattern, iconBoundaryPattern],
           },
         ],
       },
     },
     {
-      files: ["app/**/page.tsx", "app/**/layout.tsx", "test-fixtures/motion-page-boundary-violation.ts"],
+      files: [
+        "app/**/page.tsx",
+        "app/**/layout.tsx",
+        "test-fixtures/motion-page-boundary-violation.ts",
+      ],
       rules: {
         "no-restricted-imports": [
           "error",
@@ -224,7 +240,10 @@ module.exports = {
       },
     },
     {
-      files: ["test-fixtures/boundaries/**/*.ts", "test-fixtures/boundaries/**/*.tsx"],
+      files: [
+        "test-fixtures/boundaries/**/*.ts",
+        "test-fixtures/boundaries/**/*.tsx",
+      ],
       rules: {
         "@typescript-eslint/no-unused-vars": "off",
       },
