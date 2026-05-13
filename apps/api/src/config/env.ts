@@ -1,11 +1,13 @@
 import { z } from "zod";
 
 const databaseEnvSchema = z.object({
-  DATABASE_URL: z.url({ error: "DATABASE_URL is required and must be a valid URL" }),
+  DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
 });
 
 const apiEnvSchema = databaseEnvSchema.extend({
-  NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+  NODE_ENV: z
+    .enum(["development", "test", "production"])
+    .default("development"),
   PORT: z.coerce.number().int().positive().default(3000),
   NEXTAUTH_SECRET: z.string().min(1, "NEXTAUTH_SECRET is required"),
 });
@@ -18,7 +20,9 @@ type EnvInput = Record<string, string | undefined>;
 let cachedEnv: ApiEnv | null = null;
 
 function formatEnvError(prefix: string, error: z.ZodError): never {
-  const issues = error.issues.map((issue) => `${issue.path.join(".") || "env"}: ${issue.message}`).join(", ");
+  const issues = error.issues
+    .map((issue) => `${issue.path.join(".") || "env"}: ${issue.message}`)
+    .join(", ");
 
   throw new Error(`Invalid ${prefix} environment variables: ${issues}`);
 }

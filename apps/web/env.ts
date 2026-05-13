@@ -1,9 +1,13 @@
 import { z } from "zod";
 
 const webEnvSchema = z.object({
-  DATABASE_URL: z.url({ error: "DATABASE_URL is required and must be a valid URL" }),
+  DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
   NEXTAUTH_SECRET: z.string().min(1, "NEXTAUTH_SECRET is required"),
-  NEXT_PUBLIC_SITE_URL: z.url().default("http://localhost:3000"),
+  NEXT_PUBLIC_SITE_URL: z
+    .string()
+    .transform((s) => s.trim())
+    .pipe(z.url())
+    .default("http://localhost:3000"),
 });
 
 export type WebEnv = z.infer<typeof webEnvSchema>;

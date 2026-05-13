@@ -6,8 +6,7 @@ import "./globals.css";
 import { Geist } from "next/font/google";
 import { cn } from "@shared/lib";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 type RootLayoutProps = {
   children: ReactNode;
@@ -20,7 +19,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="es" className={cn("font-sans", geist.variable)}>
       <body
         className="min-h-screen bg-background font-sans text-foreground antialiased"
-        data-auth-provider="github"
         data-site-url={env.NEXT_PUBLIC_SITE_URL}
       >
         {children}
