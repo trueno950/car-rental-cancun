@@ -11,7 +11,7 @@ FILE_PATTERNS="apps/**/*.ts,apps/**/*.tsx,packages/**/*.ts,packages/**/*.tsx,too
 EXCLUDE_PATTERNS="**/*.test.ts,**/*.spec.ts,**/*.test.tsx,**/*.spec.tsx,**/*.d.ts,apps/web/test-fixtures/**"
 
 # Root architectural context for GGA.
-RULES_FILE="GGA_RULES.md"
+RULES_FILE="AGENTS.md"
 
 # Ambiguous answers should fail the check.
 STRICT_MODE="true"

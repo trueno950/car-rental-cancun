@@ -1,4 +1,4 @@
-# GGA_RULES.md — rental-car-cancun
+# AGENTS.md — rental-car-cancun
 
 ## 1. Project Context
 
