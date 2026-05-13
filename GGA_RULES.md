@@ -1,5 +1,4 @@
-# AGENTS.md — rental-car-cancun
-> [DRAFT — pending frontend-architecture archival]
+# GGA_RULES.md — rental-car-cancun
 
 ## 1. Project Context
 
@@ -7,6 +6,7 @@
 - `apps/web` is Next.js 15 + React 19 and already follows Feature-Driven Architecture (FDA).
 - `apps/api` is NestJS 11 and owns backend business logic.
 - `packages/validations` holds shared contracts; do not fork Zod schemas inline when a shared contract already exists.
+- `@base-ui/react` is the approved headless UI primitive library. Use it in `src/shared/components/**` for base components (button, input, popover, etc.). Do not swap it for Radix UI or other headless libraries.
 - `tools/verify-boundary-violation.mjs` is an intentional guardrail fixture runner. Do not “fix” those failing fixture imports.
 
 ## 2. FDA Layer Rules
@@ -22,7 +22,7 @@
 
 ### Non-negotiable alias and placement rules
 
-- Frontend aliases documented today: `@/*`, `@/app/*`, `@features/*`, `@shared/*`, `@core/*`.
+- Frontend aliases: `@/*`, `@/app/*`, `@features/*`, `@shared/*`, `@core/*`.
 - Do NOT reintroduce legacy shapes such as `src/components`, `src/lib`, root `components/`, or `src/actions/`.
 - `app/**` imports features only through each feature public API, never through `components/*` or `services/*` deep paths.
 - Shared code never imports feature code.
@@ -57,5 +57,6 @@ Treat these as review targets for GGA:
 - `apps/web/test-fixtures/**` intentionally contains boundary violations for `tools/verify-boundary-violation.mjs`. Those files are test fixtures, not production regressions.
 - `apps/web/app/**` server components composing `@features/*` public APIs are valid and should not be treated as boundary leaks.
 - `apps/web/src/features/*/actions/**` is acceptable only when the action forwards to the backend and keeps business logic out.
+- `apps/web/src/shared/components/**` importing from `@base-ui/react` is valid — it is the project's approved headless primitive library.
 - Feature-local adapters that reshape backend DTOs for UI consumption are valid when they stay inside the owning feature or `core/http` boundary.
 - Emergency `--no-verify` bypass is allowed only for real incidents and must be called out explicitly in the PR description.
