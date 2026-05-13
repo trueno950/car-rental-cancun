@@ -1,0 +1,23 @@
+# Gentleman Guardian Angel runtime config
+# Real CLI contract verified locally against gga v2.8.1.
+
+# Provider is injected by the caller so local hooks can auto-detect and CI can pin GitHub Models.
+PROVIDER="${GGA_PROVIDER:-}"
+
+# Keep the review focused on application and shared package source.
+FILE_PATTERNS="apps/**/*.ts,apps/**/*.tsx,packages/**/*.ts,packages/**/*.tsx,tools/**/*.mjs"
+
+# Ignore tests, type declarations, and intentional architecture-violation fixtures.
+EXCLUDE_PATTERNS="**/*.test.ts,**/*.spec.ts,**/*.test.tsx,**/*.spec.tsx,**/*.d.ts,apps/web/test-fixtures/**"
+
+# Root architectural context for GGA.
+RULES_FILE="AGENTS.md"
+
+# Ambiguous answers should fail the check.
+STRICT_MODE="true"
+
+# Caller controls fast local (30s) vs CI (90s) timeouts.
+TIMEOUT="${GGA_TIMEOUT:-90}"
+
+# CI can inject the PR base branch explicitly.
+PR_BASE_BRANCH="${GGA_PR_BASE_BRANCH:-}"

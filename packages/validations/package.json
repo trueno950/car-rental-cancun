@@ -1,0 +1,17 @@
+{
+  "name": "@rental/validations",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "zod": "^4.0.0"
+  },
+  "scripts": {
+    "build": "pnpm run typecheck",
+    "lint": "eslint --max-warnings 0 --ext .ts src tests",
+    "typecheck": "tsc --project tsconfig.json",
+    "test": "vitest run"
+  }
+}

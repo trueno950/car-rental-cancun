@@ -1,0 +1,34 @@
+{
+  "HomePage": {
+    "title": "Renta de autos en Cancún",
+    "welcome": "Bienvenido, {name}",
+    "apiReady": "API bearer token: {token}"
+  },
+  "LoginPage": {
+    "title": "Inicia sesión",
+    "description": "Usa GitHub para abrir una sesión persistida en PostgreSQL.",
+    "cta": "Continuar con GitHub"
+  },
+  "ReservationPage": {
+    "heading": "Demo de rango de fechas para reservación",
+    "helper": "Este ejemplo mantiene validación, días bloqueados y envío proxy en el boundary de UI mientras NestJS sigue siendo dueño de la disponibilidad.",
+    "locationLabel": "Lugar de entrega",
+    "locationDescription": "Campo de boundary conectado al contrato compartido con Zod.",
+    "timezoneLabel": "Zona horaria",
+    "timezoneDescription": "Se captura desde el navegador y se reenvía a NestJS sin meter reglas de negocio en Next.js.",
+    "dateRangeLabel": "Fechas del viaje",
+    "dateRangeDescription": "Los días bloqueados vienen de un fixture aquí, pero el field ya queda listo para disponibilidad desde API.",
+    "submit": "Consultar disponibilidad",
+    "submitError": "Falló el proxy de reservación. Verifica el endpoint de disponibilidad en NestJS o RENTAL_API_BASE_URL.",
+    "success": "Respuesta proxy recibida",
+    "mapHeading": "Preview del mapa de puntos de entrega",
+    "mapDescription": "Leaflet queda detrás de un solo wrapper SSR-safe mientras la ruta sigue siendo Server Component y Motion vive solo en clientes hoja.",
+    "mapEmpty": "Los puntos de entrega aparecerán aquí cuando exista el fixture de UI o la fuente desde API."
+  },
+  "Metadata": {
+    "title": "Renta de autos en Cancún"
+  },
+  "nav": {
+    "home": "Inicio"
+  }
+}

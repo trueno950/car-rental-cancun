@@ -1,0 +1,47 @@
+{
+  "name": "rental-car-cancun",
+  "private": true,
+  "packageManager": "pnpm@10.11.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm -r --if-present --parallel run dev",
+    "build": "pnpm -r --if-present run build",
+    "prepare": "husky",
+    "lint": "pnpm -r --if-present run lint",
+    "typecheck": "pnpm -r --if-present run typecheck",
+    "test": "pnpm -r --if-present run test && node ./tools/verify-boundary-violation.mjs"
+  },
+  "lint-staged": {
+    "*.{js,cjs,mjs,ts,tsx,json,md,yml,yaml}": [
+      "prettier --check"
+    ],
+    "apps/web/**/*.{ts,tsx}": [
+      "pnpm --filter @rental/web exec eslint --max-warnings 0"
+    ],
+    "apps/api/**/*.ts": [
+      "pnpm --filter @rental/api exec eslint --max-warnings 0"
+    ],
+    "packages/validations/**/*.{ts,tsx}": [
+      "pnpm --filter @rental/validations exec eslint --max-warnings 0"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.0.1",
+    "@commitlint/config-conventional": "^21.0.1",
+    "@types/node": "^22.15.17",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-import-resolver-typescript": "^4.3.5",
+    "eslint-plugin-import": "^2.31.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.4",
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.2"
+  }
+}

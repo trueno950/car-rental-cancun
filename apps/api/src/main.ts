@@ -1,0 +1,14 @@
+import "reflect-metadata";
+
+import { NestFactory } from "@nestjs/core";
+
+import { AppModule } from "./app.module";
+import { getApiEnv } from "./config/env";
+
+async function bootstrap() {
+  const env = getApiEnv();
+  const app = await NestFactory.create(AppModule);
+  await app.listen(env.PORT);
+}
+
+void bootstrap();

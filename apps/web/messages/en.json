@@ -1,0 +1,31 @@
+{
+  "HomePage": {
+    "title": "Cancun car rental",
+    "welcome": "Welcome, {name}",
+    "apiReady": "API bearer token: {token}"
+  },
+  "LoginPage": {
+    "title": "Sign in",
+    "description": "Use GitHub to open a PostgreSQL-backed session.",
+    "cta": "Continue with GitHub"
+  },
+  "ReservationPage": {
+    "heading": "Reservation date range demo",
+    "helper": "This example keeps validation, blocked days and proxy submission at the UI boundary while the backend remains the owner of availability logic.",
+    "locationLabel": "Pickup location",
+    "locationDescription": "Simple boundary field wired through the shared Zod contract.",
+    "timezoneLabel": "Timezone",
+    "timezoneDescription": "Captured from the browser and forwarded to NestJS without adding business rules in Next.js.",
+    "dateRangeLabel": "Travel dates",
+    "dateRangeDescription": "Blocked days come from a fixture here, but the field stays ready for API-driven availability.",
+    "submit": "Check availability",
+    "submitError": "Reservation proxy failed. Verify the NestJS availability endpoint or RENTAL_API_BASE_URL.",
+    "success": "Proxy response received",
+    "mapHeading": "Pickup points map preview",
+    "mapDescription": "Leaflet stays behind one SSR-safe wrapper while the route remains a Server Component and Motion lives only in leaf clients.",
+    "mapEmpty": "Pickup points will appear here once the UI fixture or API source is available."
+  },
+  "Metadata": {
+    "title": "Cancun car rental"
+  }
+}

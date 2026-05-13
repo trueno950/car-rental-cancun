@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Test
+        run: pnpm run test
+
+  gga-review:
+    needs: [quality]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GGA_PROVIDER: github:gpt-4o
+      GGA_TIMEOUT: 90
+      GGA_PR_BASE_BRANCH: ${{ github.base_ref }}
+      GGA_VERSION: 2.8.1
+      GGA_RELEASE_COMMIT: 05976bb8b3df746460734693583a7c737088f356
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify GitHub CLI auth
+        run: gh auth status
+
+      - name: Download GGA CLI
+        run: |
+          curl -fsSL "https://github.com/Gentleman-Programming/gentleman-guardian-angel/archive/${GGA_RELEASE_COMMIT}.tar.gz" -o /tmp/gga.tar.gz
+          tar -xzf /tmp/gga.tar.gz -C /tmp
+          printf 'GGA_BIN=%s\n' "/tmp/gentleman-guardian-angel-${GGA_RELEASE_COMMIT}/bin/gga" >> "$GITHUB_ENV"
+
+      - name: Run GGA review
+        run: bash "$GGA_BIN" run --pr-mode --diff-only
