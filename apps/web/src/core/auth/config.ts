@@ -1,6 +1,5 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import type { NextAuthConfig } from "next-auth";
-import GitHub from "next-auth/providers/github";
 
 import { getWebEnv } from "../../../env";
 import { createApiAccessToken } from "./api-access-token";
@@ -28,12 +27,7 @@ export function buildAuthConfig(options: BuildAuthConfigOptions = {}): NextAuthC
     session: {
       strategy: "database",
     },
-    providers: [
-      GitHub({
-        clientId: env.AUTH_GITHUB_ID,
-        clientSecret: env.AUTH_GITHUB_SECRET,
-      }),
-    ],
+    providers: [],
     pages: {
       signIn: "/es/login",
     },

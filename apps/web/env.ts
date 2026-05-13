@@ -2,8 +2,6 @@ import { z } from "zod";
 
 const webEnvSchema = z.object({
   DATABASE_URL: z.url({ error: "DATABASE_URL is required and must be a valid URL" }),
-  AUTH_GITHUB_ID: z.string().min(1, "AUTH_GITHUB_ID is required"),
-  AUTH_GITHUB_SECRET: z.string().min(1, "AUTH_GITHUB_SECRET is required"),
   NEXTAUTH_SECRET: z.string().min(1, "NEXTAUTH_SECRET is required"),
   NEXT_PUBLIC_SITE_URL: z.url().default("http://localhost:3000"),
 });
