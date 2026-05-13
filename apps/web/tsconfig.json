@@ -1,32 +1,38 @@
 {
   "extends": "../../packages/config/tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "jsx": "preserve",
     "lib": ["dom", "dom.iterable", "es2022"],
-    "plugins": [{ "name": "next" }],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
       "@/*": ["./*"],
       "@/app/*": ["./app/*"],
       "@features/*": ["./src/features/*"],
       "@shared/*": ["./src/shared/*"],
       "@core/*": ["./src/core/*"]
-    }
+    },
+    "incremental": true
   },
   "include": [
-    "next-env.d.ts",
     "app/**/*.ts",
     "app/**/*.tsx",
+    "auth.ts",
+    "env.ts",
     "middleware.ts",
+    "next-env.d.ts",
+    "next.config.ts",
+    "postcss.config.mjs",
     "src/**/*.ts",
     "src/**/*.tsx",
     "test-fixtures/**/*.ts",
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "types/**/*.d.ts",
-    "env.ts",
-    "auth.ts",
-    "next.config.ts",
-    "postcss.config.mjs"
-  ]
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
 }
