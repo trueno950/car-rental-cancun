@@ -1,9 +1,18 @@
-import { integer, pgTable, primaryKey, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+  integer,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
+  uuid,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
   email: varchar("email", { length: 255 }).notNull().unique(),
   name: varchar("name", { length: 255 }).notNull(),
+  role: varchar("role", { length: 50 }).notNull().default("customer"),
   emailVerified: timestamp("email_verified", { withTimezone: true }),
   image: text("image"),
 });
@@ -16,7 +25,9 @@ export const accountsTable = pgTable(
       .references(() => usersTable.id, { onDelete: "cascade" }),
     type: varchar("type", { length: 50 }).notNull(),
     provider: varchar("provider", { length: 50 }).notNull(),
-    providerAccountId: varchar("provider_account_id", { length: 255 }).notNull(),
+    providerAccountId: varchar("provider_account_id", {
+      length: 255,
+    }).notNull(),
     refresh_token: text("refresh_token"),
     access_token: text("access_token"),
     expires_at: integer("expires_at"),
@@ -26,7 +37,9 @@ export const accountsTable = pgTable(
     session_state: varchar("session_state", { length: 255 }),
   },
   (table) => ({
-    primaryKey: primaryKey({ columns: [table.provider, table.providerAccountId] }),
+    primaryKey: primaryKey({
+      columns: [table.provider, table.providerAccountId],
+    }),
   }),
 );
 

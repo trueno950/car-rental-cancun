@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   ApiJwtClaimsSchema,
+  ApiUserSchema,
   BookingSchema,
   CreateBookingSchema,
   CreateVehicleSchema,
@@ -9,6 +10,8 @@ import {
   ReservationAvailabilityRequestSchema,
   ReservationAvailabilityResponseSchema,
   ReservationRequestFormSchema,
+  UpdateUserRoleSchema,
+  UserRoleSchema,
   VehicleSchema,
 } from "../src";
 
@@ -98,9 +101,12 @@ describe("shared validation contracts", () => {
   });
 
   it("rejects weak login credentials", () => {
-    expect(() => LoginCredentialsSchema.parse({ email: "joel@example.com", password: "123" })).toThrowError(
-      /Too small/,
-    );
+    expect(() =>
+      LoginCredentialsSchema.parse({
+        email: "joel@example.com",
+        password: "123",
+      }),
+    ).toThrowError(/Too small/);
   });
 
   it("accepts API JWT claims for Nest handoff", () => {
@@ -111,5 +117,114 @@ describe("shared validation contracts", () => {
     });
 
     expect(parsed.sub).toBe("550e8400-e29b-41d4-a716-446655440006");
+  });
+});
+
+describe("UserRoleSchema", () => {
+  it("accepts all 4 valid roles", () => {
+    expect(UserRoleSchema.parse("customer")).toBe("customer");
+    expect(UserRoleSchema.parse("employee")).toBe("employee");
+    expect(UserRoleSchema.parse("manager")).toBe("manager");
+    expect(UserRoleSchema.parse("admin")).toBe("admin");
+  });
+
+  it("rejects invalid role values", () => {
+    expect(() => UserRoleSchema.parse("superadmin")).toThrow();
+    expect(() => UserRoleSchema.parse("")).toThrow();
+    expect(() => UserRoleSchema.parse("owner")).toThrow();
+  });
+
+  it("has exactly 4 options", () => {
+    expect(UserRoleSchema.options).toHaveLength(4);
+    expect(UserRoleSchema.options).toEqual([
+      "customer",
+      "employee",
+      "manager",
+      "admin",
+    ]);
+  });
+});
+
+describe("ApiJwtClaimsSchema with role (Phase A)", () => {
+  it("parses successfully when role is absent (legacy token)", () => {
+    const parsed = ApiJwtClaimsSchema.parse({
+      sub: "550e8400-e29b-41d4-a716-446655440007",
+      email: "joel@example.com",
+      name: "Joel May",
+    });
+
+    expect(parsed.role).toBeUndefined();
+  });
+
+  it("parses successfully when role is a valid value", () => {
+    const parsed = ApiJwtClaimsSchema.parse({
+      sub: "550e8400-e29b-41d4-a716-446655440007",
+      email: "joel@example.com",
+      name: "Joel May",
+      role: "manager",
+    });
+
+    expect(parsed.role).toBe("manager");
+  });
+
+  it("accepts all 4 valid roles in token claims", () => {
+    for (const role of ["customer", "employee", "manager", "admin"] as const) {
+      const parsed = ApiJwtClaimsSchema.parse({
+        sub: "550e8400-e29b-41d4-a716-446655440007",
+        email: "joel@example.com",
+        name: "Joel May",
+        role,
+      });
+      expect(parsed.role).toBe(role);
+    }
+  });
+
+  it("rejects invalid role values in token claims", () => {
+    expect(() =>
+      ApiJwtClaimsSchema.parse({
+        sub: "550e8400-e29b-41d4-a716-446655440007",
+        email: "joel@example.com",
+        name: "Joel May",
+        role: "superadmin",
+      }),
+    ).toThrow();
+  });
+});
+
+describe("ApiUserSchema with role (required)", () => {
+  it("parses a user record with a required role field", () => {
+    const parsed = ApiUserSchema.parse({
+      id: "550e8400-e29b-41d4-a716-446655440008",
+      email: "joel@example.com",
+      name: "Joel May",
+      role: "employee",
+    });
+
+    expect(parsed.role).toBe("employee");
+  });
+
+  it("rejects user records missing the role field", () => {
+    expect(() =>
+      ApiUserSchema.parse({
+        id: "550e8400-e29b-41d4-a716-446655440008",
+        email: "joel@example.com",
+        name: "Joel May",
+      }),
+    ).toThrow();
+  });
+});
+
+describe("UpdateUserRoleSchema", () => {
+  it("accepts a valid role update payload", () => {
+    const parsed = UpdateUserRoleSchema.parse({ role: "manager" });
+    expect(parsed.role).toBe("manager");
+  });
+
+  it("rejects an invalid role update payload", () => {
+    expect(() => UpdateUserRoleSchema.parse({ role: "god" })).toThrow();
+  });
+
+  it("rejects missing role in update payload", () => {
+    expect(() => UpdateUserRoleSchema.parse({})).toThrow();
   });
 });

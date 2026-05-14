@@ -38,6 +38,7 @@
     "typecheck": "tsc --project tsconfig.json",
     "test": "vitest run --config vitest.config.ts",
     "test:watch": "vitest --config vitest.config.ts",
-    "test:integration": "vitest run --config vitest.integration.config.ts"
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "bootstrap:admin": "tsx scripts/bootstrap-admin.ts"
   }
 }

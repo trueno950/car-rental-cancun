@@ -130,11 +130,20 @@ Use `Math.round(dailyRate * 100)` when writing to DB.
 
 ### Enum Convention
 
-Source of truth chain:
+Source of truth chain (within `apps/api`):
 
 1. `pgEnum` in Drizzle schema — DB source of truth
-2. `z.enum(pgEnum.enumValues)` in `packages/validations` — Zod source of truth
+2. `z.enum(pgEnum.enumValues)` in the same package — Zod source of truth
 3. `z.infer<typeof ZodEnum>` — TypeScript type
+
+For enums shared across monorepo packages (`apps/api` ↔ `packages/validations`):
+
+- `packages/validations` cannot import from `apps/api` (dependency cycle)
+- Define an `as const` object with the values in `packages/validations`
+- Define `z.enum([...values])` in `packages/validations` using those values
+- Define `pgEnum(...)` in `apps/api/src/database/schema/` using the same values
+- The DB migration is the authoritative source — if values diverge, the migration wins
+- Mirror schema in `apps/web/src/core/auth/db/` uses `varchar` for cross-package enum columns
 
 Never use the `enum` keyword. Non-DB enums use `as const` objects.
 

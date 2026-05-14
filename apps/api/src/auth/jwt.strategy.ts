@@ -26,6 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       id: parsed.data.sub,
       email: parsed.data.email,
       name: parsed.data.name,
+      role: parsed.data.role ?? "customer", // Phase A default
     };
   }
 }
