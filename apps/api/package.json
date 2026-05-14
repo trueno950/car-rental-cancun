@@ -18,19 +18,22 @@
   },
   "devDependencies": {
     "@nestjs/testing": "^11.1.20",
+    "@swc/core": "^1.15.33",
     "@types/express": "^5.0.6",
     "@types/passport-jwt": "^4.0.1",
     "@types/pg": "^8.15.2",
     "@types/supertest": "^6.0.3",
     "drizzle-kit": "^0.31.5",
     "jose": "^6.0.11",
-    "supertest": "^7.1.1"
+    "supertest": "^7.1.1",
+    "unplugin-swc": "^1.5.9"
   },
   "scripts": {
     "dev": "tsx watch src/main.ts",
     "build": "pnpm run typecheck",
     "db:generate": "drizzle-kit generate --config drizzle.config.ts",
     "db:migrate": "drizzle-kit migrate --config drizzle.config.ts",
+    "db:seed": "tsx src/database/seed/index.ts",
     "lint": "eslint --max-warnings 0 --ext .ts src",
     "typecheck": "tsc --project tsconfig.json",
     "test": "vitest run --config vitest.config.ts",

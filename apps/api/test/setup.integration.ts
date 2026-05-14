@@ -1,6 +1,7 @@
 /**
  * Integration test bootstrap.
  *
+ * - Imports reflect-metadata FIRST so NestJS DI decorators resolve correctly.
  * - Verifies DATABASE_URL is set before any test runs.
  * - If missing: writes to stderr AND throws — the suite halts immediately
  *   so devs are not misled by a silent green run on a workstation without a DB.
@@ -10,6 +11,8 @@
  * Why throw vs skip: a silent skip turned out to be too easy to ignore in CI.
  * A failing setup forces the env to be provisioned correctly.
  */
+import "reflect-metadata";
+
 import { beforeAll } from "vitest";
 
 beforeAll(() => {

@@ -30,5 +30,15 @@
   },
   "nav": {
     "home": "Inicio"
+  },
+  "VehicleCatalogPage": {
+    "heading": "Nuestra flota",
+    "helper": "Explora los autos disponibles en Cancún. Los precios son por día, todo incluido.",
+    "emptyTitle": "Flota temporalmente no disponible",
+    "emptyDescription": "Estamos actualizando el catálogo. Vuelve en unos minutos.",
+    "availabilityAvailable": "Disponible",
+    "availabilityUnavailable": "No disponible",
+    "perDay": "día",
+    "yearLabel": "Año"
   }
 }

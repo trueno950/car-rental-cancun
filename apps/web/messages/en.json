@@ -27,5 +27,15 @@
   },
   "Metadata": {
     "title": "Cancun car rental"
+  },
+  "VehicleCatalogPage": {
+    "heading": "Our fleet",
+    "helper": "Browse available rentals in Cancun. Prices are per day, all-included.",
+    "emptyTitle": "Fleet temporarily unavailable",
+    "emptyDescription": "We're updating our catalog. Please check back shortly.",
+    "availabilityAvailable": "Available",
+    "availabilityUnavailable": "Currently unavailable",
+    "perDay": "day",
+    "yearLabel": "Year"
   }
 }

@@ -98,6 +98,9 @@ importers:
       "@nestjs/testing":
         specifier: ^11.1.20
         version: 11.1.20(@nestjs/common@11.1.20(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.20)(@nestjs/platform-express@11.1.20)
+      "@swc/core":
+        specifier: ^1.15.33
+        version: 1.15.33
       "@types/express":
         specifier: ^5.0.6
         version: 5.0.6
@@ -119,6 +122,9 @@ importers:
       supertest:
         specifier: ^7.1.1
         version: 7.2.2
+      unplugin-swc:
+        specifier: ^1.5.9
+        version: 1.5.9(@swc/core@1.15.33)(rollup@4.60.3)
 
   apps/web:
     dependencies:
@@ -2303,6 +2309,18 @@ packages:
       leaflet: ^1.9.0
       react: ^19.0.0
       react-dom: ^19.0.0
+
+  "@rollup/pluginutils@5.3.0":
+    resolution:
+      {
+        integrity: sha512-5EdhGZtnu3V88ces7s53hhfK5KSASnJZv8Lulpc04cWO3REESroJXg73DFsOmgbU2BhwV0E20bu2IDZb3VKW4Q==,
+      }
+    engines: { node: ">=14.0.0" }
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
 
   "@rollup/rollup-android-arm-eabi@4.60.3":
     resolution:
@@ -4599,6 +4617,12 @@ packages:
       }
     engines: { node: ">=4.0" }
 
+  estree-walker@2.0.2:
+    resolution:
+      {
+        integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==,
+      }
+
   estree-walker@3.0.3:
     resolution:
       {
@@ -5920,6 +5944,13 @@ packages:
         integrity: sha512-v5xlu8eHD1+6r8EHTg6hfmO97LN8ugKtiXcy5e6oN72iD2r6u0RPfLl6fxM+7Wnh2ZRq15o0russMst44WauPA==,
       }
     engines: { node: ">=13.2.0" }
+
+  load-tsconfig@0.2.5:
+    resolution:
+      {
+        integrity: sha512-IXO6OCs9yg8tMKzfPZ1YmheJbZCiEsnBdcB03l0OcfK9prKnJb96siuHCr5Fl37/yo9DnKU+TLpxzTUspw9shg==,
+      }
+    engines: { node: ^12.20.0 || ^14.13.1 || >=16.0.0 }
 
   locate-path@6.0.0:
     resolution:
@@ -7829,6 +7860,21 @@ packages:
       }
     engines: { node: ">= 0.8" }
 
+  unplugin-swc@1.5.9:
+    resolution:
+      {
+        integrity: sha512-RKwK3yf0M+MN17xZfF14bdKqfx0zMXYdtOdxLiE6jHAoidupKq3jGdJYANyIM1X/VmABhh1WpdO+/f4+Ol89+g==,
+      }
+    peerDependencies:
+      "@swc/core": ^1.2.108
+
+  unplugin@2.3.11:
+    resolution:
+      {
+        integrity: sha512-5uKD0nqiYVzlmCRs01Fhs2BdkEgBS3SAVP6ndrBsuK42iC2+JHyxM05Rm9G8+5mkmRtzMZGY8Ct5+mliZxU/Ww==,
+      }
+    engines: { node: ">=18.12.0" }
+
   unrs-resolver@1.11.1:
     resolution:
       {
@@ -8001,6 +8047,12 @@ packages:
         integrity: sha512-BMhLD/Sw+GbJC21C/UgyaZX41nPt8bUTg+jWyDeg7e7YN4xOM05YPSIXceACnXVtqyEw/LMClUQMtMZ+PGGpqQ==,
       }
     engines: { node: ">=20" }
+
+  webpack-virtual-modules@0.6.2:
+    resolution:
+      {
+        integrity: sha512-66/V2i5hQanC51vBQKPH4aI8NMAcBW59FVBs+rC7eGHupMyfn34q7rZIE+ETlJ+XTevqfUhVVBgSUNSW2flEUQ==,
+      }
 
   whatwg-mimetype@5.0.0:
     resolution:
@@ -9349,6 +9401,14 @@ snapshots:
       leaflet: 1.9.4
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
+
+  "@rollup/pluginutils@5.3.0(rollup@4.60.3)":
+    dependencies:
+      "@types/estree": 1.0.9
+      estree-walker: 2.0.2
+      picomatch: 4.0.4
+    optionalDependencies:
+      rollup: 4.60.3
 
   "@rollup/rollup-android-arm-eabi@4.60.3":
     optional: true
@@ -10756,6 +10816,8 @@ snapshots:
 
   estraverse@5.3.0: {}
 
+  estree-walker@2.0.2: {}
+
   estree-walker@3.0.3:
     dependencies:
       "@types/estree": 1.0.9
@@ -11529,6 +11591,8 @@ snapshots:
       wrap-ansi: 10.0.0
 
   load-esm@1.0.3: {}
+
+  load-tsconfig@0.2.5: {}
 
   locate-path@6.0.0:
     dependencies:
@@ -12717,6 +12781,22 @@ snapshots:
 
   unpipe@1.0.0: {}
 
+  unplugin-swc@1.5.9(@swc/core@1.15.33)(rollup@4.60.3):
+    dependencies:
+      "@rollup/pluginutils": 5.3.0(rollup@4.60.3)
+      "@swc/core": 1.15.33
+      load-tsconfig: 0.2.5
+      unplugin: 2.3.11
+    transitivePeerDependencies:
+      - rollup
+
+  unplugin@2.3.11:
+    dependencies:
+      "@jridgewell/remapping": 2.3.5
+      acorn: 8.16.0
+      picomatch: 4.0.4
+      webpack-virtual-modules: 0.6.2
+
   unrs-resolver@1.11.1:
     dependencies:
       napi-postinstall: 0.3.4
@@ -12859,6 +12939,8 @@ snapshots:
   web-streams-polyfill@3.3.3: {}
 
   webidl-conversions@8.0.1: {}
+
+  webpack-virtual-modules@0.6.2: {}
 
   whatwg-mimetype@5.0.0: {}
 

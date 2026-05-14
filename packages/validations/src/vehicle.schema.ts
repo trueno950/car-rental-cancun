@@ -11,5 +11,9 @@ export const VehicleSchema = z.object({
 
 export const CreateVehicleSchema = VehicleSchema.omit({ id: true });
 
+export const VehicleEnvelopeSchema = z.object({
+  data: VehicleSchema.array(),
+});
+
 export type Vehicle = z.infer<typeof VehicleSchema>;
 export type CreateVehicleDto = z.infer<typeof CreateVehicleSchema>;
