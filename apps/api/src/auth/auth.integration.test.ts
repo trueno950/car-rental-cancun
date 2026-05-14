@@ -7,7 +7,8 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { AppModule } from "../app.module";
 import { resetApiEnvCache } from "../config/env";
 
-const TEST_DATABASE_URL = "postgresql://postgres:postgres@127.0.0.1:5432/rental_car_cancun";
+const TEST_DATABASE_URL =
+  "postgresql://postgres:postgres@127.0.0.1:5432/rental_car_cancun";
 const TEST_SECRET = "test-nextauth-secret";
 const TEST_USER_ID = "550e8400-e29b-41d4-a716-446655440010";
 
@@ -62,7 +63,7 @@ describe("auth foundation integration", () => {
     const response = await request(instance.getHttpServer()).get("/vehicles");
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual([]);
+    expect(response.body).toEqual({ data: [] });
   });
 
   it("rejects protected endpoints without a bearer token", async () => {
@@ -83,9 +84,7 @@ describe("auth foundation integration", () => {
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
-      id: TEST_USER_ID,
-      email: "joel@example.com",
-      name: "Joel May",
+      data: { id: TEST_USER_ID, email: "joel@example.com", name: "Joel May" },
     });
   });
 });

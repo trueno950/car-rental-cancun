@@ -49,4 +49,4 @@ if [ -z "$provider" ]; then
 fi
 
 # gga v2.8.1 reviews staged files by default; there is no separate --staged flag.
-GGA_PROVIDER="$provider" GGA_TIMEOUT="${GGA_TIMEOUT:-30}" gga run
+GGA_PROVIDER="$provider" GGA_TIMEOUT="${GGA_TIMEOUT:-90}" gga run

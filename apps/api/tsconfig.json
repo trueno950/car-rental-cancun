@@ -3,7 +3,13 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "types": ["node"]
+    "types": ["node", "express"]
   },
-  "include": ["src/**/*.ts", "drizzle.config.ts"]
+  "include": [
+    "src/**/*.ts",
+    "drizzle.config.ts",
+    "vitest.config.ts",
+    "vitest.integration.config.ts",
+    "test/**/*.ts"
+  ]
 }

@@ -13,12 +13,12 @@
 
 ### Web layer map
 
-| Layer | Purpose | Allowed imports | Keep out |
-| --- | --- | --- | --- |
-| `apps/web/app/**` | Route composition, layouts, server-first entrypoints | `app/**`, `@features/<name>`, `@shared/*`, `@core/*` | Feature internals, business rules, raw infra logic |
-| `apps/web/src/features/<feature>/**` | Feature UI, hooks, services, feature-local helpers | Same feature internals, `@shared/*`, `@core/*` | Other feature internals, cross-feature reach-through |
-| `apps/web/src/shared/**` | Reusable UI, shared hooks, pure presentation helpers | `src/shared/**`, `@core/*` | Feature/domain behavior |
-| `apps/web/src/core/**` | Platform/infrastructure concerns like auth, i18n, HTTP | Own internals and external packages | `app/**`, `src/features/**`, `src/shared/**` |
+| Layer                                | Purpose                                                | Allowed imports                                      | Keep out                                             |
+| ------------------------------------ | ------------------------------------------------------ | ---------------------------------------------------- | ---------------------------------------------------- |
+| `apps/web/app/**`                    | Route composition, layouts, server-first entrypoints   | `app/**`, `@features/<name>`, `@shared/*`, `@core/*` | Feature internals, business rules, raw infra logic   |
+| `apps/web/src/features/<feature>/**` | Feature UI, hooks, services, feature-local helpers     | Same feature internals, `@shared/*`, `@core/*`       | Other feature internals, cross-feature reach-through |
+| `apps/web/src/shared/**`             | Reusable UI, shared hooks, pure presentation helpers   | `src/shared/**`, `@core/*`                           | Feature/domain behavior                              |
+| `apps/web/src/core/**`               | Platform/infrastructure concerns like auth, i18n, HTTP | Own internals and external packages                  | `app/**`, `src/features/**`, `src/shared/**`         |
 
 ### Non-negotiable alias and placement rules
 
@@ -41,16 +41,16 @@
 
 Treat these as review targets for GGA:
 
-| ID | Severity | What to flag |
-| --- | --- | --- |
+| ID                                | Severity | What to flag                                                                                                            |
+| --------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `business-logic-in-server-action` | BLOCKING | Calculations, branching, availability rules, pricing rules, or orchestration living in Server Actions or route handlers |
-| `domain-entity-in-presentation` | BLOCKING | Domain entities or backend-only shapes leaking directly into presentation components |
-| `inline-fetch-in-presentational` | BLOCKING | Presentational components doing inline data fetching instead of receiving data via feature/service boundaries |
-| `cross-layer-dynamic-import` | BLOCKING | Dynamic imports used to bypass FDA or package boundaries |
-| `useeffect-as-state-machine` | WARNING | `useEffect` coordinating state transitions that should be derived data, event handlers, or explicit reducers |
-| `dead-export` | WARNING | Exports with no consumers and no deliberate public API reason |
-| `legacy-folder-reintroduction` | BLOCKING | New code added to legacy/non-FDA locations or aliases |
-| `cross-feature-reachthrough` | BLOCKING | Importing another feature’s internal files instead of its public API |
+| `domain-entity-in-presentation`   | BLOCKING | Domain entities or backend-only shapes leaking directly into presentation components                                    |
+| `inline-fetch-in-presentational`  | BLOCKING | Presentational components doing inline data fetching instead of receiving data via feature/service boundaries           |
+| `cross-layer-dynamic-import`      | BLOCKING | Dynamic imports used to bypass FDA or package boundaries                                                                |
+| `useeffect-as-state-machine`      | WARNING  | `useEffect` coordinating state transitions that should be derived data, event handlers, or explicit reducers            |
+| `dead-export`                     | WARNING  | Exports with no consumers and no deliberate public API reason                                                           |
+| `legacy-folder-reintroduction`    | BLOCKING | New code added to legacy/non-FDA locations or aliases                                                                   |
+| `cross-feature-reachthrough`      | BLOCKING | Importing another feature’s internal files instead of its public API                                                    |
 
 ## 5. False-Positive Hints
 
@@ -60,3 +60,103 @@ Treat these as review targets for GGA:
 - `apps/web/src/shared/components/**` importing from `@base-ui/react` is valid — it is the project's approved headless primitive library.
 - Feature-local adapters that reshape backend DTOs for UI consumption are valid when they stay inside the owning feature or `core/http` boundary.
 - Emergency `--no-verify` bypass is allowed only for real incidents and must be called out explicitly in the PR description.
+
+## NestJS Backend Architecture
+
+### Layer Rules
+
+| Layer      | File pattern      | Allowed imports                                       | Forbidden                                                 |
+| ---------- | ----------------- | ----------------------------------------------------- | --------------------------------------------------------- |
+| Controller | `*.controller.ts` | Service of same domain, NestJS decorators             | `DatabaseService`, `drizzle-orm`, other domains' services |
+| Service    | `*.service.ts`    | Repository of same domain, `HttpException` subclasses | `DatabaseService`, `drizzle-orm`, DB schema               |
+| Repository | `*.repository.ts` | `DatabaseService`, `drizzle-orm`, DB schema           | Services, controllers                                     |
+| Module     | `*.module.ts`     | All of same domain                                    | Cross-domain internals                                    |
+
+### Domain Structure
+
+Every domain lives under `src/<domain>/` with exactly these 4 files:
+
+- `<domain>.module.ts` — NestJS module wiring
+- `<domain>.controller.ts` — HTTP layer, delegates to service only
+- `<domain>.service.ts` — Business logic, throws `HttpException` subclasses
+- `<domain>.repository.ts` — All Drizzle queries + money field mapping
+
+Exception: `auth/` and `database/` are infrastructure modules, not domain modules. They follow their own patterns and are exempt from this rule.
+
+### Response Envelope
+
+All endpoints return `{ data: T }` (via global `ResponseEnvelopeInterceptor`).
+All errors return `{ error: { code: string, message: string, details?: unknown } }` (via global `AllExceptionsFilter`).
+Controllers return raw values — never construct envelopes manually.
+
+### Validation
+
+Use `ZodValidationPipe` explicitly per endpoint:
+
+```typescript
+@Post()
+create(@Body(new ZodValidationPipe(CreateVehicleSchema)) dto: CreateVehicleDto) {}
+```
+
+Schemas live ONLY in `packages/validations`. Never define Zod schemas inline in service or controller files.
+
+### Error Handling
+
+Services throw NestJS `HttpException` subclasses only:
+
+- `NotFoundException` — resource not found
+- `BadRequestException` — invalid input (business rule)
+- `ConflictException` — duplicate / state conflict
+- `UnauthorizedException` — auth required
+- `ForbiddenException` — authenticated but not allowed
+
+Never: `throw new Error(...)`, never return `{ error: ... }` from a service.
+
+### Logging
+
+One `Logger` per class: `private readonly logger = new Logger(ClassName.name)`.
+
+- `logger.log()` — normal flow
+- `logger.warn()` — recoverable issues
+- `logger.error(message, stack)` — exceptions
+  Never use `console.*`. Never log passwords, tokens, or PII.
+
+### Money Fields
+
+DB stores integer cents (`dailyRateCents: integer`).
+API exposes decimal (`dailyRate: number`).
+Conversion happens ONLY in the Repository layer via `toDomain()` / `toDb()` methods.
+Use `Math.round(dailyRate * 100)` when writing to DB.
+
+### Enum Convention
+
+Source of truth chain:
+
+1. `pgEnum` in Drizzle schema — DB source of truth
+2. `z.enum(pgEnum.enumValues)` in `packages/validations` — Zod source of truth
+3. `z.infer<typeof ZodEnum>` — TypeScript type
+
+Never use the `enum` keyword. Non-DB enums use `as const` objects.
+
+### Test Structure
+
+- `*.spec.ts` — unit tests, no DB, run with `pnpm test`
+- `*.integration.test.ts` — require real DB, run with `pnpm test:integration`
+- Co-locate test files next to the file they test
+
+### Anti-Pattern Catalog
+
+GGA flags these patterns. Each tag is searchable:
+
+| Tag                            | Pattern                                                          | Why forbidden                                      |
+| ------------------------------ | ---------------------------------------------------------------- | -------------------------------------------------- |
+| `db-in-controller`             | `DatabaseService` imported in `*.controller.ts`                  | Controllers must go through service → repository   |
+| `drizzle-in-controller`        | `drizzle-orm` imported in `*.controller.ts`                      | Same as above                                      |
+| `business-logic-in-controller` | Complex logic beyond a single service call in controller         | Controllers are HTTP adapters only                 |
+| `console-log-in-backend`       | `console.log/warn/error` anywhere in `apps/api/`                 | Use NestJS `Logger`                                |
+| `raw-error-thrown`             | `throw new Error(` in controllers or services                    | Use typed `HttpException` subclasses               |
+| `cross-domain-import`          | Service from domain A imported in controller/service of domain B | Domains must be decoupled                          |
+| `inline-zod-in-service`        | Zod schema defined inside `*.service.ts` or `*.controller.ts`    | Schemas live in `packages/validations` only        |
+| `plain-typescript-enum`        | `enum` keyword used anywhere in `apps/api/`                      | Use `z.enum` or `as const` objects                 |
+| `cents-in-controller`          | `*Cents` field exposed or manipulated outside `*.repository.ts`  | Cents/decimal mapping belongs in repository only   |
+| `missing-response-envelope`    | Controller manually wrapping `{ data: ... }`                     | Envelope is added by `ResponseEnvelopeInterceptor` |

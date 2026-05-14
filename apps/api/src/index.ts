@@ -1,10 +1,4 @@
-export * from "./app.controller";
-export * from "./app.module";
-export * from "./app.service";
-export * from "./auth/auth.module";
-export * from "./auth/jwt-auth.guard";
-export * from "./auth/jwt.strategy";
-export * from "./auth/public.decorator";
-export * from "./config/env";
-export * from "./database/database.module";
-export * from "./database/database.service";
+// Public surface of @rental/api.
+// Internal modules, services, and repositories are NOT exported.
+// Domain consumers should talk to the running HTTP server, not import TypeScript symbols.
+export { AppModule } from "./app.module";
