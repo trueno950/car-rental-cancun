@@ -1,4 +1,5 @@
 import {
+  boolean,
   pgEnum,
   pgTable,
   text,
@@ -20,6 +21,7 @@ export const usersTable = pgTable("users", {
   email: varchar("email", { length: 255 }).notNull().unique(),
   name: varchar("name", { length: 255 }).notNull(),
   role: userRoleEnum("role").notNull().default("customer"),
+  isFrequent: boolean("is_frequent").notNull().default(false),
   emailVerified: timestamp("email_verified", { withTimezone: true }),
   image: text("image"),
   createdAt: timestamp("created_at", { withTimezone: true })

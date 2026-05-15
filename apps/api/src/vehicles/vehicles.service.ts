@@ -13,4 +13,8 @@ export class VehiclesService {
     this.logger.log("Listing vehicles");
     return this.vehiclesRepository.findAll();
   }
+
+  async findById(id: string): Promise<Vehicle | null> {
+    return this.vehiclesRepository.findById(id);
+  }
 }

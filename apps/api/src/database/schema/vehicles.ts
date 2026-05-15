@@ -1,4 +1,11 @@
-import { boolean, integer, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  integer,
+  pgTable,
+  timestamp,
+  uuid,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 export const vehiclesTable = pgTable("vehicles", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -7,6 +14,10 @@ export const vehiclesTable = pgTable("vehicles", {
   year: integer("year").notNull(),
   dailyRateCents: integer("daily_rate_cents").notNull(),
   available: boolean("available").notNull().default(true),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 });

@@ -18,7 +18,10 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
     return super.canActivate(context);
   }
 
-  override handleRequest<TUser>(error: Error | null, user: TUser | false | null) {
+  override handleRequest<TUser>(
+    error: Error | null,
+    user: TUser | false | null,
+  ) {
     if (error || !user) {
       throw error ?? new UnauthorizedException();
     }

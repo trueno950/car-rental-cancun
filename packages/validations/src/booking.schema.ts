@@ -1,8 +1,10 @@
 import { z } from "zod";
 
-const BOOKING_STATUS = {
+export const BOOKING_STATUS = {
   PENDING: "pending",
   CONFIRMED: "confirmed",
+  ACTIVE: "active",
+  COMPLETED: "completed",
   CANCELLED: "cancelled",
 } as const;
 
@@ -11,8 +13,15 @@ const bookingDateRangeIssue = "returnDate must be after pickupDate";
 const bookingMaxRangeIssue = `Reservations cannot exceed ${MAX_RESERVATION_NIGHTS} nights`;
 
 const isoDateTimeSchema = z.string().datetime();
-const timezoneSchema = z.string().trim().min(1, { error: "timezone is required" });
-const pickupLocationSchema = z.string().trim().min(2, { error: "pickupLocation is required" }).max(120);
+const timezoneSchema = z
+  .string()
+  .trim()
+  .min(1, { error: "timezone is required" });
+const pickupLocationSchema = z
+  .string()
+  .trim()
+  .min(2, { error: "pickupLocation is required" })
+  .max(120);
 const blockedDateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
   message: "blocked date must use YYYY-MM-DD",
 });
@@ -24,11 +33,19 @@ const bookingFields = {
   startDate: isoDateTimeSchema,
   endDate: isoDateTimeSchema,
   totalPrice: z.number().positive(),
-  status: z.enum([BOOKING_STATUS.PENDING, BOOKING_STATUS.CONFIRMED, BOOKING_STATUS.CANCELLED]),
+  status: z.enum([
+    BOOKING_STATUS.PENDING,
+    BOOKING_STATUS.CONFIRMED,
+    BOOKING_STATUS.ACTIVE,
+    BOOKING_STATUS.COMPLETED,
+    BOOKING_STATUS.CANCELLED,
+  ]),
 } as const;
 
 function getRangeNights(startDate: Date, endDate: Date) {
-  return Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+  return Math.ceil(
+    (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+  );
 }
 
 function addDateRangeIssues(
@@ -36,8 +53,14 @@ function addDateRangeIssues(
   ctx: z.RefinementCtx,
   fieldNames: { pickupDate: string; returnDate: string },
 ) {
-  const pickupDate = values.pickupDate instanceof Date ? values.pickupDate : new Date(values.pickupDate);
-  const returnDate = values.returnDate instanceof Date ? values.returnDate : new Date(values.returnDate);
+  const pickupDate =
+    values.pickupDate instanceof Date
+      ? values.pickupDate
+      : new Date(values.pickupDate);
+  const returnDate =
+    values.returnDate instanceof Date
+      ? values.returnDate
+      : new Date(values.returnDate);
 
   if (Number.isNaN(pickupDate.getTime())) {
     ctx.addIssue({
@@ -55,7 +78,10 @@ function addDateRangeIssues(
     });
   }
 
-  if (Number.isNaN(pickupDate.getTime()) || Number.isNaN(returnDate.getTime())) {
+  if (
+    Number.isNaN(pickupDate.getTime()) ||
+    Number.isNaN(returnDate.getTime())
+  ) {
     return;
   }
 
@@ -77,7 +103,9 @@ function addDateRangeIssues(
   }
 }
 
-const bookingDateOrder = <T extends { startDate: string; endDate: string }>(schema: z.ZodType<T>) =>
+const bookingDateOrder = <T extends { startDate: string; endDate: string }>(
+  schema: z.ZodType<T>,
+) =>
   schema.superRefine(({ startDate, endDate }, ctx) => {
     addDateRangeIssues(
       {
@@ -156,8 +184,60 @@ export const ReservationAvailabilityResponseSchema = z.object({
 export type Booking = z.infer<typeof BookingSchema>;
 export type BookingStatus = z.infer<typeof BookingStatusSchema>;
 export type CreateBookingDto = z.infer<typeof CreateBookingSchema>;
-export type ReservationAvailabilityRequest = z.infer<typeof ReservationAvailabilityRequestSchema>;
-export type ReservationAvailabilityResponse = z.infer<typeof ReservationAvailabilityResponseSchema>;
+export type ReservationAvailabilityRequest = z.infer<
+  typeof ReservationAvailabilityRequestSchema
+>;
+export type ReservationAvailabilityResponse = z.infer<
+  typeof ReservationAvailabilityResponseSchema
+>;
 export type ReservationBlockedDate = z.infer<typeof blockedDateSchema>;
-export type ReservationCalendarRange = z.infer<typeof ReservationCalendarRangeSchema>;
-export type ReservationRequestFormValues = z.infer<typeof ReservationRequestFormSchema>;
+export type ReservationCalendarRange = z.infer<
+  typeof ReservationCalendarRangeSchema
+>;
+export type ReservationRequestFormValues = z.infer<
+  typeof ReservationRequestFormSchema
+>;
+
+// --- API schemas for the bookings domain ---
+
+export const AvailabilityQuerySchema = z.object({
+  vehicleId: z.string().uuid(),
+  startDate: z.string().datetime(),
+  endDate: z.string().datetime(),
+});
+
+export const AvailabilityResponseSchema = z.object({
+  available: z.boolean(),
+});
+
+export const CreateBookingRequestSchema = z.object({
+  vehicleId: z.string().uuid(),
+  startDate: z.string().datetime(),
+  endDate: z.string().datetime(),
+  notes: z.string().optional(),
+});
+
+export const BookingResponseSchema = z.object({
+  id: z.string().uuid(),
+  vehicleId: z.string().uuid(),
+  userId: z.string().uuid(),
+  startDate: z.string(),
+  endDate: z.string(),
+  status: BookingStatusSchema,
+  depositAmount: z.number().optional(),
+  totalPrice: z.number(),
+  notes: z.string().nullable().optional(),
+  createdAt: z.string(),
+});
+
+export const BookingTransitionRequestSchema = z.object({
+  status: BookingStatusSchema,
+});
+
+export type AvailabilityQuery = z.infer<typeof AvailabilityQuerySchema>;
+export type AvailabilityResponse = z.infer<typeof AvailabilityResponseSchema>;
+export type CreateBookingRequest = z.infer<typeof CreateBookingRequestSchema>;
+export type BookingResponse = z.infer<typeof BookingResponseSchema>;
+export type BookingTransitionRequest = z.infer<
+  typeof BookingTransitionRequestSchema
+>;

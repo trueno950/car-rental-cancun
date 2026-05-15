@@ -37,10 +37,15 @@ export const ApiUserSchema = z.object({
   email: z.email(),
   name: z.string().min(1),
   role: UserRoleSchema, // always present after validate() applies default
+  isFrequent: z.boolean().optional(),
 });
 
 export const UpdateUserRoleSchema = z.object({
   role: UserRoleSchema,
+});
+
+export const UpdateUserFrequentSchema = z.object({
+  isFrequent: z.boolean(),
 });
 
 export const UserSessionSchema = z.object({
@@ -57,4 +62,5 @@ export type AuthToken = z.infer<typeof AuthTokenSchema>;
 export type ApiJwtClaims = z.infer<typeof ApiJwtClaimsSchema>;
 export type ApiUser = z.infer<typeof ApiUserSchema>;
 export type UpdateUserRole = z.infer<typeof UpdateUserRoleSchema>;
+export type UpdateUserFrequent = z.infer<typeof UpdateUserFrequentSchema>;
 export type UserSession = z.infer<typeof UserSessionSchema>;

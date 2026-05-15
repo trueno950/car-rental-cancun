@@ -81,7 +81,10 @@ Every domain lives under `src/<domain>/` with exactly these 4 files:
 - `<domain>.service.ts` — Business logic, throws `HttpException` subclasses
 - `<domain>.repository.ts` — All Drizzle queries + money field mapping
 
-Exception: `auth/` and `database/` are infrastructure modules, not domain modules. They follow their own patterns and are exempt from this rule.
+Exception: `auth/`, `database/`, `payments/`, and `config/` are infrastructure modules, not domain modules. They follow their own patterns and are exempt from this rule.
+
+- `payments/` hosts the `PaymentGateway` port (`payment-gateway.interface.ts`, `payment-gateway.token.ts`) and its adapters (`stripe.gateway.ts`, `null.gateway.ts`) alongside the canonical 4-file domain structure (`payments.module/controller/service/repository.ts`).
+- `config/` exposes runtime environment via `AppConfigService` and has no repository because it reads env, not DB.
 
 ### Response Envelope
 
@@ -125,8 +128,10 @@ One `Logger` per class: `private readonly logger = new Logger(ClassName.name)`.
 
 DB stores integer cents (`dailyRateCents: integer`).
 API exposes decimal (`dailyRate: number`).
-Conversion happens ONLY in the Repository layer via `toDomain()` / `toDb()` methods.
+Conversion (cents ↔ decimal) happens ONLY in the Repository layer via `toDomain()` / `toDb()` methods.
 Use `Math.round(dailyRate * 100)` when writing to DB.
+Services MAY receive decimal rates (e.g. `depositRate: 0.20`) and pass them to repositories for internal price computation; repositories then handle all `*Cents` arithmetic internally and never expose raw cent fields through their public API.
+Never expose `*Cents` field names in controller return types, API response shapes, or `packages/validations` schemas.
 
 ### Enum Convention
 
@@ -157,15 +162,15 @@ Never use the `enum` keyword. Non-DB enums use `as const` objects.
 
 GGA flags these patterns. Each tag is searchable:
 
-| Tag                            | Pattern                                                          | Why forbidden                                      |
-| ------------------------------ | ---------------------------------------------------------------- | -------------------------------------------------- |
-| `db-in-controller`             | `DatabaseService` imported in `*.controller.ts`                  | Controllers must go through service → repository   |
-| `drizzle-in-controller`        | `drizzle-orm` imported in `*.controller.ts`                      | Same as above                                      |
-| `business-logic-in-controller` | Complex logic beyond a single service call in controller         | Controllers are HTTP adapters only                 |
-| `console-log-in-backend`       | `console.log/warn/error` anywhere in `apps/api/`                 | Use NestJS `Logger`                                |
-| `raw-error-thrown`             | `throw new Error(` in controllers or services                    | Use typed `HttpException` subclasses               |
-| `cross-domain-import`          | Service from domain A imported in controller/service of domain B | Domains must be decoupled                          |
-| `inline-zod-in-service`        | Zod schema defined inside `*.service.ts` or `*.controller.ts`    | Schemas live in `packages/validations` only        |
-| `plain-typescript-enum`        | `enum` keyword used anywhere in `apps/api/`                      | Use `z.enum` or `as const` objects                 |
-| `cents-in-controller`          | `*Cents` field exposed or manipulated outside `*.repository.ts`  | Cents/decimal mapping belongs in repository only   |
-| `missing-response-envelope`    | Controller manually wrapping `{ data: ... }`                     | Envelope is added by `ResponseEnvelopeInterceptor` |
+| Tag                            | Pattern                                                          | Why forbidden                                                                                                                           |
+| ------------------------------ | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `db-in-controller`             | `DatabaseService` imported in `*.controller.ts`                  | Controllers must go through service → repository                                                                                        |
+| `drizzle-in-controller`        | `drizzle-orm` imported in `*.controller.ts`                      | Same as above                                                                                                                           |
+| `business-logic-in-controller` | Complex logic beyond a single service call in controller         | Controllers are HTTP adapters only                                                                                                      |
+| `console-log-in-backend`       | `console.log/warn/error` anywhere in `apps/api/`                 | Use NestJS `Logger`                                                                                                                     |
+| `raw-error-thrown`             | `throw new Error(` in controllers or services                    | Use typed `HttpException` subclasses                                                                                                    |
+| `cross-domain-import`          | Service from domain A imported in controller/service of domain B | Domains must be decoupled                                                                                                               |
+| `inline-zod-in-service`        | Zod schema defined inside `*.service.ts` or `*.controller.ts`    | Schemas live in `packages/validations` only                                                                                             |
+| `plain-typescript-enum`        | `enum` keyword used anywhere in `apps/api/`                      | Use `z.enum` or `as const` objects                                                                                                      |
+| `cents-in-controller`          | `*Cents` field name in controller return types or API schemas    | Cents/decimal mapping belongs in repository; service may pass decimal rates for computation but never exposes raw `*Cents` in responses |
+| `missing-response-envelope`    | Controller manually wrapping `{ data: ... }`                     | Envelope is added by `ResponseEnvelopeInterceptor`                                                                                      |

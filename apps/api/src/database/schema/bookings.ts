@@ -1,18 +1,22 @@
 import { relations } from "drizzle-orm";
-import { integer, pgEnum, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+  integer,
+  pgEnum,
+  pgTable,
+  timestamp,
+  uuid,
+  varchar,
+} from "drizzle-orm/pg-core";
+import { BOOKING_STATUS } from "@rental/validations";
 
 import { usersTable } from "./users";
 import { vehiclesTable } from "./vehicles";
 
-export const BOOKING_STATUS = {
-  PENDING: "pending",
-  CONFIRMED: "confirmed",
-  CANCELLED: "cancelled",
-} as const;
-
 export const bookingStatusEnum = pgEnum("booking_status", [
   BOOKING_STATUS.PENDING,
   BOOKING_STATUS.CONFIRMED,
+  BOOKING_STATUS.ACTIVE,
+  BOOKING_STATUS.COMPLETED,
   BOOKING_STATUS.CANCELLED,
 ]);
 
@@ -28,9 +32,18 @@ export const bookingsTable = pgTable("bookings", {
   endDate: timestamp("end_date", { withTimezone: true }).notNull(),
   totalPriceCents: integer("total_price_cents").notNull(),
   status: bookingStatusEnum("status").notNull().default(BOOKING_STATUS.PENDING),
+  depositAmountCents: integer("deposit_amount_cents"),
+  stripeCheckoutSessionId: varchar("stripe_checkout_session_id", {
+    length: 255,
+  }),
+  stripePaymentIntentId: varchar("stripe_payment_intent_id", { length: 255 }),
   notes: varchar("notes", { length: 500 }),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 });
 
 export const bookingsRelations = relations(bookingsTable, ({ one }) => ({

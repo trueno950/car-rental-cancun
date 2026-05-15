@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import type { Vehicle } from "@rental/validations";
+import { eq } from "drizzle-orm";
 
 import { DatabaseService } from "../database/database.service";
 import { vehiclesTable } from "../database/schema/vehicles";
@@ -20,6 +21,15 @@ export class VehiclesRepository {
   async findAll(): Promise<Vehicle[]> {
     const rows = await this.databaseService.db.select().from(vehiclesTable);
     return rows.map((row) => this.toDomain(row));
+  }
+
+  async findById(id: string): Promise<Vehicle | null> {
+    const [row] = await this.databaseService.db
+      .select()
+      .from(vehiclesTable)
+      .where(eq(vehiclesTable.id, id))
+      .limit(1);
+    return row ? this.toDomain(row) : null;
   }
 
   private toDomain(row: typeof vehiclesTable.$inferSelect): Vehicle {

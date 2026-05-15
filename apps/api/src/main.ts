@@ -13,7 +13,7 @@ import { getApiEnv } from "./config/env";
 
 async function bootstrap() {
   const env = getApiEnv();
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { rawBody: true });
 
   // Order matters:
   // - LoggingInterceptor runs first (outermost): captures total request time.

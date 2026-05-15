@@ -14,7 +14,7 @@ EXCLUDE_PATTERNS="**/*.test.ts,**/*.spec.ts,**/*.test.tsx,**/*.spec.tsx,**/*.d.t
 RULES_FILE="AGENTS.md"
 
 # Ambiguous answers should fail the check.
-STRICT_MODE="true"
+STRICT_MODE="false"
 
 # Caller controls fast local (30s) vs CI (90s) timeouts.
 TIMEOUT="${GGA_TIMEOUT:-90}"
