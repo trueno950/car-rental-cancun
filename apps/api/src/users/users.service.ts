@@ -43,4 +43,24 @@ export class UsersService {
     this.logger.log(`Updating role of user ${id} to ${targetRole}`);
     return this.usersRepository.updateRole(id, targetRole);
   }
+
+  async setFrequent(
+    actorRole: UserRole,
+    userId: string,
+    value: boolean,
+  ): Promise<ApiUser> {
+    if (actorRole !== "manager" && actorRole !== "admin") {
+      throw new ForbiddenException(
+        "Only managers and admins can set frequent flag",
+      );
+    }
+
+    const user = await this.usersRepository.findById(userId);
+    if (!user) {
+      throw new NotFoundException(`User ${userId} not found`);
+    }
+
+    this.logger.log(`Setting isFrequent=${value} for user ${userId}`);
+    return this.usersRepository.setFrequent(userId, value);
+  }
 }

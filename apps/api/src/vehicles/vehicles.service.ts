@@ -17,4 +17,11 @@ export class VehiclesService {
   async findById(id: string): Promise<Vehicle | null> {
     return this.vehiclesRepository.findById(id);
   }
+
+  async getAvailableVehicles(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<Vehicle[]> {
+    return this.vehiclesRepository.findAvailable(startDate, endDate);
+  }
 }

@@ -1,8 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import type { Vehicle } from "@rental/validations";
-import { eq } from "drizzle-orm";
+import { BOOKING_STATUS } from "@rental/validations";
+import { and, eq, gt, lt, notInArray, or } from "drizzle-orm";
 
 import { DatabaseService } from "../database/database.service";
+import { bookingsTable } from "../database/schema/bookings";
 import { vehiclesTable } from "../database/schema/vehicles";
 
 /**
@@ -30,6 +32,34 @@ export class VehiclesRepository {
       .where(eq(vehiclesTable.id, id))
       .limit(1);
     return row ? this.toDomain(row) : null;
+  }
+
+  async findAvailable(startDate: Date, endDate: Date): Promise<Vehicle[]> {
+    const bookedIds = this.databaseService.db
+      .select({ vehicleId: bookingsTable.vehicleId })
+      .from(bookingsTable)
+      .where(
+        and(
+          or(
+            eq(bookingsTable.status, BOOKING_STATUS.CONFIRMED),
+            eq(bookingsTable.status, BOOKING_STATUS.ACTIVE),
+          ),
+          lt(bookingsTable.startDate, endDate),
+          gt(bookingsTable.endDate, startDate),
+        ),
+      );
+
+    const rows = await this.databaseService.db
+      .select()
+      .from(vehiclesTable)
+      .where(
+        and(
+          eq(vehiclesTable.available, true),
+          notInArray(vehiclesTable.id, bookedIds),
+        ),
+      );
+
+    return rows.map((row) => this.toDomain(row));
   }
 
   private toDomain(row: typeof vehiclesTable.$inferSelect): Vehicle {

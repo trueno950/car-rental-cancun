@@ -33,12 +33,22 @@ export class UsersRepository {
     return this.toDomain(rows[0]!);
   }
 
+  async setFrequent(userId: string, value: boolean): Promise<ApiUser> {
+    const rows = await this.databaseService.db
+      .update(usersTable)
+      .set({ isFrequent: value, updatedAt: new Date() })
+      .where(eq(usersTable.id, userId))
+      .returning();
+    return this.toDomain(rows[0]!);
+  }
+
   private toDomain(row: typeof usersTable.$inferSelect): ApiUser {
     return {
       id: row.id,
       email: row.email,
       name: row.name,
       role: UserRoleSchema.parse(row.role),
+      isFrequent: row.isFrequent,
     };
   }
 }

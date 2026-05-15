@@ -15,5 +15,13 @@ export const VehicleEnvelopeSchema = z.object({
   data: VehicleSchema.array(),
 });
 
+export const VehicleAvailabilityQuerySchema = z.object({
+  startDate: z.string().datetime(),
+  endDate: z.string().datetime(),
+});
+
 export type Vehicle = z.infer<typeof VehicleSchema>;
 export type CreateVehicleDto = z.infer<typeof CreateVehicleSchema>;
+export type VehicleAvailabilityQuery = z.infer<
+  typeof VehicleAvailabilityQuerySchema
+>;

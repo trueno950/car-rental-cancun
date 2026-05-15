@@ -9,8 +9,15 @@ import {
   Req,
   UseGuards,
 } from "@nestjs/common";
-import { UpdateUserRoleSchema } from "@rental/validations";
-import type { ApiUser, UpdateUserRole } from "@rental/validations";
+import {
+  UpdateUserFrequentSchema,
+  UpdateUserRoleSchema,
+} from "@rental/validations";
+import type {
+  ApiUser,
+  UpdateUserFrequent,
+  UpdateUserRole,
+} from "@rental/validations";
 
 import { Roles } from "../auth/roles.decorator";
 import { RolesGuard } from "../auth/roles.guard";
@@ -44,5 +51,21 @@ export class UsersController {
   ): Promise<ApiUser> {
     this.logger.log(`PATCH /users/${id}/role → ${body.role}`);
     return this.usersService.updateRole(id, body.role, request.user.role);
+  }
+
+  @Patch(":id/frequent")
+  @Roles("manager", "admin")
+  async setFrequent(
+    @Param("id", new ParseUUIDPipe()) id: string,
+    @Body(new ZodValidationPipe(UpdateUserFrequentSchema))
+    body: UpdateUserFrequent,
+    @Req() request: AuthenticatedRequest,
+  ): Promise<ApiUser> {
+    this.logger.log(`PATCH /users/${id}/frequent → ${body.isFrequent}`);
+    return this.usersService.setFrequent(
+      request.user.role,
+      id,
+      body.isFrequent,
+    );
   }
 }
