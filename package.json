@@ -21,7 +21,7 @@
     "*.{js,cjs,mjs,ts,tsx,json,md,yml,yaml}": [
       "prettier --check"
     ],
-    "apps/web/**/!(*.d).{ts,tsx}": [
+    "apps/web/!(test-fixtures)/**/!(*.d).{ts,tsx}": [
       "pnpm --filter @rental/web exec eslint --max-warnings 0"
     ],
     "apps/api/**/*.ts": [

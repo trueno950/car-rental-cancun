@@ -1,3 +1,4 @@
+export { BOOKINGS_PATH, resolveBookingsApiBaseUrl } from "./bookings-api";
 export {
   RESERVATION_AVAILABILITY_PATH,
   resolveReservationApiBaseUrl,

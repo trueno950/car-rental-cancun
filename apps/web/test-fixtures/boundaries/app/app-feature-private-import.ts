@@ -1,3 +1,3 @@
-import { ReservationForm } from "../features/reservations/components/ReservationForm";
+import { BookingForm } from "../features/bookings/components/BookingForm";
 
-export const invalidAppFeaturePrivateImport = ReservationForm;
+export const invalidAppFeaturePrivateImport = BookingForm;

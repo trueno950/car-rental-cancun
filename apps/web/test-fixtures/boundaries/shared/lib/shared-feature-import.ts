@@ -1,3 +1,3 @@
-import { boundaryFixtureReservation } from "../../features/reservations";
+import { boundaryFixtureBooking } from "../../features/bookings";
 
-export const invalidSharedFeatureImport = boundaryFixtureReservation;
+export const invalidSharedFeatureImport = boundaryFixtureBooking;

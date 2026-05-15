@@ -28,6 +28,40 @@
   "Metadata": {
     "title": "Cancun car rental"
   },
+  "BookingNewPage": {
+    "heading": "Book a vehicle",
+    "helper": "Select your travel dates. A deposit will be required to confirm the booking.",
+    "vehicleLabel": "Vehicle",
+    "dateRangeLabel": "Travel dates",
+    "dateRangePlaceholder": "Select pickup and return dates",
+    "notesLabel": "Notes (optional)",
+    "notesPlaceholder": "Any special requests?",
+    "submit": "Request booking",
+    "submitting": "Submitting…",
+    "submitError": "Failed to create booking. Please try again.",
+    "conflictError": "This vehicle is already booked for the selected dates."
+  },
+  "BookingDetailPage": {
+    "heading": "Booking details",
+    "vehicleLabel": "Vehicle",
+    "datesLabel": "Dates",
+    "createdLabel": "Created",
+    "notesLabel": "Notes",
+    "depositLabel": "Deposit due",
+    "totalLabel": "Total",
+    "depositHelper": "Pay the deposit below to confirm your booking."
+  },
+  "EmployeeBookingsPage": {
+    "heading": "All bookings",
+    "helper": "Overview of all customer bookings.",
+    "colId": "ID",
+    "colVehicle": "Vehicle",
+    "colUser": "Customer",
+    "colDates": "Dates",
+    "colStatus": "Status",
+    "colTotal": "Total",
+    "empty": "No bookings yet."
+  },
   "VehicleCatalogPage": {
     "heading": "Our fleet",
     "helper": "Browse available rentals in Cancun. Prices are per day, all-included.",

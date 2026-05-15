@@ -31,6 +31,40 @@
   "nav": {
     "home": "Inicio"
   },
+  "BookingNewPage": {
+    "heading": "Reservar un vehículo",
+    "helper": "Seleccioná tus fechas de viaje. Se requerirá un depósito para confirmar la reserva.",
+    "vehicleLabel": "Vehículo",
+    "dateRangeLabel": "Fechas de viaje",
+    "dateRangePlaceholder": "Seleccioná fechas de entrega y devolución",
+    "notesLabel": "Notas (opcional)",
+    "notesPlaceholder": "¿Alguna solicitud especial?",
+    "submit": "Solicitar reserva",
+    "submitting": "Enviando…",
+    "submitError": "No se pudo crear la reserva. Intentá de nuevo.",
+    "conflictError": "Este vehículo ya está reservado para las fechas seleccionadas."
+  },
+  "BookingDetailPage": {
+    "heading": "Detalle de reserva",
+    "vehicleLabel": "Vehículo",
+    "datesLabel": "Fechas",
+    "createdLabel": "Creada",
+    "notesLabel": "Notas",
+    "depositLabel": "Depósito requerido",
+    "totalLabel": "Total",
+    "depositHelper": "Pagá el depósito para confirmar tu reserva."
+  },
+  "EmployeeBookingsPage": {
+    "heading": "Todas las reservas",
+    "helper": "Resumen de todas las reservas de clientes.",
+    "colId": "ID",
+    "colVehicle": "Vehículo",
+    "colUser": "Cliente",
+    "colDates": "Fechas",
+    "colStatus": "Estado",
+    "colTotal": "Total",
+    "empty": "No hay reservas aún."
+  },
   "VehicleCatalogPage": {
     "heading": "Nuestra flota",
     "helper": "Explora los autos disponibles en Cancún. Los precios son por día, todo incluido.",

@@ -29,7 +29,7 @@ const boundaryFixtures = [
     expectedRule: "boundaries/dependencies",
   },
   {
-    file: "apps/web/test-fixtures/boundaries/features/reservations/cross-feature-import.ts",
+    file: "apps/web/test-fixtures/boundaries/features/bookings/cross-feature-import.ts",
     expectedRule: "boundaries/dependencies",
   },
   {
@@ -49,11 +49,14 @@ for (const boundaryFixture of boundaryFixtures) {
       },
     );
 
-    throw new Error(`Boundary violation fixture unexpectedly passed lint: ${boundaryFixture.file}`);
-  } catch (error) {
-    const commandError = /** @type {{ stdout?: string; stderr?: string; code?: number; message?: string }} */ (
-      error
+    throw new Error(
+      `Boundary violation fixture unexpectedly passed lint: ${boundaryFixture.file}`,
     );
+  } catch (error) {
+    const commandError =
+      /** @type {{ stdout?: string; stderr?: string; code?: number; message?: string }} */ (
+        error
+      );
     const output = `${commandError.stdout ?? ""}\n${commandError.stderr ?? ""}`;
 
     if (!output.includes(boundaryFixture.expectedRule)) {
@@ -63,9 +66,13 @@ for (const boundaryFixture of boundaryFixtures) {
     }
 
     if (commandError.code === 0) {
-      throw new Error(`Boundary violation fixture returned exit code 0: ${boundaryFixture.file}`);
+      throw new Error(
+        `Boundary violation fixture returned exit code 0: ${boundaryFixture.file}`,
+      );
     }
   }
 
-  process.stdout.write(`Boundary violation fixture correctly failed lint: ${boundaryFixture.file}\n`);
+  process.stdout.write(
+    `Boundary violation fixture correctly failed lint: ${boundaryFixture.file}\n`,
+  );
 }
