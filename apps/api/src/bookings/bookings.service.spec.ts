@@ -6,6 +6,7 @@ import {
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { resetApiEnvCache } from "../config/env";
+import type { AppConfigService } from "../config/config.service";
 import type { BookingsRepository } from "./bookings.repository";
 import { BookingsService } from "./bookings.service";
 
@@ -26,6 +27,18 @@ function makeRepo(
     toDomain: vi.fn(),
     ...overrides,
   } as unknown as BookingsRepository;
+}
+
+function makeConfig(
+  overrides: Partial<AppConfigService> = {},
+): AppConfigService {
+  return {
+    getPaymentsConfig: vi.fn().mockReturnValue({ stripeEnabled: false }),
+    getBookingConfig: vi
+      .fn()
+      .mockReturnValue({ depositRateFrequent: 0.2, depositRateNew: 0.3 }),
+    ...overrides,
+  } as unknown as AppConfigService;
 }
 
 const customerUser = {
@@ -79,7 +92,7 @@ describe("BookingsService", () => {
       const repo = makeRepo({
         createWithAvailabilityCheck: vi.fn().mockResolvedValue(bookingResponse),
       });
-      const service = new BookingsService(repo);
+      const service = new BookingsService(repo, makeConfig());
 
       const result = await service.createBooking(
         {
@@ -107,7 +120,7 @@ describe("BookingsService", () => {
           .fn()
           .mockResolvedValue("vehicle_not_found"),
       });
-      const service = new BookingsService(repo);
+      const service = new BookingsService(repo, makeConfig());
 
       await expect(
         service.createBooking(
@@ -126,7 +139,7 @@ describe("BookingsService", () => {
       const repo = makeRepo({
         createWithAvailabilityCheck: vi.fn().mockResolvedValue("conflict"),
       });
-      const service = new BookingsService(repo);
+      const service = new BookingsService(repo, makeConfig());
 
       await expect(
         service.createBooking(
@@ -145,7 +158,7 @@ describe("BookingsService", () => {
       const repo = makeRepo({
         createWithAvailabilityCheck: vi.fn().mockResolvedValue(bookingResponse),
       });
-      const service = new BookingsService(repo);
+      const service = new BookingsService(repo, makeConfig());
 
       await service.createBooking(
         {
@@ -168,7 +181,7 @@ describe("BookingsService", () => {
       const repo = makeRepo({
         findById: vi.fn().mockResolvedValue(pendingBooking),
       });
-      const service = new BookingsService(repo);
+      const service = new BookingsService(repo, makeConfig());
 
       await expect(
         service.transitionStatus(pendingBooking.id, "completed", employeeUser),
@@ -187,7 +200,7 @@ describe("BookingsService", () => {
         }),
         updateStatus: vi.fn().mockResolvedValue(confirmedBooking),
       });
-      const service = new BookingsService(repo);
+      const service = new BookingsService(repo, makeConfig());
 
       const result = await service.transitionStatus(
         bookingResponse.id,
@@ -213,7 +226,7 @@ describe("BookingsService", () => {
           status: "cancelled" as const,
         }),
       });
-      const service = new BookingsService(repo);
+      const service = new BookingsService(repo, makeConfig());
 
       const result = await service.transitionStatus(
         bookingResponse.id,

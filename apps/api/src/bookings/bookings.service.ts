@@ -14,7 +14,7 @@ import type {
   CreateBookingRequest,
 } from "@rental/validations";
 
-import { getApiEnv } from "../config/env";
+import { AppConfigService } from "../config/config.service";
 import { BookingsRepository } from "./bookings.repository";
 
 const STATE_MACHINE: Record<BookingStatus, BookingStatus[]> = {
@@ -29,7 +29,10 @@ const STATE_MACHINE: Record<BookingStatus, BookingStatus[]> = {
 export class BookingsService {
   private readonly logger = new Logger(BookingsService.name);
 
-  constructor(private readonly bookingsRepository: BookingsRepository) {}
+  constructor(
+    private readonly bookingsRepository: BookingsRepository,
+    private readonly configService: AppConfigService,
+  ) {}
 
   async createBooking(
     dto: CreateBookingRequest,
@@ -37,14 +40,11 @@ export class BookingsService {
   ): Promise<BookingResponse> {
     const isFrequent =
       (user as ApiUser & { isFrequent?: boolean }).isFrequent === true;
-    const env = getApiEnv();
-    const depositRate = isFrequent
-      ? env.DEPOSIT_RATE_FREQUENT
-      : env.DEPOSIT_RATE_NEW;
+    const { depositRateFrequent, depositRateNew } =
+      this.configService.getBookingConfig();
+    const depositRate = isFrequent ? depositRateFrequent : depositRateNew;
 
-    this.logger.log(
-      `Creating booking for user ${user.id}, vehicle ${dto.vehicleId}`,
-    );
+    this.logger.log(`Creating booking for vehicle ${dto.vehicleId}`);
 
     const booking = await this.bookingsRepository.createWithAvailabilityCheck({
       userId: user.id,
@@ -85,6 +85,14 @@ export class BookingsService {
 
   async getAllBookings(): Promise<BookingResponse[]> {
     return this.bookingsRepository.findAll();
+  }
+
+  async getById(id: string): Promise<BookingResponse> {
+    const booking = await this.bookingsRepository.findById(id);
+    if (!booking) {
+      throw new NotFoundException(`Booking ${id} not found`);
+    }
+    return booking;
   }
 
   async transitionStatus(

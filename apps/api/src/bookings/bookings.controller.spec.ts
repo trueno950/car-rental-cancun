@@ -1,3 +1,4 @@
+import { NotFoundException } from "@nestjs/common";
 import { describe, expect, it, vi } from "vitest";
 
 import { ROLES_KEY } from "../auth/roles.decorator";
@@ -14,6 +15,9 @@ function makeService(
     checkAvailability: vi.fn().mockResolvedValue({ available: true }),
     getMyBookings: vi.fn().mockResolvedValue([]),
     getAllBookings: vi.fn().mockResolvedValue([]),
+    getById: vi
+      .fn()
+      .mockResolvedValue({ id: "test-id", status: "pending" as const }),
     transitionStatus: vi.fn(),
     calcDepositCents: vi.fn().mockReturnValue(1000),
     ...overrides,
@@ -90,6 +94,32 @@ describe("BookingsController", () => {
       expect(roles).toContain("employee");
       expect(roles).toContain("manager");
       expect(roles).toContain("admin");
+    });
+  });
+
+  describe("GET /bookings/:id", () => {
+    it("delegates to service.getById and returns result", async () => {
+      const booking = { id: "test-id", status: "pending" };
+      const service = makeService({
+        getById: vi.fn().mockResolvedValue(booking),
+      });
+      const controller = new BookingsController(service);
+
+      const result = await controller.getBookingById("test-id");
+
+      expect(service.getById).toHaveBeenCalledWith("test-id");
+      expect(result).toEqual(booking);
+    });
+
+    it("propagates NotFoundException from service when booking not found", async () => {
+      const service = makeService({
+        getById: vi.fn().mockRejectedValue(new NotFoundException()),
+      });
+      const controller = new BookingsController(service);
+
+      await expect(controller.getBookingById("missing-id")).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 

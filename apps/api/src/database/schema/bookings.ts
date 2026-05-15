@@ -32,7 +32,7 @@ export const bookingsTable = pgTable("bookings", {
   endDate: timestamp("end_date", { withTimezone: true }).notNull(),
   totalPriceCents: integer("total_price_cents").notNull(),
   status: bookingStatusEnum("status").notNull().default(BOOKING_STATUS.PENDING),
-  depositAmountCents: integer("deposit_amount_cents"),
+  depositAmountCents: integer("deposit_amount_cents").notNull(),
   stripeCheckoutSessionId: varchar("stripe_checkout_session_id", {
     length: 255,
   }),

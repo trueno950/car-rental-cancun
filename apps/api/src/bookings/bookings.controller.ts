@@ -55,7 +55,7 @@ export class BookingsController {
     dto: CreateBookingRequest,
     @CurrentUser() user: ApiUser,
   ): Promise<BookingResponse> {
-    this.logger.log(`POST /bookings by user ${user.id}`);
+    this.logger.log("POST /bookings");
     return this.bookingsService.createBooking(dto, user);
   }
 
@@ -63,7 +63,7 @@ export class BookingsController {
   async getMyBookings(
     @CurrentUser() user: ApiUser,
   ): Promise<BookingResponse[]> {
-    this.logger.log(`GET /bookings/me user=${user.id}`);
+    this.logger.log("GET /bookings/me");
     return this.bookingsService.getMyBookings(user.id);
   }
 
@@ -73,6 +73,14 @@ export class BookingsController {
   async getAllBookings(): Promise<BookingResponse[]> {
     this.logger.log("GET /bookings");
     return this.bookingsService.getAllBookings();
+  }
+
+  @Get(":id")
+  async getBookingById(
+    @Param("id", new ParseUUIDPipe()) id: string,
+  ): Promise<BookingResponse> {
+    this.logger.log(`GET /bookings/${id}`);
+    return this.bookingsService.getById(id);
   }
 
   @Patch(":id/status")
