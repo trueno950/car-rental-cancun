@@ -5,6 +5,7 @@ import {
   BookingStatusBadge,
   DepositCallToAction,
   getBookingByIdAction,
+  redirectToCheckoutAction,
 } from "@features/bookings";
 
 type BookingDetailPageProps = {
@@ -29,6 +30,8 @@ export default async function BookingDetailPage({
       day: "numeric",
     });
   }
+
+  const checkoutAction = redirectToCheckoutAction.bind(null, booking.id);
 
   return (
     <main className="min-h-screen bg-muted/30 px-4 py-10 sm:px-6 lg:px-8">
@@ -80,6 +83,17 @@ export default async function BookingDetailPage({
               helper: t("depositHelper"),
             }}
           />
+        ) : null}
+
+        {booking.status === "pending" ? (
+          <form action={checkoutAction}>
+            <button
+              type="submit"
+              className="w-full rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 sm:w-auto"
+            >
+              {t("payDepositButton")}
+            </button>
+          </form>
         ) : null}
       </div>
     </main>

@@ -30,6 +30,7 @@ export const ApiJwtClaimsSchema = z.object({
   email: z.email(),
   name: z.string().min(1),
   role: UserRoleSchema.optional(), // Phase A: optional with API-side default
+  isFrequent: z.boolean().optional(),
 });
 
 export const ApiUserSchema = z.object({

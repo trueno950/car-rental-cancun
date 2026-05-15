@@ -5,9 +5,12 @@ import type {
   CreateBookingRequest,
 } from "@rental/validations";
 
-import { auth } from "../../../../auth";
+import { redirect } from "next/navigation";
+
+import { auth } from "@core/auth";
 import {
   createBooking,
+  createCheckoutSession,
   fetchAllBookings,
   fetchBookingById,
   fetchMyBookings,
@@ -43,4 +46,12 @@ export async function getBookingByIdAction(
 ): Promise<BookingResponse | null> {
   const token = await getToken();
   return fetchBookingById(id, { token });
+}
+
+export async function redirectToCheckoutAction(
+  bookingId: string,
+): Promise<void> {
+  const token = await getToken();
+  const { checkoutUrl } = await createCheckoutSession(bookingId, { token });
+  redirect(checkoutUrl);
 }

@@ -1,9 +1,11 @@
 import {
   BookingResponseSchema,
+  CheckoutSessionResponseSchema,
   CreateBookingRequestSchema,
 } from "@rental/validations";
 import type {
   BookingResponse,
+  CheckoutSessionResponse,
   CreateBookingRequest,
 } from "@rental/validations";
 
@@ -68,6 +70,17 @@ export async function fetchAllBookings(
 ): Promise<BookingResponse[]> {
   const data = await apiFetch(BOOKINGS_PATH, options);
   return BookingResponseSchema.array().parse(data);
+}
+
+export async function createCheckoutSession(
+  bookingId: string,
+  options: BookingsApiClientOptions,
+): Promise<CheckoutSessionResponse> {
+  const data = await apiFetch(
+    `${BOOKINGS_PATH}/${bookingId}/checkout-session`,
+    { ...options, method: "POST" },
+  );
+  return CheckoutSessionResponseSchema.parse(data);
 }
 
 export async function fetchBookingById(

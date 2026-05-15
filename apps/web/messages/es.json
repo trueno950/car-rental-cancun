@@ -52,7 +52,8 @@
     "notesLabel": "Notas",
     "depositLabel": "Depósito requerido",
     "totalLabel": "Total",
-    "depositHelper": "Pagá el depósito para confirmar tu reserva."
+    "depositHelper": "Pagá el depósito para confirmar tu reserva.",
+    "payDepositButton": "Pagar depósito"
   },
   "EmployeeBookingsPage": {
     "heading": "Todas las reservas",

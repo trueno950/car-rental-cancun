@@ -9,6 +9,7 @@ interface ApiAccessTokenUser {
   email: string;
   name: string;
   role?: UserRole;
+  isFrequent?: boolean;
 }
 
 interface CreateApiAccessTokenInput {
@@ -26,6 +27,7 @@ export async function createApiAccessToken({
     email: user.email,
     name: user.name,
     role: user.role,
+    isFrequent: user.isFrequent,
   });
 
   return new SignJWT({
@@ -33,6 +35,9 @@ export async function createApiAccessToken({
     name: claims.name,
     sub: claims.sub,
     role: claims.role,
+    ...(claims.isFrequent !== undefined
+      ? { isFrequent: claims.isFrequent }
+      : {}),
   })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()

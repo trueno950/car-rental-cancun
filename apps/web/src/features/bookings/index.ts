@@ -3,6 +3,7 @@ export {
   getAllBookingsAction,
   getBookingByIdAction,
   getMyBookingsAction,
+  redirectToCheckoutAction,
 } from "./actions/booking-actions";
 export { BookingForm } from "./components/BookingForm";
 export { BookingStatusBadge } from "./components/BookingStatusBadge";
