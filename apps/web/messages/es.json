@@ -11,10 +11,54 @@
     "feature3Title": "Confirmación instantánea",
     "feature3Description": "Reservá en minutos y recibí tu confirmación de inmediato."
   },
+  "common": {
+    "or": "o",
+    "email": "Email",
+    "password": "Contraseña",
+    "fullName": "Nombre completo",
+    "continueWithGoogle": "Continuar con Google",
+    "continueWithFacebook": "Continuar con Facebook"
+  },
   "LoginPage": {
-    "title": "Iniciá sesión o creá una cuenta",
-    "description": "Usá tu cuenta de GitHub para comenzar. Los usuarios nuevos son bienvenidos.",
-    "cta": "Continuar con GitHub"
+    "title": "Iniciá sesión",
+    "description": "Accedé con tu cuenta o ingresá tu email y contraseña.",
+    "continueWithGoogle": "Continuar con Google",
+    "continueWithFacebook": "Continuar con Facebook",
+    "registeredSuccess": "Cuenta creada exitosamente. Iniciá sesión para continuar."
+  },
+  "LoginForm": {
+    "emailPlaceholder": "tu@email.com",
+    "passwordPlaceholder": "••••••••",
+    "submit": "Iniciar sesión",
+    "submitting": "Iniciando sesión…",
+    "noAccount": "¿No tenés cuenta?",
+    "createAccount": "Creá una",
+    "error": "Email o contraseña incorrectos"
+  },
+  "RegisterPage": {
+    "title": "Creá tu cuenta",
+    "description": "Completá tus datos para empezar a reservar."
+  },
+  "RegisterForm": {
+    "namePlaceholder": "Juan García",
+    "emailPlaceholder": "tu@email.com",
+    "confirmPassword": "Confirmá la contraseña",
+    "submit": "Crear cuenta",
+    "submitting": "Creando cuenta…",
+    "hasAccount": "¿Ya tenés cuenta?",
+    "signIn": "Iniciá sesión",
+    "errorEmailInUse": "Este email ya está registrado",
+    "errorInvalid": "Datos inválidos. Verificá el formulario."
+  },
+  "BookingsPage": {
+    "customerHeading": "Mis reservas",
+    "customerHelper": "Todas tus reservas activas e históricas.",
+    "customerEmpty": "No tenés reservas aún.",
+    "colId": "ID",
+    "colDates": "Fechas",
+    "colTotal": "Total",
+    "colStatus": "Estado",
+    "viewDetail": "Ver detalle"
   },
   "ReservationPage": {
     "heading": "Demo de rango de fechas para reservación",

@@ -11,10 +11,54 @@
     "feature3Title": "Instant confirmation",
     "feature3Description": "Book in minutes and receive your confirmation immediately."
   },
+  "common": {
+    "or": "or",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full name",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithFacebook": "Continue with Facebook"
+  },
   "LoginPage": {
-    "title": "Sign in or create an account",
-    "description": "Use your GitHub account to get started. New users are welcome.",
-    "cta": "Continue with GitHub"
+    "title": "Sign in",
+    "description": "Access your account or sign in with email and password.",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithFacebook": "Continue with Facebook",
+    "registeredSuccess": "Account created successfully. Sign in to continue."
+  },
+  "LoginForm": {
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "submit": "Sign in",
+    "submitting": "Signing in…",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create one",
+    "error": "Invalid email or password"
+  },
+  "RegisterPage": {
+    "title": "Create your account",
+    "description": "Fill in your details to start booking."
+  },
+  "RegisterForm": {
+    "namePlaceholder": "John Smith",
+    "emailPlaceholder": "you@email.com",
+    "confirmPassword": "Confirm password",
+    "submit": "Create account",
+    "submitting": "Creating account…",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "errorEmailInUse": "This email is already registered",
+    "errorInvalid": "Invalid data. Please check the form."
+  },
+  "BookingsPage": {
+    "customerHeading": "My bookings",
+    "customerHelper": "All your active and past bookings.",
+    "customerEmpty": "You have no bookings yet.",
+    "colId": "ID",
+    "colDates": "Dates",
+    "colTotal": "Total",
+    "colStatus": "Status",
+    "viewDetail": "View details"
   },
   "ReservationPage": {
     "heading": "Reservation date range demo",

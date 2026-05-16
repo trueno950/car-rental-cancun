@@ -15,6 +15,7 @@ export const usersTable = pgTable("users", {
   name: varchar("name", { length: 255 }).notNull(),
   role: varchar("role", { length: 50 }).notNull().default("customer"),
   isFrequent: boolean("is_frequent").notNull().default(false),
+  password: text("password"),
   emailVerified: timestamp("email_verified", { withTimezone: true }),
   image: text("image"),
 });

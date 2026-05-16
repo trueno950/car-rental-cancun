@@ -1,27 +1,22 @@
 import { getTranslations } from "next-intl/server";
-import { ShieldCheckIcon } from "lucide-react";
+import { UserPlusIcon } from "lucide-react";
 
-import { OAuthButtons, LoginForm } from "@features/auth";
+import { OAuthButtons, RegisterForm } from "@features/auth";
 
-type LoginPageProps = {
+type RegisterPageProps = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ registered?: string }>;
 };
 
-export default async function LoginPage({
-  params,
-  searchParams,
-}: LoginPageProps) {
+export default async function RegisterPage({ params }: RegisterPageProps) {
   const { locale } = await params;
-  const { registered } = await searchParams;
-  const t = await getTranslations({ locale, namespace: "LoginPage" });
+  const t = await getTranslations({ locale, namespace: "RegisterPage" });
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-muted/40 px-4 py-12 sm:px-6">
       <section className="w-full max-w-md rounded-3xl border border-border bg-card p-8 shadow-sm">
         <div className="mb-8 flex items-start gap-4">
           <div className="rounded-2xl bg-primary/10 p-3 text-primary">
-            <ShieldCheckIcon className="size-5" aria-hidden="true" />
+            <UserPlusIcon className="size-5" aria-hidden="true" />
           </div>
           <div className="space-y-2">
             <p className="text-sm font-medium text-muted-foreground">
@@ -36,15 +31,9 @@ export default async function LoginPage({
           </div>
         </div>
 
-        {registered && (
-          <div className="mb-6 rounded-lg bg-green-500/10 px-3 py-2 text-sm text-green-700 dark:text-green-400">
-            {t("registeredSuccess")}
-          </div>
-        )}
-
         <div className="space-y-6">
           <OAuthButtons locale={locale} />
-          <LoginForm locale={locale} />
+          <RegisterForm locale={locale} />
         </div>
       </section>
     </main>

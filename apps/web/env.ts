@@ -8,6 +8,10 @@ const webEnvSchema = z.object({
     .transform((s) => s.trim())
     .pipe(z.url())
     .default("http://localhost:3000"),
+  GOOGLE_CLIENT_ID: z.string().optional(),
+  GOOGLE_CLIENT_SECRET: z.string().optional(),
+  FACEBOOK_CLIENT_ID: z.string().optional(),
+  FACEBOOK_CLIENT_SECRET: z.string().optional(),
 });
 
 export type WebEnv = z.infer<typeof webEnvSchema>;
