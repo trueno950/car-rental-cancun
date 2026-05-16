@@ -68,7 +68,12 @@
     "colDates": "Fechas",
     "colStatus": "Estado",
     "colTotal": "Total",
-    "empty": "No hay reservas aún."
+    "colActions": "Acciones",
+    "empty": "No hay reservas aún.",
+    "actionConfirm": "Confirmar",
+    "actionActivate": "Activar",
+    "actionComplete": "Completar",
+    "actionCancel": "Cancelar"
   },
   "VehicleCatalogPage": {
     "heading": "Nuestra flota",

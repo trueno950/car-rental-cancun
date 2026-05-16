@@ -61,7 +61,12 @@
     "colDates": "Dates",
     "colStatus": "Status",
     "colTotal": "Total",
-    "empty": "No bookings yet."
+    "colActions": "Actions",
+    "empty": "No bookings yet.",
+    "actionConfirm": "Confirm",
+    "actionActivate": "Activate",
+    "actionComplete": "Complete",
+    "actionCancel": "Cancel"
   },
   "VehicleCatalogPage": {
     "heading": "Our fleet",

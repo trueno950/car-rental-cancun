@@ -2,9 +2,11 @@
 
 import type {
   BookingResponse,
+  BookingStatus,
   CreateBookingRequest,
 } from "@rental/validations";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { auth } from "@core/auth";
@@ -14,6 +16,7 @@ import {
   fetchAllBookings,
   fetchBookingById,
   fetchMyBookings,
+  updateBookingStatus,
 } from "../services/bookings.service";
 
 async function getToken(): Promise<string> {
@@ -46,6 +49,15 @@ export async function getBookingByIdAction(
 ): Promise<BookingResponse | null> {
   const token = await getToken();
   return fetchBookingById(id, { token });
+}
+
+export async function updateBookingStatusAction(
+  bookingId: string,
+  status: BookingStatus,
+): Promise<void> {
+  const token = await getToken();
+  await updateBookingStatus(bookingId, status, { token });
+  revalidatePath("/[locale]/bookings");
 }
 
 export async function redirectToCheckoutAction(

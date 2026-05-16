@@ -6,6 +6,7 @@ import {
 } from "@rental/validations";
 import type {
   BookingResponse,
+  BookingStatus,
   CheckoutSessionResponse,
   CreateBookingRequest,
 } from "@rental/validations";
@@ -82,6 +83,19 @@ export async function createCheckoutSession(
     method: "POST",
   });
   return CheckoutSessionEnvelopeSchema.parse(raw).data;
+}
+
+export async function updateBookingStatus(
+  bookingId: string,
+  status: BookingStatus,
+  options: BookingsApiClientOptions,
+): Promise<BookingResponse> {
+  const raw = await apiFetch(`${BOOKINGS_PATH}/${bookingId}/status`, {
+    ...options,
+    method: "PATCH",
+    body: { status },
+  });
+  return BookingResponseEnvelopeSchema.parse(raw).data;
 }
 
 export async function fetchBookingById(

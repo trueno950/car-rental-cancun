@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import {
   EmployeeBookingsTable,
   getAllBookingsAction,
+  updateBookingStatusAction,
 } from "@features/bookings";
 import type { EmployeeBookingsTableCopy } from "@features/bookings";
 
@@ -27,7 +28,14 @@ export default async function EmployeeBookingsPage({
     colDates: t("colDates"),
     colStatus: t("colStatus"),
     colTotal: t("colTotal"),
+    colActions: t("colActions"),
     empty: t("empty"),
+    actionLabels: {
+      confirmed: t("actionConfirm"),
+      active: t("actionActivate"),
+      completed: t("actionComplete"),
+      cancelled: t("actionCancel"),
+    },
   };
 
   const bookings = await getAllBookingsAction();
@@ -43,7 +51,11 @@ export default async function EmployeeBookingsPage({
             {t("helper")}
           </p>
         </header>
-        <EmployeeBookingsTable bookings={bookings} copy={copy} />
+        <EmployeeBookingsTable
+          bookings={bookings}
+          copy={copy}
+          transitionAction={updateBookingStatusAction}
+        />
       </div>
     </main>
   );

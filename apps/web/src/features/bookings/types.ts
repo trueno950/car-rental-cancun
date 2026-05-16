@@ -1,4 +1,15 @@
-import type { BookingResponse } from "@rental/validations";
+import type { BookingResponse, BookingStatus } from "@rental/validations";
+
+export const BOOKING_STATUS_TRANSITIONS: Record<
+  BookingStatus,
+  BookingStatus[]
+> = {
+  pending: ["confirmed", "cancelled"],
+  confirmed: ["active", "cancelled"],
+  active: ["completed"],
+  completed: [],
+  cancelled: [],
+};
 
 export interface BookingFormCopy {
   heading: string;
@@ -42,10 +53,13 @@ export interface EmployeeBookingsTableCopy {
   colDates: string;
   colStatus: string;
   colTotal: string;
+  colActions: string;
   empty: string;
+  actionLabels: Partial<Record<BookingStatus, string>>;
 }
 
 export interface EmployeeBookingsTableProps {
   bookings: BookingResponse[];
   copy: EmployeeBookingsTableCopy;
+  transitionAction: (bookingId: string, status: BookingStatus) => Promise<void>;
 }
