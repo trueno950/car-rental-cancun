@@ -42,7 +42,7 @@ export async function createVehicleAction(
 ): Promise<Vehicle> {
   const token = await getToken();
   const vehicle = await adminCreateVehicle(input, { token });
-  revalidatePath("/[locale]/admin/vehicles", "page");
+  revalidatePath("/", "layout");
   return vehicle;
 }
 
@@ -52,12 +52,12 @@ export async function updateVehicleAction(
 ): Promise<Vehicle> {
   const token = await getToken();
   const vehicle = await adminUpdateVehicle(id, input, { token });
-  revalidatePath("/[locale]/admin/vehicles", "page");
+  revalidatePath("/", "layout");
   return vehicle;
 }
 
 export async function deleteVehicleAction(id: string): Promise<void> {
   const token = await getToken();
   await adminDeleteVehicle(id, { token });
-  revalidatePath("/[locale]/admin/vehicles", "page");
+  revalidatePath("/", "layout");
 }
