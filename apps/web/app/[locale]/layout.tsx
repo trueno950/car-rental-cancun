@@ -64,7 +64,7 @@ export default async function LocaleLayout({
     <NextIntlClientProvider locale={locale} messages={messages}>
       <nav className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-background/95 px-4 py-3 backdrop-blur sm:px-6">
         <Link
-          href={`/${locale}/vehicles`}
+          href={`/${locale}`}
           className="text-sm font-semibold tracking-tight"
         >
           Rental Car

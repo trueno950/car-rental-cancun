@@ -1,12 +1,19 @@
 {
   "HomePage": {
-    "title": "Cancun car rental",
-    "welcome": "Welcome, {name}",
-    "apiReady": "API bearer token: {token}"
+    "headline": "Explore Cancun on your own terms",
+    "subheadline": "Premium cars, transparent pricing, and instant booking. No surprises.",
+    "ctaBrowse": "Browse our fleet",
+    "ctaSignIn": "Sign in",
+    "feature1Title": "All-inclusive pricing",
+    "feature1Description": "The price you see is the price you pay. Insurance and taxes included.",
+    "feature2Title": "Airport & hotel pickup",
+    "feature2Description": "We deliver the car to you. No need to find a rental counter.",
+    "feature3Title": "Instant confirmation",
+    "feature3Description": "Book in minutes and receive your confirmation immediately."
   },
   "LoginPage": {
-    "title": "Sign in",
-    "description": "Use GitHub to open a PostgreSQL-backed session.",
+    "title": "Sign in or create an account",
+    "description": "Use your GitHub account to get started. New users are welcome.",
     "cta": "Continue with GitHub"
   },
   "ReservationPage": {

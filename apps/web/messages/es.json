@@ -1,12 +1,19 @@
 {
   "HomePage": {
-    "title": "Renta de autos en Cancún",
-    "welcome": "Bienvenido, {name}",
-    "apiReady": "API bearer token: {token}"
+    "headline": "Explorá Cancún a tu manera",
+    "subheadline": "Autos premium, precios transparentes y reserva instantánea. Sin sorpresas.",
+    "ctaBrowse": "Ver nuestra flota",
+    "ctaSignIn": "Iniciar sesión",
+    "feature1Title": "Precio todo incluido",
+    "feature1Description": "El precio que ves es el que pagás. Seguro e impuestos incluidos.",
+    "feature2Title": "Entrega en aeropuerto y hotel",
+    "feature2Description": "Te llevamos el auto. No necesitás buscar una sucursal.",
+    "feature3Title": "Confirmación instantánea",
+    "feature3Description": "Reservá en minutos y recibí tu confirmación de inmediato."
   },
   "LoginPage": {
-    "title": "Inicia sesión",
-    "description": "Usa GitHub para abrir una sesión persistida en PostgreSQL.",
+    "title": "Iniciá sesión o creá una cuenta",
+    "description": "Usá tu cuenta de GitHub para comenzar. Los usuarios nuevos son bienvenidos.",
     "cta": "Continuar con GitHub"
   },
   "ReservationPage": {

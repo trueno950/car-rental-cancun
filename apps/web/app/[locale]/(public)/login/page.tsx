@@ -44,10 +44,6 @@ export default async function LoginPage({ params }: LoginPageProps) {
             {t("cta")}
             <ArrowRightIcon className="size-4" aria-hidden="true" />
           </Button>
-          <p className="text-xs leading-5 text-muted-foreground">
-            Acceso seguro con GitHub. La autenticación sigue delegada al backend
-            y al provider configurado.
-          </p>
         </form>
       </section>
     </main>
