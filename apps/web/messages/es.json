@@ -79,13 +79,6 @@
   "Metadata": {
     "title": "Renta de autos en Cancún"
   },
-  "nav": {
-    "home": "Inicio",
-    "vehicles": "Nuestra flota",
-    "myBookings": "Mis reservas",
-    "signIn": "Iniciar sesión",
-    "signOut": "Cerrar sesión"
-  },
   "BookingNewPage": {
     "heading": "Reservar un vehículo",
     "helper": "Seleccioná tus fechas de viaje. Se requerirá un depósito para confirmar la reserva.",
@@ -148,5 +141,65 @@
     "perDay": "día",
     "yearLabel": "Año",
     "bookButton": "Reservar"
+  },
+  "nav": {
+    "home": "Inicio",
+    "vehicles": "Nuestra flota",
+    "myBookings": "Mis reservas",
+    "adminVehicles": "Administración",
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión"
+  },
+  "VehicleAdminPage": {
+    "title": "Gestión de flota",
+    "subtitle": "Creá, editá y eliminá vehículos del catálogo de alquiler.",
+    "createCta": "Crear vehículo",
+    "emptyState": "No hay vehículos en el catálogo todavía.",
+    "table": {
+      "columns": {
+        "make": "Marca",
+        "model": "Modelo",
+        "year": "Año",
+        "dailyRate": "Precio / día",
+        "available": "Disponibilidad",
+        "actions": "Acciones"
+      },
+      "actions": {
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "deleteConfirm": "¿Estás seguro de que querés eliminar este vehículo? Esta acción no se puede deshacer."
+      }
+    },
+    "availability": {
+      "available": "Disponible",
+      "unavailable": "No disponible"
+    },
+    "form": {
+      "title": {
+        "create": "Crear vehículo",
+        "edit": "Editar vehículo"
+      },
+      "fields": {
+        "make": "Marca",
+        "model": "Modelo",
+        "year": "Año",
+        "dailyRate": "Precio por día",
+        "available": "Disponible para reservas"
+      },
+      "submit": {
+        "create": "Crear vehículo",
+        "update": "Guardar cambios"
+      },
+      "cancel": "Cancelar",
+      "validation": {
+        "required": "Este campo es obligatorio",
+        "positive": "Debe ser un número positivo",
+        "minYear": "El año debe ser 2000 o posterior"
+      }
+    },
+    "errors": {
+      "notFound": "Vehículo no encontrado",
+      "generic": "Algo salió mal. Intentá de nuevo."
+    }
   }
 }

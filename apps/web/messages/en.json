@@ -146,7 +146,60 @@
     "home": "Home",
     "vehicles": "Our Fleet",
     "myBookings": "My bookings",
+    "adminVehicles": "Admin",
     "signIn": "Sign in",
     "signOut": "Sign out"
+  },
+  "VehicleAdminPage": {
+    "title": "Fleet management",
+    "subtitle": "Create, edit, and remove vehicles from the rental catalog.",
+    "createCta": "Create vehicle",
+    "emptyState": "No vehicles in the catalog yet.",
+    "table": {
+      "columns": {
+        "make": "Make",
+        "model": "Model",
+        "year": "Year",
+        "dailyRate": "Price / day",
+        "available": "Availability",
+        "actions": "Actions"
+      },
+      "actions": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Are you sure you want to delete this vehicle? This action cannot be undone."
+      }
+    },
+    "availability": {
+      "available": "Available",
+      "unavailable": "Unavailable"
+    },
+    "form": {
+      "title": {
+        "create": "Create vehicle",
+        "edit": "Edit vehicle"
+      },
+      "fields": {
+        "make": "Make",
+        "model": "Model",
+        "year": "Year",
+        "dailyRate": "Price per day",
+        "available": "Available for booking"
+      },
+      "submit": {
+        "create": "Create vehicle",
+        "update": "Save changes"
+      },
+      "cancel": "Cancel",
+      "validation": {
+        "required": "This field is required",
+        "positive": "Must be a positive number",
+        "minYear": "Year must be 2000 or later"
+      }
+    },
+    "errors": {
+      "notFound": "Vehicle not found",
+      "generic": "Something went wrong. Please try again."
+    }
   }
 }

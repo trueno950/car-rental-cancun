@@ -84,6 +84,15 @@ export default async function LocaleLayout({
               >
                 {t("myBookings")}
               </Link>
+              {(session.user?.role === "manager" ||
+                session.user?.role === "admin") && (
+                <Link
+                  href={`/${locale}/admin/vehicles`}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {t("adminVehicles")}
+                </Link>
+              )}
               <form action={signOutAction}>
                 <button
                   type="submit"
