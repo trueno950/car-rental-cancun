@@ -1,5 +1,9 @@
 import { Inject, Injectable } from "@nestjs/common";
-import type { Vehicle } from "@rental/validations";
+import type {
+  CreateVehicleDto,
+  UpdateVehicleDto,
+  Vehicle,
+} from "@rental/validations";
 import { BOOKING_STATUS } from "@rental/validations";
 import { and, eq, gt, lt, notInArray, or } from "drizzle-orm";
 
@@ -63,6 +67,44 @@ export class VehiclesRepository {
       );
 
     return rows.map((row) => this.toDomain(row));
+  }
+
+  async insert(input: CreateVehicleDto): Promise<Vehicle> {
+    const [row] = await this.databaseService.db
+      .insert(vehiclesTable)
+      .values({
+        make: input.make,
+        model: input.model,
+        year: input.year,
+        dailyRateCents: Math.round(input.dailyRate * 100),
+        available: input.available,
+      })
+      .returning();
+    return this.toDomain(row);
+  }
+
+  async update(id: string, input: UpdateVehicleDto): Promise<Vehicle> {
+    const patch: Partial<typeof vehiclesTable.$inferInsert> = {};
+    if (input.make !== undefined) patch.make = input.make;
+    if (input.model !== undefined) patch.model = input.model;
+    if (input.year !== undefined) patch.year = input.year;
+    if (input.dailyRate !== undefined)
+      patch.dailyRateCents = Math.round(input.dailyRate * 100);
+    if (input.available !== undefined) patch.available = input.available;
+    patch.updatedAt = new Date();
+
+    const [row] = await this.databaseService.db
+      .update(vehiclesTable)
+      .set(patch)
+      .where(eq(vehiclesTable.id, id))
+      .returning();
+    return this.toDomain(row);
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.databaseService.db
+      .delete(vehiclesTable)
+      .where(eq(vehiclesTable.id, id));
   }
 
   private toDomain(row: typeof vehiclesTable.$inferSelect): Vehicle {

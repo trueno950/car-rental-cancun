@@ -11,8 +11,16 @@ export const VehicleSchema = z.object({
 
 export const CreateVehicleSchema = VehicleSchema.omit({ id: true });
 
+/** All fields from CreateVehicleSchema become optional; per-field constraints are preserved. */
+export const UpdateVehicleSchema = CreateVehicleSchema.partial();
+
 export const VehicleEnvelopeSchema = z.object({
   data: VehicleSchema.array(),
+});
+
+/** Single-vehicle response envelope returned by GET /vehicles/:id, POST /vehicles, PATCH /vehicles/:id. */
+export const VehicleSingleEnvelopeSchema = z.object({
+  data: VehicleSchema,
 });
 
 export const VehicleAvailabilityQuerySchema = z.object({
@@ -22,6 +30,7 @@ export const VehicleAvailabilityQuerySchema = z.object({
 
 export type Vehicle = z.infer<typeof VehicleSchema>;
 export type CreateVehicleDto = z.infer<typeof CreateVehicleSchema>;
+export type UpdateVehicleDto = z.infer<typeof UpdateVehicleSchema>;
 export type VehicleAvailabilityQuery = z.infer<
   typeof VehicleAvailabilityQuerySchema
 >;
