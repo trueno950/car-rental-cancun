@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { and, eq } from "drizzle-orm";
 import { BOOKING_STATUS } from "@rental/validations";
 
@@ -14,7 +14,10 @@ export interface BookingForCheckout {
 
 @Injectable()
 export class PaymentsRepository {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    @Inject(DatabaseService)
+    private readonly databaseService: DatabaseService,
+  ) {}
 
   async recordEventIfNotExists(
     stripeEventId: string,

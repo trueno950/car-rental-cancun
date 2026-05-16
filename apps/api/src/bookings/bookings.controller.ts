@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Inject,
   Logger,
   Param,
   ParseUUIDPipe,
@@ -35,7 +36,10 @@ import { BookingsService } from "./bookings.service";
 export class BookingsController {
   private readonly logger = new Logger(BookingsController.name);
 
-  constructor(private readonly bookingsService: BookingsService) {}
+  constructor(
+    @Inject(BookingsService)
+    private readonly bookingsService: BookingsService,
+  ) {}
 
   @Get("availability")
   @Public()

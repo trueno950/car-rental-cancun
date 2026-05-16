@@ -1,5 +1,6 @@
 import {
   ForbiddenException,
+  Inject,
   Injectable,
   Logger,
   NotFoundException,
@@ -12,7 +13,10 @@ import { UsersRepository } from "./users.repository";
 export class UsersService {
   private readonly logger = new Logger(UsersService.name);
 
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    @Inject(UsersRepository)
+    private readonly usersRepository: UsersRepository,
+  ) {}
 
   async findAll(): Promise<ApiUser[]> {
     this.logger.log("Listing all users");

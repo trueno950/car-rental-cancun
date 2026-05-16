@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Inject,
   Logger,
   Param,
   ParseUUIDPipe,
@@ -33,7 +34,10 @@ interface AuthenticatedRequest {
 export class UsersController {
   private readonly logger = new Logger(UsersController.name);
 
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    @Inject(UsersService)
+    private readonly usersService: UsersService,
+  ) {}
 
   @Get()
   @Roles("employee", "manager", "admin")

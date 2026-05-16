@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { UserRoleSchema } from "@rental/validations";
 import type { ApiUser } from "@rental/validations";
 import { eq } from "drizzle-orm";
@@ -8,7 +8,10 @@ import { usersTable } from "../database/schema/users";
 
 @Injectable()
 export class UsersRepository {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    @Inject(DatabaseService)
+    private readonly databaseService: DatabaseService,
+  ) {}
 
   async findAll(): Promise<ApiUser[]> {
     const rows = await this.databaseService.db.select().from(usersTable);

@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import type { Vehicle } from "@rental/validations";
 
 import { VehiclesRepository } from "./vehicles.repository";
@@ -7,7 +7,10 @@ import { VehiclesRepository } from "./vehicles.repository";
 export class VehiclesService {
   private readonly logger = new Logger(VehiclesService.name);
 
-  constructor(private readonly vehiclesRepository: VehiclesRepository) {}
+  constructor(
+    @Inject(VehiclesRepository)
+    private readonly vehiclesRepository: VehiclesRepository,
+  ) {}
 
   async findAll(): Promise<Vehicle[]> {
     this.logger.log("Listing vehicles");

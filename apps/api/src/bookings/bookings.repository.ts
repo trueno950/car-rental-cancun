@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { and, count, eq, gt, lt, or } from "drizzle-orm";
 import type { BookingResponse } from "@rental/validations";
 import { BOOKING_STATUS } from "@rental/validations";
@@ -20,7 +20,10 @@ export interface CreateBookingInput {
 
 @Injectable()
 export class BookingsRepository {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    @Inject(DatabaseService)
+    private readonly databaseService: DatabaseService,
+  ) {}
 
   async createWithAvailabilityCheck(
     input: CreateBookingInput,

@@ -1,4 +1,4 @@
-import { Controller, Get, Req } from "@nestjs/common";
+import { Controller, Get, Inject, Req } from "@nestjs/common";
 
 import type { ApiUser } from "@rental/validations";
 
@@ -11,7 +11,10 @@ interface AuthenticatedRequest {
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    @Inject(AppService)
+    private readonly appService: AppService,
+  ) {}
 
   @Public()
   @Get("health")

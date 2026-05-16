@@ -1,4 +1,4 @@
-import { Controller, Get, Logger, Query } from "@nestjs/common";
+import { Controller, Get, Inject, Logger, Query } from "@nestjs/common";
 import { VehicleAvailabilityQuerySchema } from "@rental/validations";
 import type { Vehicle, VehicleAvailabilityQuery } from "@rental/validations";
 
@@ -10,7 +10,10 @@ import { VehiclesService } from "./vehicles.service";
 export class VehiclesController {
   private readonly logger = new Logger(VehiclesController.name);
 
-  constructor(private readonly vehiclesService: VehiclesService) {}
+  constructor(
+    @Inject(VehiclesService)
+    private readonly vehiclesService: VehiclesService,
+  ) {}
 
   @Public()
   @Get()

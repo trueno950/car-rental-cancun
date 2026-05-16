@@ -234,6 +234,14 @@ export const BookingTransitionRequestSchema = z.object({
   status: BookingStatusSchema,
 });
 
+export const BookingResponseEnvelopeSchema = z.object({
+  data: BookingResponseSchema,
+});
+
+export const BookingResponseArrayEnvelopeSchema = z.object({
+  data: BookingResponseSchema.array(),
+});
+
 export type AvailabilityQuery = z.infer<typeof AvailabilityQuerySchema>;
 export type AvailabilityResponse = z.infer<typeof AvailabilityResponseSchema>;
 export type CreateBookingRequest = z.infer<typeof CreateBookingRequestSchema>;

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import type { Vehicle } from "@rental/validations";
 import { BOOKING_STATUS } from "@rental/validations";
 import { and, eq, gt, lt, notInArray, or } from "drizzle-orm";
@@ -18,7 +18,10 @@ import { vehiclesTable } from "../database/schema/vehicles";
  */
 @Injectable()
 export class VehiclesRepository {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    @Inject(DatabaseService)
+    private readonly databaseService: DatabaseService,
+  ) {}
 
   async findAll(): Promise<Vehicle[]> {
     const rows = await this.databaseService.db.select().from(vehiclesTable);

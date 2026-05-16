@@ -8,6 +8,10 @@ export const CheckoutSessionResponseSchema = z.object({
   checkoutUrl: z.string().url(),
 });
 
+export const CheckoutSessionEnvelopeSchema = z.object({
+  data: CheckoutSessionResponseSchema,
+});
+
 export type PaymentsConfigResponse = z.infer<
   typeof PaymentsConfigResponseSchema
 >;

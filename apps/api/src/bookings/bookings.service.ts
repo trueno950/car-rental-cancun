@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  Inject,
   Injectable,
   Logger,
   NotFoundException,
@@ -30,7 +31,9 @@ export class BookingsService {
   private readonly logger = new Logger(BookingsService.name);
 
   constructor(
+    @Inject(BookingsRepository)
     private readonly bookingsRepository: BookingsRepository,
+    @Inject(AppConfigService)
     private readonly configService: AppConfigService,
   ) {}
 

@@ -1,6 +1,7 @@
 import {
-  BookingResponseSchema,
-  CheckoutSessionResponseSchema,
+  BookingResponseArrayEnvelopeSchema,
+  BookingResponseEnvelopeSchema,
+  CheckoutSessionEnvelopeSchema,
   CreateBookingRequestSchema,
 } from "@rental/validations";
 import type {
@@ -50,37 +51,37 @@ export async function createBooking(
   options: BookingsApiClientOptions,
 ): Promise<BookingResponse> {
   const payload = CreateBookingRequestSchema.parse(input);
-  const data = await apiFetch(BOOKINGS_PATH, {
+  const raw = await apiFetch(BOOKINGS_PATH, {
     ...options,
     method: "POST",
     body: payload,
   });
-  return BookingResponseSchema.parse(data);
+  return BookingResponseEnvelopeSchema.parse(raw).data;
 }
 
 export async function fetchMyBookings(
   options: BookingsApiClientOptions,
 ): Promise<BookingResponse[]> {
-  const data = await apiFetch(`${BOOKINGS_PATH}/me`, options);
-  return BookingResponseSchema.array().parse(data);
+  const raw = await apiFetch(`${BOOKINGS_PATH}/me`, options);
+  return BookingResponseArrayEnvelopeSchema.parse(raw).data;
 }
 
 export async function fetchAllBookings(
   options: BookingsApiClientOptions,
 ): Promise<BookingResponse[]> {
-  const data = await apiFetch(BOOKINGS_PATH, options);
-  return BookingResponseSchema.array().parse(data);
+  const raw = await apiFetch(BOOKINGS_PATH, options);
+  return BookingResponseArrayEnvelopeSchema.parse(raw).data;
 }
 
 export async function createCheckoutSession(
   bookingId: string,
   options: BookingsApiClientOptions,
 ): Promise<CheckoutSessionResponse> {
-  const data = await apiFetch(
-    `${BOOKINGS_PATH}/${bookingId}/checkout-session`,
-    { ...options, method: "POST" },
-  );
-  return CheckoutSessionResponseSchema.parse(data);
+  const raw = await apiFetch(`${BOOKINGS_PATH}/${bookingId}/checkout-session`, {
+    ...options,
+    method: "POST",
+  });
+  return CheckoutSessionEnvelopeSchema.parse(raw).data;
 }
 
 export async function fetchBookingById(
@@ -88,8 +89,8 @@ export async function fetchBookingById(
   options: BookingsApiClientOptions,
 ): Promise<BookingResponse | null> {
   try {
-    const data = await apiFetch(`${BOOKINGS_PATH}/${id}`, options);
-    return BookingResponseSchema.parse(data);
+    const raw = await apiFetch(`${BOOKINGS_PATH}/${id}`, options);
+    return BookingResponseEnvelopeSchema.parse(raw).data;
   } catch {
     return null;
   }

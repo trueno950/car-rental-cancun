@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Controller,
   Headers,
+  Inject,
   Logger,
   Param,
   ParseUUIDPipe,
@@ -20,7 +21,10 @@ import { PaymentsService } from "./payments.service";
 export class PaymentsController {
   private readonly logger = new Logger(PaymentsController.name);
 
-  constructor(private readonly paymentsService: PaymentsService) {}
+  constructor(
+    @Inject(PaymentsService)
+    private readonly paymentsService: PaymentsService,
+  ) {}
 
   @Post("bookings/:id/checkout-session")
   async createCheckoutSession(
