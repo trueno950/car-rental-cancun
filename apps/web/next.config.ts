@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react"],
   },
-  transpilePackages: ["@rental/validations"],
+  transpilePackages: ["@rental/validations", "next-intl"],
 };
 
 export default withNextIntl(nextConfig);

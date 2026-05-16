@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import { getTranslations } from "next-intl/server";
 
 import type { UpdateVehicleDto } from "@rental/validations";
 
@@ -15,7 +14,6 @@ type EditVehiclePageProps = {
 
 export default async function EditVehiclePage({ params }: EditVehiclePageProps) {
   const { locale, id } = await params;
-  const t = await getTranslations({ locale, namespace: "VehicleAdminPage" });
 
   const vehicle = await getVehicleByIdAction(id);
 
@@ -29,7 +27,7 @@ export default async function EditVehiclePage({ params }: EditVehiclePageProps) 
   }
 
   return (
-    <main className="min-h-screen bg-muted/30 px-4 py-10 sm:px-6 lg:px-8">
+    <main className="px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-2xl">
         <VehicleForm
           mode="edit"

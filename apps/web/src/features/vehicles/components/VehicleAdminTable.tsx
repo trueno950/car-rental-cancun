@@ -7,7 +7,7 @@ import { Pencil, Trash2 } from "lucide-react";
 
 import type { Vehicle } from "@rental/validations";
 
-import { Button } from "@shared/components/ui";
+import { cn } from "@shared/lib";
 
 import { deleteVehicleAction } from "../actions/vehicle-actions";
 
@@ -57,11 +57,12 @@ function VehicleRow({
       </td>
       <td className="px-4 py-3">
         <span
-          className={
+          className={cn(
+            "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
             vehicle.available
-              ? "inline-flex w-fit items-center rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-700"
-              : "inline-flex w-fit items-center rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground"
-          }
+              ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300"
+              : "bg-muted text-muted-foreground",
+          )}
         >
           {vehicle.available ? availableLabel : unavailableLabel}
         </span>
@@ -70,21 +71,20 @@ function VehicleRow({
         <div className="flex items-center gap-2">
           <Link
             href={`/${locale}/admin/vehicles/${vehicle.id}/edit`}
-            className="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
           >
-            <Pencil className="h-3 w-3" />
+            <Pencil className="size-3" />
             {editLabel}
           </Link>
-          <Button
-            variant="ghost"
-            size="sm"
+          <button
+            type="button"
             onClick={handleDelete}
             disabled={isPending}
-            className="inline-flex items-center gap-1 rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-700 transition-colors hover:bg-red-50 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-700 transition-colors hover:bg-red-50 disabled:opacity-50 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950"
           >
-            <Trash2 className="h-3 w-3" />
+            <Trash2 className="size-3" />
             {deleteLabel}
-          </Button>
+          </button>
         </div>
       </td>
     </tr>
@@ -106,7 +106,7 @@ export function VehicleAdminTable({ vehicles, locale }: VehicleAdminTableProps) 
   }
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-border">
+    <div className="overflow-x-auto rounded-2xl border border-border bg-card">
       <table className="w-full text-sm">
         <thead className="border-b border-border bg-muted/30">
           <tr>
@@ -120,7 +120,7 @@ export function VehicleAdminTable({ vehicles, locale }: VehicleAdminTableProps) 
             ].map((col) => (
               <th
                 key={col}
-                className="px-4 py-3 text-left font-medium text-muted-foreground"
+                className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground"
               >
                 {col}
               </th>

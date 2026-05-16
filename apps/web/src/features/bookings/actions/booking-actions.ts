@@ -58,6 +58,7 @@ export async function updateBookingStatusAction(
   const token = await getToken();
   await updateBookingStatus(bookingId, status, { token });
   revalidatePath("/[locale]/bookings");
+  revalidatePath("/[locale]/admin/bookings", "layout");
 }
 
 export async function redirectToCheckoutAction(

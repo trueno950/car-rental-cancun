@@ -1,8 +1,11 @@
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
 import { resolveLocale, routing } from "@core/i18n";
 import { auth } from "@core/auth";
+
+import { AdminSidebar } from "./AdminSidebar";
 
 type AdminLayoutProps = {
   children: ReactNode;
@@ -30,5 +33,17 @@ export default async function AdminLayout({
     redirect(`/${locale}/bookings`);
   }
 
-  return children;
+  const t = await getTranslations({ locale, namespace: "AdminLayout" });
+
+  return (
+    <div className="flex">
+      <AdminSidebar
+        locale={locale}
+        labels={{ bookings: t("bookings"), fleet: t("fleet"), users: t("users") }}
+      />
+      <div className="flex-1 min-w-0 bg-muted/30">
+        {children}
+      </div>
+    </div>
+  );
 }

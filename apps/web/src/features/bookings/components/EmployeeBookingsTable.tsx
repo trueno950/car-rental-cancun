@@ -42,7 +42,7 @@ export function EmployeeBookingsTable({
       {bookings.length === 0 ? (
         <p className="text-sm text-muted-foreground">{copy.empty}</p>
       ) : (
-        <div className="overflow-x-auto rounded-2xl border border-border">
+        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full text-sm">
             <thead className="border-b border-border bg-muted/30">
               <tr>
@@ -57,7 +57,7 @@ export function EmployeeBookingsTable({
                 ].map((col) => (
                   <th
                     key={col}
-                    className="px-4 py-3 text-left font-medium text-muted-foreground"
+                    className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground"
                   >
                     {col}
                   </th>

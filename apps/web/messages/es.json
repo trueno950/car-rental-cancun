@@ -150,6 +150,63 @@
     "signIn": "Iniciar sesión",
     "signOut": "Cerrar sesión"
   },
+  "AdminLayout": {
+    "bookings": "Reservas",
+    "fleet": "Flota",
+    "users": "Usuarios"
+  },
+  "AdminBookingsPage": {
+    "title": "Reservas",
+    "subtitle": "Todas las reservas de la plataforma. Administrá las transiciones de estado.",
+    "tableHeading": "Todas las reservas",
+    "emptyState": "No hay reservas aún.",
+    "statusLabels": {
+      "pending": "Pendiente",
+      "confirmed": "Confirmada",
+      "active": "Activa",
+      "completed": "Completada",
+      "cancelled": "Cancelada"
+    },
+    "table": {
+      "colId": "ID",
+      "colVehicle": "Vehículo",
+      "colUser": "Cliente",
+      "colDates": "Fechas",
+      "colStatus": "Estado",
+      "colTotal": "Total",
+      "colActions": "Acciones"
+    },
+    "actions": {
+      "confirm": "Confirmar",
+      "activate": "Activar",
+      "complete": "Completar",
+      "cancel": "Cancelar"
+    }
+  },
+  "UserAdminPage": {
+    "title": "Gestión de usuarios",
+    "subtitle": "Visualizá y administrá roles y estado de clientes frecuentes.",
+    "emptyState": "No se encontraron usuarios.",
+    "table": {
+      "columns": {
+        "name": "Nombre",
+        "email": "Email",
+        "role": "Rol",
+        "frequent": "Frecuente",
+        "actions": "Cambiar rol"
+      }
+    },
+    "roles": {
+      "customer": "Cliente",
+      "employee": "Empleado",
+      "manager": "Gerente",
+      "admin": "Administrador"
+    },
+    "actions": {
+      "markFrequent": "Frecuente",
+      "removeFrequent": "Estándar"
+    }
+  },
   "VehicleAdminPage": {
     "title": "Gestión de flota",
     "subtitle": "Creá, editá y eliminá vehículos del catálogo de alquiler.",

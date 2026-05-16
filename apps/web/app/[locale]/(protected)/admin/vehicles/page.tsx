@@ -19,20 +19,20 @@ export default async function AdminVehiclesPage({
   const vehicles = await listVehiclesAction();
 
   return (
-    <main className="min-h-screen bg-muted/30 px-4 py-10 sm:px-6 lg:px-8">
+    <main className="px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl space-y-6">
         <header className="flex items-center justify-between">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-semibold tracking-tight">
+          <div className="space-y-1">
+            <h1 className="text-2xl font-semibold tracking-tight">
               {t("title")}
             </h1>
-            <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               {t("subtitle")}
             </p>
           </div>
           <Link
             href={`/${locale}/admin/vehicles/new`}
-            className="inline-flex items-center rounded-2xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+            className="inline-flex items-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
           >
             {t("createCta")}
           </Link>

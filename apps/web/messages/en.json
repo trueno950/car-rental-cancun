@@ -150,6 +150,63 @@
     "signIn": "Sign in",
     "signOut": "Sign out"
   },
+  "AdminLayout": {
+    "bookings": "Bookings",
+    "fleet": "Fleet",
+    "users": "Users"
+  },
+  "AdminBookingsPage": {
+    "title": "Bookings",
+    "subtitle": "All reservations across the platform. Manage status transitions.",
+    "tableHeading": "All bookings",
+    "emptyState": "No bookings yet.",
+    "statusLabels": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "active": "Active",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "table": {
+      "colId": "ID",
+      "colVehicle": "Vehicle",
+      "colUser": "Customer",
+      "colDates": "Dates",
+      "colStatus": "Status",
+      "colTotal": "Total",
+      "colActions": "Actions"
+    },
+    "actions": {
+      "confirm": "Confirm",
+      "activate": "Activate",
+      "complete": "Complete",
+      "cancel": "Cancel"
+    }
+  },
+  "UserAdminPage": {
+    "title": "User management",
+    "subtitle": "View and manage user roles and frequent customer status.",
+    "emptyState": "No users found.",
+    "table": {
+      "columns": {
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "frequent": "Frequent",
+        "actions": "Change role"
+      }
+    },
+    "roles": {
+      "customer": "Customer",
+      "employee": "Employee",
+      "manager": "Manager",
+      "admin": "Admin"
+    },
+    "actions": {
+      "markFrequent": "Frequent",
+      "removeFrequent": "Standard"
+    }
+  },
   "VehicleAdminPage": {
     "title": "Fleet management",
     "subtitle": "Create, edit, and remove vehicles from the rental catalog.",
