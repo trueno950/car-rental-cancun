@@ -1,7 +1,7 @@
+import Link from "next/link";
+
 import type { VehicleCardProps } from "../types";
 
-// Server component (no client state). Currency uses the requested locale
-// with MXN as the canonical currency for a Cancún rental.
 function formatCurrency(amount: number, locale: string) {
   return new Intl.NumberFormat(locale, {
     style: "currency",
@@ -45,6 +45,15 @@ export function VehicleCard({ vehicle, copy, locale }: VehicleCardProps) {
       >
         {availabilityLabel}
       </span>
+
+      {vehicle.available && (
+        <Link
+          href={`/${locale}/bookings/new?vehicleId=${vehicle.id}`}
+          className="mt-auto inline-flex w-full items-center justify-center rounded-2xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
+        >
+          {copy.bookButton}
+        </Link>
+      )}
     </article>
   );
 }

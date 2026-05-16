@@ -38,7 +38,7 @@ describe("StripeGateway", () => {
 
       const result = await gateway.createCheckoutSession({
         bookingId: "11111111-1111-1111-1111-111111111111",
-        amountCents: 5000,
+        amount: 50,
         currency: "usd",
         successUrl: "https://example.com/success",
         cancelUrl: "https://example.com/cancel",

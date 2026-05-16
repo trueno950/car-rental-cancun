@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 
+import { AppConfigModule } from "../config/config.module";
 import { getApiEnv } from "../config/env";
 import { NullGateway } from "./null.gateway";
 import { PAYMENT_GATEWAY } from "./payment-gateway.token";
@@ -9,6 +10,7 @@ import { PaymentsService } from "./payments.service";
 import { StripeGateway } from "./stripe.gateway";
 
 @Module({
+  imports: [AppConfigModule],
   providers: [
     PaymentsRepository,
     PaymentsService,

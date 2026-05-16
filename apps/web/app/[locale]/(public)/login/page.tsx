@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { ArrowRightIcon, ShieldCheckIcon } from "lucide-react";
 
-import { signIn } from "../../../../auth";
+import { signIn } from "@core/auth";
 import { Button } from "@shared/components/ui";
 
 type LoginPageProps = {
@@ -20,9 +20,15 @@ export default async function LoginPage({ params }: LoginPageProps) {
             <ShieldCheckIcon className="size-5" aria-hidden="true" />
           </div>
           <div className="space-y-2">
-            <p className="text-sm font-medium text-muted-foreground">Rental Car Cancun</p>
-            <h1 className="text-2xl font-semibold tracking-tight text-balance">{t("title")}</h1>
-            <p className="text-sm leading-6 text-muted-foreground">{t("description")}</p>
+            <p className="text-sm font-medium text-muted-foreground">
+              Rental Car Cancun
+            </p>
+            <h1 className="text-2xl font-semibold tracking-tight text-balance">
+              {t("title")}
+            </h1>
+            <p className="text-sm leading-6 text-muted-foreground">
+              {t("description")}
+            </p>
           </div>
         </div>
 
@@ -30,7 +36,7 @@ export default async function LoginPage({ params }: LoginPageProps) {
           action={async () => {
             "use server";
 
-            await signIn("github", { redirectTo: `/${locale}` });
+            await signIn("github", { redirectTo: `/${locale}/vehicles` });
           }}
           className="space-y-4"
         >
@@ -39,7 +45,8 @@ export default async function LoginPage({ params }: LoginPageProps) {
             <ArrowRightIcon className="size-4" aria-hidden="true" />
           </Button>
           <p className="text-xs leading-5 text-muted-foreground">
-            Acceso seguro con GitHub. La autenticación sigue delegada al backend y al provider configurado.
+            Acceso seguro con GitHub. La autenticación sigue delegada al backend
+            y al provider configurado.
           </p>
         </form>
       </section>

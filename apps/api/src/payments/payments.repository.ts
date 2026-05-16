@@ -9,7 +9,6 @@ import { stripeWebhookEventsTable } from "../database/schema/stripe-webhook-even
 export interface BookingForCheckout {
   id: string;
   userId: string;
-  /** Decimal amount to charge (deposit if set, otherwise full price) */
   checkoutAmount: number;
 }
 

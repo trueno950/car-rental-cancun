@@ -22,6 +22,7 @@ export default async function VehicleCatalogPage({
     availabilityUnavailable: t("availabilityUnavailable"),
     perDay: t("perDay"),
     yearLabel: t("yearLabel"),
+    bookButton: t("bookButton"),
   };
 
   const vehicles = await listVehiclesAction();

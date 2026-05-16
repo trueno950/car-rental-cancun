@@ -8,6 +8,7 @@ import {
 
 import type { CheckoutSessionResponse } from "@rental/validations";
 
+import { AppConfigService } from "../config/config.service";
 import type { PaymentGateway, WebhookEvent } from "./payment-gateway.interface";
 import { PAYMENT_GATEWAY } from "./payment-gateway.token";
 import { PaymentsRepository } from "./payments.repository";
@@ -17,8 +18,11 @@ export class PaymentsService {
   private readonly logger = new Logger(PaymentsService.name);
 
   constructor(
+    @Inject(PaymentsRepository)
     private readonly paymentsRepository: PaymentsRepository,
     @Inject(PAYMENT_GATEWAY) private readonly gateway: PaymentGateway,
+    @Inject(AppConfigService)
+    private readonly configService: AppConfigService,
   ) {}
 
   async createCheckoutSession(
@@ -42,10 +46,10 @@ export class PaymentsService {
 
     const result = await this.gateway.createCheckoutSession({
       bookingId,
-      amountCents: Math.round(booking.checkoutAmount * 100),
+      amount: booking.checkoutAmount,
       currency: "usd",
-      successUrl: `${process.env.FRONTEND_URL ?? "http://localhost:3000"}/bookings/${bookingId}/confirmation`,
-      cancelUrl: `${process.env.FRONTEND_URL ?? "http://localhost:3000"}/bookings/${bookingId}`,
+      successUrl: `${this.configService.getFrontendUrl()}/bookings/${bookingId}/confirmation`,
+      cancelUrl: `${this.configService.getFrontendUrl()}/bookings/${bookingId}`,
     });
 
     await this.paymentsRepository.attachStripeSession(

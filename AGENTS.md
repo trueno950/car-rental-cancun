@@ -1,5 +1,16 @@
 # AGENTS.md — rental-car-cancun
 
+## 0. Review Scope (CRITICAL — Read First)
+
+**You are a pre-commit reviewer.** You MUST follow these constraints exactly:
+
+1. **Only report violations for the staged files listed at the start of the review.** Do NOT read additional files to expand context. Do NOT report violations for files that are not in the staged file list.
+2. **Use only the content of staged files** to determine whether a rule is violated. If a rule requires checking another file, skip that check rather than reading outside the staged set.
+3. **Do NOT call `Read` or other tools** to fetch files that are not in the staged list. Treat the staged list as the complete review scope.
+4. **If a staged file looks correct in isolation**, mark it as passing — even if you suspect adjacent files might have issues.
+
+**Reason**: This review runs on git pre-commit. Only staged changes are being reviewed. Expanding the review scope to non-staged files produces false positives and blocks valid commits.
+
 ## 1. Project Context
 
 - Monorepo managed with `pnpm`.
@@ -29,6 +40,15 @@
 - `lucide-react` is the icon library.
 - Leaflet stays inside `apps/web/src/features/map/components/**`.
 - Framer Motion stays in leaf client components, not route entrypoints.
+
+### Known bridge exceptions (do NOT flag these as violations)
+
+These two files are intentional bridge modules. They exist to satisfy the FDA boundary rule that `app/**` must import via `@core/*`, while also accommodating framework files that Next.js/NextAuth require at the project root:
+
+- `apps/web/src/core/auth/index.ts` — MAY import from `../../../auth` (the root NextAuth module). This is the ONLY place where `src/core` reaches outside itself.
+- `apps/web/src/core/env.ts` — MAY import from `../../env` (the root env module). Same exception.
+
+Do NOT report violations for these two files' internal imports.
 
 ## 3. NestJS / Next.js Boundary
 

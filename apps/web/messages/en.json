@@ -71,6 +71,14 @@
     "availabilityAvailable": "Available",
     "availabilityUnavailable": "Currently unavailable",
     "perDay": "day",
-    "yearLabel": "Year"
+    "yearLabel": "Year",
+    "bookButton": "Book now"
+  },
+  "nav": {
+    "home": "Home",
+    "vehicles": "Our Fleet",
+    "myBookings": "My bookings",
+    "signIn": "Sign in",
+    "signOut": "Sign out"
   }
 }

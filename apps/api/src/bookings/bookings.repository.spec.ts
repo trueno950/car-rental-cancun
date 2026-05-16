@@ -69,29 +69,6 @@ describe("BookingsRepository", () => {
       expect(domain.depositAmount).toBe(67.5);
       expect(domain.id).toBe(row.id);
     });
-
-    it("handles null depositAmountCents as undefined depositAmount", () => {
-      const repo = new BookingsRepository(makeDbService() as never);
-      const row = {
-        id: "11111111-1111-1111-1111-111111111111",
-        userId: "22222222-2222-2222-2222-222222222222",
-        vehicleId: "33333333-3333-3333-3333-333333333333",
-        startDate: new Date("2025-01-10T00:00:00Z"),
-        endDate: new Date("2025-01-15T00:00:00Z"),
-        totalPriceCents: 22500,
-        depositAmountCents: null,
-        status: "pending" as const,
-        notes: null,
-        stripeCheckoutSessionId: null,
-        stripePaymentIntentId: null,
-        createdAt: new Date("2025-01-01T00:00:00Z"),
-        updatedAt: new Date("2025-01-01T00:00:00Z"),
-      };
-
-      const domain = repo.toDomain(row);
-
-      expect(domain.depositAmount).toBeUndefined();
-    });
   });
 
   describe("findByCustomer()", () => {

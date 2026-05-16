@@ -1,6 +1,6 @@
 export interface CreateCheckoutInput {
   bookingId: string;
-  amountCents: number;
+  amount: number;
   currency: string;
   successUrl: string;
   cancelUrl: string;

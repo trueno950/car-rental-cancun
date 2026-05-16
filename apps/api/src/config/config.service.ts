@@ -21,4 +21,8 @@ export class AppConfigService {
       depositRateNew: env.DEPOSIT_RATE_NEW,
     };
   }
+
+  getFrontendUrl(): string {
+    return getApiEnv().FRONTEND_URL;
+  }
 }

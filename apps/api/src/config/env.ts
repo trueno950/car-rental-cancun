@@ -21,6 +21,7 @@ const apiEnvSchema = databaseEnvSchema
     STRIPE_WEBHOOK_SECRET: z.string().optional(),
     DEPOSIT_RATE_FREQUENT: z.coerce.number().default(0.2),
     DEPOSIT_RATE_NEW: z.coerce.number().default(0.3),
+    FRONTEND_URL: z.string().default("http://localhost:3000"),
   })
   .superRefine((data, ctx) => {
     if (data.STRIPE_ENABLED) {

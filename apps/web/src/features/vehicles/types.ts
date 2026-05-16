@@ -9,6 +9,7 @@ export interface VehicleCatalogPageCopy {
   availabilityUnavailable: string;
   perDay: string;
   yearLabel: string;
+  bookButton: string;
 }
 
 export interface VehicleCardProps {

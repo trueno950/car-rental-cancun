@@ -28,7 +28,7 @@ export class StripeGateway implements PaymentGateway {
         {
           price_data: {
             currency: input.currency,
-            unit_amount: input.amountCents,
+            unit_amount: Math.round(input.amount * 100),
             product_data: {
               name: `Booking deposit — ${input.bookingId}`,
             },

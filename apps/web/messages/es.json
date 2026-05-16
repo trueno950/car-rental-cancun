@@ -29,7 +29,11 @@
     "title": "Renta de autos en Cancún"
   },
   "nav": {
-    "home": "Inicio"
+    "home": "Inicio",
+    "vehicles": "Nuestra flota",
+    "myBookings": "Mis reservas",
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión"
   },
   "BookingNewPage": {
     "heading": "Reservar un vehículo",
@@ -74,6 +78,7 @@
     "availabilityAvailable": "Disponible",
     "availabilityUnavailable": "No disponible",
     "perDay": "día",
-    "yearLabel": "Año"
+    "yearLabel": "Año",
+    "bookButton": "Reservar"
   }
 }
