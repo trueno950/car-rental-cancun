@@ -41,6 +41,18 @@
     "submitError": "Failed to create booking. Please try again.",
     "conflictError": "This vehicle is already booked for the selected dates."
   },
+  "BookingConfirmationPage": {
+    "pendingHeading": "Confirming your payment…",
+    "pendingHelper": "This usually takes a few seconds. Hang tight.",
+    "timeoutHeading": "Your payment is being processed",
+    "timeoutHelper": "It may take a moment to reflect. Check your booking status in a few minutes.",
+    "confirmedHeading": "Booking confirmed!",
+    "confirmedHelper": "Your reservation is all set. See you in Cancun!",
+    "cancelledHeading": "Booking not confirmed",
+    "cancelledHelper": "This booking was cancelled or the payment did not go through.",
+    "viewBooking": "View booking",
+    "browseVehicles": "Browse more vehicles"
+  },
   "BookingDetailPage": {
     "heading": "Booking details",
     "vehicleLabel": "Vehicle",

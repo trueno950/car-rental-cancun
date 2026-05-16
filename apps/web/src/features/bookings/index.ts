@@ -6,6 +6,8 @@ export {
   redirectToCheckoutAction,
   updateBookingStatusAction,
 } from "./actions/booking-actions";
+export { BookingConfirmationPoller } from "./components/BookingConfirmationPoller";
+export type { BookingConfirmationPollerCopy } from "./components/BookingConfirmationPoller";
 export { BookingForm } from "./components/BookingForm";
 export { BookingStatusBadge } from "./components/BookingStatusBadge";
 export { DateRangePicker } from "./components/DateRangePicker";

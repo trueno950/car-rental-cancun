@@ -48,6 +48,18 @@
     "submitError": "No se pudo crear la reserva. Intentá de nuevo.",
     "conflictError": "Este vehículo ya está reservado para las fechas seleccionadas."
   },
+  "BookingConfirmationPage": {
+    "pendingHeading": "Confirmando tu pago…",
+    "pendingHelper": "Esto suele tardar unos segundos. Esperá un momento.",
+    "timeoutHeading": "Tu pago está siendo procesado",
+    "timeoutHelper": "Puede tardar un momento en reflejarse. Revisá el estado de tu reserva en unos minutos.",
+    "confirmedHeading": "¡Reserva confirmada!",
+    "confirmedHelper": "Tu reserva está lista. ¡Te esperamos en Cancún!",
+    "cancelledHeading": "Reserva no confirmada",
+    "cancelledHelper": "Esta reserva fue cancelada o el pago no se completó.",
+    "viewBooking": "Ver reserva",
+    "browseVehicles": "Ver más vehículos"
+  },
   "BookingDetailPage": {
     "heading": "Detalle de reserva",
     "vehicleLabel": "Vehículo",
