@@ -79,6 +79,10 @@
   "Metadata": {
     "title": "Renta de autos en Cancún"
   },
+  "Pagination": {
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
   "BookingNewPage": {
     "heading": "Reservar un vehículo",
     "helper": "Seleccioná tus fechas de viaje. Se requerirá un depósito para confirmar la reserva.",

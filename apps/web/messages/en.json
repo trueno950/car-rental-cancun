@@ -79,6 +79,10 @@
   "Metadata": {
     "title": "Cancun car rental"
   },
+  "Pagination": {
+    "previous": "Previous",
+    "next": "Next"
+  },
   "BookingNewPage": {
     "heading": "Book a vehicle",
     "helper": "Select your travel dates. A deposit will be required to confirm the booking.",

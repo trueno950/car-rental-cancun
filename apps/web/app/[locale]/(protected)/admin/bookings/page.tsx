@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { BOOKING_STATUS } from "@rental/validations";
 import type { BookingStatus } from "@rental/validations";
 
+import { Pagination } from "@shared/components/ui";
 import {
   EmployeeBookingsTable,
   BookingFiltersBar,
@@ -11,9 +12,16 @@ import {
 } from "@features/bookings";
 import type { EmployeeBookingsTableCopy } from "@features/bookings";
 
+const PAGE_SIZE = 20;
+
 type AdminBookingsPageProps = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ status?: string; from?: string; to?: string }>;
+  searchParams: Promise<{
+    status?: string;
+    from?: string;
+    to?: string;
+    page?: string;
+  }>;
 };
 
 const STATUSES = Object.values(BOOKING_STATUS) as BookingStatus[];
@@ -51,8 +59,14 @@ export default async function AdminBookingsPage({
   searchParams,
 }: AdminBookingsPageProps) {
   const { locale } = await params;
-  const { status: statusParam, from = "", to = "" } = await searchParams;
+  const {
+    status: statusParam,
+    from = "",
+    to = "",
+    page: pageParam,
+  } = await searchParams;
   const t = await getTranslations({ locale, namespace: "AdminBookingsPage" });
+  const tPag = await getTranslations({ locale, namespace: "Pagination" });
 
   const bookings = await getAllBookingsAction();
 
@@ -78,6 +92,13 @@ export default async function AdminBookingsPage({
     }
     return true;
   });
+
+  const page = Math.max(1, parseInt(pageParam ?? "1") || 1);
+  const totalPages = Math.ceil(filteredBookings.length / PAGE_SIZE);
+  const pagedBookings = filteredBookings.slice(
+    (page - 1) * PAGE_SIZE,
+    page * PAGE_SIZE,
+  );
 
   const counts = bookings.reduce(
     (acc, b) => {
@@ -152,9 +173,23 @@ export default async function AdminBookingsPage({
         />
 
         <EmployeeBookingsTable
-          bookings={filteredBookings}
+          bookings={pagedBookings}
           copy={copy}
           transitionAction={handleTransition}
+        />
+
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          buildHref={(p) => {
+            const sp = new URLSearchParams();
+            if (statusParam) sp.set("status", statusParam);
+            if (from) sp.set("from", from);
+            if (to) sp.set("to", to);
+            sp.set("page", String(p));
+            return `/${locale}/admin/bookings?${sp.toString()}`;
+          }}
+          labels={{ previous: tPag("previous"), next: tPag("next") }}
         />
       </div>
     </main>
