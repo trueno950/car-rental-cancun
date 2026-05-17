@@ -305,6 +305,7 @@
       "actions": {
         "edit": "Editar",
         "delete": "Eliminar",
+        "deleteTitle": "Eliminar vehículo",
         "deleteConfirm": "¿Estás seguro de que querés eliminar este vehículo? Esta acción no se puede deshacer."
       }
     },

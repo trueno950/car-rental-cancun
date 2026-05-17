@@ -31,6 +31,7 @@ export default async function EditVehiclePage({ params }: EditVehiclePageProps) 
       <div className="mx-auto max-w-2xl">
         <VehicleForm
           mode="edit"
+          locale={locale}
           initialValues={vehicle}
           onSubmit={handleUpdate}
         />

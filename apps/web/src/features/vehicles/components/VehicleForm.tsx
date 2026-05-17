@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
@@ -22,6 +23,8 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  Select,
+  Switch,
 } from "@shared/components/ui";
 
 type FormValues = CreateVehicleDto;
@@ -29,25 +32,26 @@ type FormValues = CreateVehicleDto;
 type VehicleFormProps =
   | {
       mode: "create";
+      locale: string;
       initialValues?: never;
       onSubmit: (values: CreateVehicleDto) => Promise<Vehicle>;
     }
   | {
       mode: "edit";
+      locale: string;
       initialValues: Partial<Vehicle>;
       onSubmit: (values: UpdateVehicleDto) => Promise<Vehicle>;
     };
 
-const selectClass =
-  "w-full rounded-2xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
-
 export function VehicleForm({
   mode,
+  locale,
   initialValues,
   onSubmit,
 }: VehicleFormProps) {
   const t = useTranslations("VehicleAdminPage");
   const tSpecs = useTranslations("VehicleSpecs");
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
@@ -83,6 +87,7 @@ export function VehicleForm({
             onSubmit as (values: UpdateVehicleDto) => Promise<Vehicle>
           )(values);
         }
+        router.push(`/${locale}/admin/vehicles`);
       } catch (err) {
         setError(err instanceof Error ? err.message : t("errors.generic"));
       }
@@ -182,8 +187,7 @@ export function VehicleForm({
                 <FormItem>
                   <FormLabel>{t("form.fields.category")}</FormLabel>
                   <FormControl>
-                    <select
-                      className={selectClass}
+                    <Select
                       value={field.value}
                       onChange={(e) => field.onChange(e.target.value)}
                     >
@@ -192,7 +196,7 @@ export function VehicleForm({
                           {tSpecs(`category.${c}`)}
                         </option>
                       ))}
-                    </select>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -206,8 +210,7 @@ export function VehicleForm({
                 <FormItem>
                   <FormLabel>{t("form.fields.transmissionType")}</FormLabel>
                   <FormControl>
-                    <select
-                      className={selectClass}
+                    <Select
                       value={field.value}
                       onChange={(e) => field.onChange(e.target.value)}
                     >
@@ -216,7 +219,7 @@ export function VehicleForm({
                           {tSpecs(`transmission.${tx}`)}
                         </option>
                       ))}
-                    </select>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -230,8 +233,7 @@ export function VehicleForm({
                 <FormItem>
                   <FormLabel>{t("form.fields.fuelType")}</FormLabel>
                   <FormControl>
-                    <select
-                      className={selectClass}
+                    <Select
                       value={field.value}
                       onChange={(e) => field.onChange(e.target.value)}
                     >
@@ -240,7 +242,7 @@ export function VehicleForm({
                           {tSpecs(`fuel.${f}`)}
                         </option>
                       ))}
-                    </select>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -366,19 +368,17 @@ export function VehicleForm({
               )}
             />
 
-            <div className="flex flex-col gap-3 justify-end pb-1">
+            <div className="flex flex-col gap-4 justify-end pb-1">
               <FormField
                 control={form.control}
                 name="airConditioned"
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center gap-3 space-y-0">
                     <FormControl>
-                      <input
-                        type="checkbox"
+                      <Switch
                         id="vehicle-air-conditioned"
                         checked={field.value}
-                        onChange={(e) => field.onChange(e.target.checked)}
-                        className="h-4 w-4 rounded border-input"
+                        onCheckedChange={field.onChange}
                       />
                     </FormControl>
                     <FormLabel htmlFor="vehicle-air-conditioned">
@@ -395,12 +395,10 @@ export function VehicleForm({
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center gap-3 space-y-0">
                     <FormControl>
-                      <input
-                        type="checkbox"
+                      <Switch
                         id="vehicle-available"
                         checked={field.value}
-                        onChange={(e) => field.onChange(e.target.checked)}
-                        className="h-4 w-4 rounded border-input"
+                        onCheckedChange={field.onChange}
                       />
                     </FormControl>
                     <FormLabel htmlFor="vehicle-available">
