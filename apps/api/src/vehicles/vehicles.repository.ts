@@ -89,6 +89,7 @@ export class VehiclesRepository {
         airbags: input.airbags ?? null,
         licensePlate: input.licensePlate ?? null,
         color: input.color ?? null,
+        imageUrl: input.imageUrl ?? null,
       })
       .returning();
     return this.toDomain(row!);
@@ -114,8 +115,10 @@ export class VehiclesRepository {
     if (input.airConditioned !== undefined)
       patch.airConditioned = input.airConditioned;
     if (input.airbags !== undefined) patch.airbags = input.airbags;
-    if (input.licensePlate !== undefined) patch.licensePlate = input.licensePlate;
+    if (input.licensePlate !== undefined)
+      patch.licensePlate = input.licensePlate;
     if (input.color !== undefined) patch.color = input.color;
+    if (input.imageUrl !== undefined) patch.imageUrl = input.imageUrl;
     patch.updatedAt = new Date();
 
     const [row] = await this.databaseService.db
@@ -144,13 +147,14 @@ export class VehiclesRepository {
       doors: row.doors,
       trunkLiters: row.trunkLiters,
       maxPayloadKg: row.maxPayloadKg,
-      transmissionType: row.transmissionType as Vehicle["transmissionType"],
-      fuelType: row.fuelType as Vehicle["fuelType"],
-      category: row.category as Vehicle["category"],
+      transmissionType: row.transmissionType,
+      fuelType: row.fuelType,
+      category: row.category,
       airConditioned: row.airConditioned,
       airbags: row.airbags,
       licensePlate: row.licensePlate ?? null,
       color: row.color ?? null,
+      imageUrl: row.imageUrl ?? null,
     };
   }
 }

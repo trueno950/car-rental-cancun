@@ -25,6 +25,7 @@ const vehicle = {
   airbags: null,
   licensePlate: null,
   color: null,
+  imageUrl: null,
 };
 
 function makeService(
@@ -127,6 +128,7 @@ describe("VehiclesController", () => {
       airbags: null,
       licensePlate: null,
       color: null,
+      imageUrl: null,
     };
 
     it("delegates to service.create and returns vehicle", async () => {
@@ -152,12 +154,16 @@ describe("VehiclesController", () => {
   describe("PATCH /vehicles/:id", () => {
     it("delegates to service.update and returns updated vehicle", async () => {
       const updated = { ...vehicle, make: "Honda" };
-      const service = makeService({ update: vi.fn().mockResolvedValue(updated) });
+      const service = makeService({
+        update: vi.fn().mockResolvedValue(updated),
+      });
       const controller = new VehiclesController(service);
 
       const result = await controller.update(VEHICLE_ID, { make: "Honda" });
 
-      expect(service.update).toHaveBeenCalledWith(VEHICLE_ID, { make: "Honda" });
+      expect(service.update).toHaveBeenCalledWith(VEHICLE_ID, {
+        make: "Honda",
+      });
       expect(result).toEqual(updated);
     });
 

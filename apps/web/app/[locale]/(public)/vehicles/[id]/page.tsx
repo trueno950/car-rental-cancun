@@ -19,15 +19,17 @@ import {
 } from "lucide-react";
 
 import { auth } from "@core/auth";
-import { listVehiclesAction } from "@features/vehicles";
-import { getVehicleImageSeed } from "@features/vehicles/lib/vehicle-specs";
-import type { Vehicle } from "@rental/validations";
+import {
+  listVehiclesAction,
+  getVehicleImageSeed,
+  type VehicleView,
+} from "@features/vehicles";
 
 type VehicleDetailPageProps = {
   params: Promise<{ locale: string; id: string }>;
 };
 
-function buildSpecItems(vehicle: Vehicle, tSpecs: (key: string) => string) {
+function buildSpecItems(vehicle: VehicleView, tSpecs: (key: string) => string) {
   const items = [
     {
       icon: Users,
@@ -83,7 +85,9 @@ function buildSpecItems(vehicle: Vehicle, tSpecs: (key: string) => string) {
   return items;
 }
 
-export default async function VehicleDetailPage({ params }: VehicleDetailPageProps) {
+export default async function VehicleDetailPage({
+  params,
+}: VehicleDetailPageProps) {
   const { locale, id } = await params;
   const [t, tCatalog, tSpecs] = await Promise.all([
     getTranslations({ locale, namespace: "VehicleDetailPage" }),
@@ -97,8 +101,13 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
 
   if (!vehicle) notFound();
 
-  const imageSeed = getVehicleImageSeed(vehicle.make, vehicle.model, vehicle.category);
-  const imageUrl = `https://picsum.photos/seed/${imageSeed}/1200/800`;
+  const imageSeed = getVehicleImageSeed(
+    vehicle.make,
+    vehicle.model,
+    vehicle.category,
+  );
+  const imageUrl =
+    vehicle.imageUrl ?? `https://picsum.photos/seed/${imageSeed}/1200/800`;
 
   const dailyRate = new Intl.NumberFormat(locale, {
     style: "currency",
@@ -106,7 +115,9 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
     maximumFractionDigits: 0,
   }).format(vehicle.dailyRate);
 
-  const specItems = buildSpecItems(vehicle, (key) => tSpecs(key as Parameters<typeof tSpecs>[0]));
+  const specItems = buildSpecItems(vehicle, (key) =>
+    tSpecs(key as Parameters<typeof tSpecs>[0]),
+  );
 
   const included = [
     t("included.insurance"),
@@ -123,7 +134,8 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
         <div
           className="absolute inset-0 opacity-10 pointer-events-none"
           style={{
-            backgroundImage: "radial-gradient(ellipse 80% 60% at 50% 100%, var(--color-primary) 0%, transparent 70%)",
+            backgroundImage:
+              "radial-gradient(ellipse 80% 60% at 50% 100%, var(--color-primary) 0%, transparent 70%)",
           }}
         />
         <div className="relative z-10 max-w-7xl mx-auto">
@@ -138,7 +150,10 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-2">
-                {vehicle.year} · {vehicle.available ? tCatalog("availabilityAvailable") : tCatalog("availabilityUnavailable")}
+                {vehicle.year} ·{" "}
+                {vehicle.available
+                  ? tCatalog("availabilityAvailable")
+                  : tCatalog("availabilityUnavailable")}
               </p>
               <h1
                 className="font-bold text-background leading-[1.08]"
@@ -152,7 +167,9 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
               <p className="text-background font-bold text-4xl leading-none">
                 {dailyRate}
               </p>
-              <p className="text-background/50 text-sm mt-1">/{tCatalog("perDay")} · {t("allInclusive")}</p>
+              <p className="text-background/50 text-sm mt-1">
+                /{tCatalog("perDay")} · {t("allInclusive")}
+              </p>
             </div>
           </div>
         </div>
@@ -187,7 +204,9 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
                     <Icon className="h-5 w-5 text-primary" />
                     <div>
                       <p className="text-xs text-muted-foreground">{label}</p>
-                      <p className="text-sm font-semibold text-foreground mt-0.5">{value}</p>
+                      <p className="text-sm font-semibold text-foreground mt-0.5">
+                        {value}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -214,7 +233,10 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
                   "Hoteles en Zona Hotelera",
                   "Centro de Cancún",
                 ].map((text) => (
-                  <div key={text} className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                  <div
+                    key={text}
+                    className="flex items-center gap-2.5 text-sm text-muted-foreground"
+                  >
                     <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
                     {text}
                   </div>
@@ -231,9 +253,13 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
               <div className="p-6 border-b border-border">
                 <div className="flex items-baseline gap-1 mb-1">
                   <span className="text-3xl font-bold">{dailyRate}</span>
-                  <span className="text-sm text-muted-foreground">/{tCatalog("perDay")}</span>
+                  <span className="text-sm text-muted-foreground">
+                    /{tCatalog("perDay")}
+                  </span>
                 </div>
-                <p className="text-xs text-primary font-medium">{t("priceTagline")}</p>
+                <p className="text-xs text-primary font-medium">
+                  {t("priceTagline")}
+                </p>
               </div>
 
               <div className="p-6 space-y-4">
@@ -243,7 +269,10 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
                     { icon: MapPin, text: "Entrega a tu llegada" },
                     { icon: CalendarCheck, text: "Confirmación instantánea" },
                   ].map(({ icon: Icon, text }) => (
-                    <div key={text} className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                    <div
+                      key={text}
+                      className="flex items-center gap-2.5 text-sm text-muted-foreground"
+                    >
                       <Icon className="h-4 w-4 text-primary flex-shrink-0" />
                       {text}
                     </div>
@@ -269,7 +298,10 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
                       </Link>
                       <p className="text-xs text-muted-foreground text-center">
                         {t("noAccount")}{" "}
-                        <Link href={`/${locale}/register`} className="text-primary hover:underline">
+                        <Link
+                          href={`/${locale}/register`}
+                          className="text-primary hover:underline"
+                        >
                           {t("register")}
                         </Link>
                       </p>
@@ -284,7 +316,9 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
             </div>
 
             <div className="rounded-2xl bg-primary/5 border border-primary/20 p-4">
-              <p className="text-xs text-primary font-medium mb-1.5">{t("cancellationTitle")}</p>
+              <p className="text-xs text-primary font-medium mb-1.5">
+                {t("cancellationTitle")}
+              </p>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 {t("cancellationText")}
               </p>

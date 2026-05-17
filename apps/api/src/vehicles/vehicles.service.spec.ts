@@ -25,6 +25,7 @@ const vehicle: Vehicle = {
   airbags: 4,
   licensePlate: null,
   color: null,
+  imageUrl: null,
 };
 
 function makeRepository(
@@ -45,7 +46,9 @@ describe("VehiclesService", () => {
   describe("findAll()", () => {
     it("returns all vehicles from the repository unchanged", async () => {
       const vehicles: Vehicle[] = [vehicle];
-      const repo = makeRepository({ findAll: vi.fn().mockResolvedValue(vehicles) });
+      const repo = makeRepository({
+        findAll: vi.fn().mockResolvedValue(vehicles),
+      });
       const service = new VehiclesService(repo);
 
       await expect(service.findAll()).resolves.toEqual(vehicles);
@@ -62,14 +65,20 @@ describe("VehiclesService", () => {
 
   describe("findByIdOrThrow()", () => {
     it("returns vehicle when found", async () => {
-      const repo = makeRepository({ findById: vi.fn().mockResolvedValue(vehicle) });
+      const repo = makeRepository({
+        findById: vi.fn().mockResolvedValue(vehicle),
+      });
       const service = new VehiclesService(repo);
 
-      await expect(service.findByIdOrThrow(VEHICLE_ID)).resolves.toEqual(vehicle);
+      await expect(service.findByIdOrThrow(VEHICLE_ID)).resolves.toEqual(
+        vehicle,
+      );
     });
 
     it("throws NotFoundException when vehicle not found", async () => {
-      const repo = makeRepository({ findById: vi.fn().mockResolvedValue(null) });
+      const repo = makeRepository({
+        findById: vi.fn().mockResolvedValue(null),
+      });
       const service = new VehiclesService(repo);
 
       await expect(service.findByIdOrThrow(VEHICLE_ID)).rejects.toThrow(
@@ -80,7 +89,9 @@ describe("VehiclesService", () => {
 
   describe("create()", () => {
     it("delegates to repository.insert and returns vehicle", async () => {
-      const repo = makeRepository({ insert: vi.fn().mockResolvedValue(vehicle) });
+      const repo = makeRepository({
+        insert: vi.fn().mockResolvedValue(vehicle),
+      });
       const service = new VehiclesService(repo);
 
       const result = await service.create({
@@ -100,6 +111,7 @@ describe("VehiclesService", () => {
         airbags: null,
         licensePlate: null,
         color: null,
+        imageUrl: null,
       });
 
       expect(result).toEqual(vehicle);
@@ -124,12 +136,14 @@ describe("VehiclesService", () => {
     });
 
     it("throws NotFoundException when vehicle not found", async () => {
-      const repo = makeRepository({ findById: vi.fn().mockResolvedValue(null) });
+      const repo = makeRepository({
+        findById: vi.fn().mockResolvedValue(null),
+      });
       const service = new VehiclesService(repo);
 
-      await expect(service.update(VEHICLE_ID, { make: "Honda" })).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(
+        service.update(VEHICLE_ID, { make: "Honda" }),
+      ).rejects.toThrow(NotFoundException);
       expect(repo.update).not.toHaveBeenCalled();
     });
   });
@@ -147,22 +161,30 @@ describe("VehiclesService", () => {
     });
 
     it("throws NotFoundException when vehicle not found", async () => {
-      const repo = makeRepository({ findById: vi.fn().mockResolvedValue(null) });
+      const repo = makeRepository({
+        findById: vi.fn().mockResolvedValue(null),
+      });
       const service = new VehiclesService(repo);
 
-      await expect(service.remove(VEHICLE_ID)).rejects.toThrow(NotFoundException);
+      await expect(service.remove(VEHICLE_ID)).rejects.toThrow(
+        NotFoundException,
+      );
       expect(repo.delete).not.toHaveBeenCalled();
     });
 
     it("throws ConflictException when repository throws Postgres FK error (code 23503)", async () => {
-      const fkError = Object.assign(new Error("FK violation"), { code: "23503" });
+      const fkError = Object.assign(new Error("FK violation"), {
+        code: "23503",
+      });
       const repo = makeRepository({
         findById: vi.fn().mockResolvedValue(vehicle),
         delete: vi.fn().mockRejectedValue(fkError),
       });
       const service = new VehiclesService(repo);
 
-      await expect(service.remove(VEHICLE_ID)).rejects.toThrow(ConflictException);
+      await expect(service.remove(VEHICLE_ID)).rejects.toThrow(
+        ConflictException,
+      );
     });
   });
 });

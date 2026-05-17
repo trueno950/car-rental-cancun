@@ -12,7 +12,8 @@ import {
   FUEL_TYPES,
   VEHICLE_CATEGORIES,
 } from "@rental/validations";
-import type { CreateVehicleDto, UpdateVehicleDto, Vehicle } from "@rental/validations";
+import type { CreateVehicleDto, UpdateVehicleDto } from "@rental/validations";
+import type { VehicleView } from "../view-model";
 
 import {
   Button,
@@ -26,6 +27,7 @@ import {
   Select,
   Switch,
 } from "@shared/components/ui";
+import { VehicleImageUpload } from "./VehicleImageUpload";
 
 type FormValues = CreateVehicleDto;
 
@@ -34,13 +36,13 @@ type VehicleFormProps =
       mode: "create";
       locale: string;
       initialValues?: never;
-      onSubmit: (values: CreateVehicleDto) => Promise<Vehicle>;
+      onSubmit: (values: CreateVehicleDto) => Promise<VehicleView>;
     }
   | {
       mode: "edit";
       locale: string;
-      initialValues: Partial<Vehicle>;
-      onSubmit: (values: UpdateVehicleDto) => Promise<Vehicle>;
+      initialValues: Partial<VehicleView>;
+      onSubmit: (values: UpdateVehicleDto) => Promise<VehicleView>;
     };
 
 export function VehicleForm({
@@ -75,6 +77,7 @@ export function VehicleForm({
       airbags: initialValues?.airbags ?? null,
       licensePlate: initialValues?.licensePlate ?? null,
       color: initialValues?.color ?? null,
+      imageUrl: initialValues?.imageUrl ?? null,
     },
   });
 
@@ -86,7 +89,7 @@ export function VehicleForm({
           await onSubmit(values);
         } else {
           await (
-            onSubmit as (values: UpdateVehicleDto) => Promise<Vehicle>
+            onSubmit as (values: UpdateVehicleDto) => Promise<VehicleView>
           )(values);
         }
         router.push(`/${locale}/admin/vehicles`);
@@ -106,6 +109,31 @@ export function VehicleForm({
 
       <Form {...form}>
         <form className="space-y-5" onSubmit={handleSubmit}>
+          {/* ── Image ── */}
+          <FormField
+            control={form.control}
+            name="imageUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("form.fields.imageUrl")}</FormLabel>
+                <FormControl>
+                  <VehicleImageUpload
+                    value={field.value}
+                    onChange={field.onChange}
+                    labels={{
+                      upload: t("form.image.upload"),
+                      change: t("form.image.change"),
+                      remove: t("form.image.remove"),
+                      uploading: t("form.image.uploading"),
+                      error: t("form.image.error"),
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           {/* ── Basic info ── */}
           <div className="grid sm:grid-cols-2 gap-5">
             <FormField
@@ -242,7 +270,7 @@ export function VehicleForm({
                       value={field.value}
                       onChange={(e) => field.onChange(e.target.value)}
                     >
-                      {VEHICLE_CATEGORIES.map((c) => (
+                      {Object.values(VEHICLE_CATEGORIES).map((c) => (
                         <option key={c} value={c}>
                           {tSpecs(`category.${c}`)}
                         </option>
@@ -265,7 +293,7 @@ export function VehicleForm({
                       value={field.value}
                       onChange={(e) => field.onChange(e.target.value)}
                     >
-                      {TRANSMISSION_TYPES.map((tx) => (
+                      {Object.values(TRANSMISSION_TYPES).map((tx) => (
                         <option key={tx} value={tx}>
                           {tSpecs(`transmission.${tx}`)}
                         </option>
@@ -288,7 +316,7 @@ export function VehicleForm({
                       value={field.value}
                       onChange={(e) => field.onChange(e.target.value)}
                     >
-                      {FUEL_TYPES.map((f) => (
+                      {Object.values(FUEL_TYPES).map((f) => (
                         <option key={f} value={f}>
                           {tSpecs(`fuel.${f}`)}
                         </option>

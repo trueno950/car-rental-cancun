@@ -1,7 +1,10 @@
 "use server";
 
-import type { Vehicle } from "@rental/validations";
-import type { CreateVehicleDto, UpdateVehicleDto } from "@rental/validations";
+import type {
+  Vehicle,
+  CreateVehicleDto,
+  UpdateVehicleDto,
+} from "@rental/validations";
 
 import { revalidatePath } from "next/cache";
 
@@ -13,6 +16,7 @@ import {
   adminDeleteVehicle,
   fetchVehicles,
 } from "../services/vehicles.service";
+import { uploadVehicleImage } from "@core/cloudinary";
 
 async function getToken(): Promise<string> {
   const session = await auth();
@@ -29,7 +33,8 @@ export async function listVehiclesAction(): Promise<Vehicle[]> {
 export async function getPublicVehicleByIdAction(
   id: string,
 ): Promise<Vehicle | null> {
-  const { fetchVehicleByIdPublic } = await import("../services/vehicles.service");
+  const { fetchVehicleByIdPublic } =
+    await import("../services/vehicles.service");
   return fetchVehicleByIdPublic(id);
 }
 
@@ -67,4 +72,15 @@ export async function deleteVehicleAction(id: string): Promise<void> {
   const token = await getToken();
   await adminDeleteVehicle(id, { token });
   revalidatePath("/", "layout");
+}
+
+export async function uploadVehicleImageAction(
+  formData: FormData,
+): Promise<string> {
+  await getToken();
+  const file = formData.get("file");
+  if (!(file instanceof File) || file.size === 0) {
+    throw new Error("No file provided");
+  }
+  return uploadVehicleImage(file);
 }

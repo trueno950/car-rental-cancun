@@ -18,8 +18,13 @@ function formatCurrency(amount: number, locale: string) {
 
 export function VehicleCard({ vehicle, copy, locale }: VehicleCardProps) {
   const tSpecs = useTranslations("VehicleSpecs");
-  const imageSeed = getVehicleImageSeed(vehicle.make, vehicle.model, vehicle.category);
-  const imageUrl = `https://picsum.photos/seed/${imageSeed}/800/520`;
+  const imageSeed = getVehicleImageSeed(
+    vehicle.make,
+    vehicle.model,
+    vehicle.category,
+  );
+  const imageUrl =
+    vehicle.imageUrl ?? `https://picsum.photos/seed/${imageSeed}/800/520`;
   const detailHref = `/${locale}/vehicles/${vehicle.id}`;
 
   const chips = [
@@ -46,7 +51,10 @@ export function VehicleCard({ vehicle, copy, locale }: VehicleCardProps) {
       aria-label={`${vehicle.make} ${vehicle.model} ${vehicle.year}`}
       className="group flex flex-col rounded-2xl border border-border bg-card overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 hover:-translate-y-1"
     >
-      <Link href={detailHref} className="relative h-52 overflow-hidden bg-muted block">
+      <Link
+        href={detailHref}
+        className="relative h-52 overflow-hidden bg-muted block"
+      >
         <Image
           src={imageUrl}
           alt={`${vehicle.make} ${vehicle.model}`}
@@ -65,7 +73,9 @@ export function VehicleCard({ vehicle, copy, locale }: VehicleCardProps) {
                 : "inline-flex items-center rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white/70"
             }
           >
-            {vehicle.available ? copy.availabilityAvailable : copy.availabilityUnavailable}
+            {vehicle.available
+              ? copy.availabilityAvailable
+              : copy.availabilityUnavailable}
           </span>
         </div>
 

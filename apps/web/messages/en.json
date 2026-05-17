@@ -346,13 +346,21 @@
         "airConditioned": "Air conditioning",
         "airbags": "Airbags",
         "licensePlate": "License plate",
-        "color": "Color"
+        "color": "Color",
+        "imageUrl": "Photo"
       },
       "submit": {
         "create": "Create vehicle",
         "update": "Save changes"
       },
       "cancel": "Cancel",
+      "image": {
+        "upload": "Click to upload a photo",
+        "change": "Change photo",
+        "remove": "Remove photo",
+        "uploading": "Uploading…",
+        "error": "Upload failed. Check your Cloudinary credentials."
+      },
       "validation": {
         "required": "This field is required",
         "positive": "Must be a positive number",

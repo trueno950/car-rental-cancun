@@ -346,13 +346,21 @@
         "airConditioned": "Aire acondicionado",
         "airbags": "Airbags",
         "licensePlate": "Placa",
-        "color": "Color"
+        "color": "Color",
+        "imageUrl": "Foto"
       },
       "submit": {
         "create": "Crear vehículo",
         "update": "Guardar cambios"
       },
       "cancel": "Cancelar",
+      "image": {
+        "upload": "Cliqueá para subir una foto",
+        "change": "Cambiar foto",
+        "remove": "Quitar foto",
+        "uploading": "Subiendo…",
+        "error": "Error al subir. Verificá las credenciales de Cloudinary."
+      },
       "validation": {
         "required": "Este campo es obligatorio",
         "positive": "Debe ser un número positivo",

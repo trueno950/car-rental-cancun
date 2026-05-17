@@ -29,6 +29,20 @@
       "when": 1778996505625,
       "tag": "0003_catchup",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1778996768649,
+      "tag": "0004_add_vehicle_image_url",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1778997281618,
+      "tag": "0005_vehicle_enum_types",
+      "breakpoints": true
     }
   ]
 }
