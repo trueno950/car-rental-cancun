@@ -23,6 +23,8 @@ function makeRow(overrides: Record<string, unknown> = {}) {
     category: "economy",
     airConditioned: true,
     airbags: null,
+    licensePlate: null,
+    color: null,
     createdAt: new Date("2024-01-01"),
     updatedAt: new Date("2024-01-01"),
     ...overrides,
@@ -70,6 +72,8 @@ describe("VehiclesRepository.insert", () => {
       category: "economy" as const,
       airConditioned: true,
       airbags: null,
+      licensePlate: null,
+      color: null,
     });
 
     const valuesArg = db._queryBuilder.values.mock.calls[0]![0] as Record<
@@ -99,6 +103,8 @@ describe("VehiclesRepository.insert", () => {
       category: "economy" as const,
       airConditioned: true,
       airbags: null,
+      licensePlate: null,
+      color: null,
     });
 
     expect(vehicle.dailyRate).toBe(95.5);
@@ -124,6 +130,8 @@ describe("VehiclesRepository.insert", () => {
       category: "economy" as const,
       airConditioned: true,
       airbags: null,
+      licensePlate: null,
+      color: null,
     });
 
     const valuesArg = db._queryBuilder.values.mock.calls[0]![0] as Record<

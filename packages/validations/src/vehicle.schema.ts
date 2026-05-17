@@ -20,6 +20,8 @@ export const VehicleSchema = z.object({
   category: z.enum(VEHICLE_CATEGORIES),
   airConditioned: z.boolean(),
   airbags: z.number().int().min(0).nullable(),
+  licensePlate: z.string().max(20).nullable(),
+  color: z.string().max(50).nullable(),
 });
 
 // Used only for parsing API responses — adds defaults so old API versions
@@ -35,6 +37,8 @@ const VehicleResponseSchema = VehicleSchema.extend({
   category: z.enum(VEHICLE_CATEGORIES).default("compact"),
   airConditioned: z.boolean().default(true),
   airbags: z.number().int().min(0).nullable().default(null),
+  licensePlate: z.string().max(20).nullable().default(null),
+  color: z.string().max(50).nullable().default(null),
 });
 
 export const CreateVehicleSchema = VehicleSchema.omit({ id: true });

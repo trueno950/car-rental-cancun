@@ -25,6 +25,8 @@ export const vehiclesTable = pgTable("vehicles", {
   category: varchar("category", { length: 50 }).notNull().default("compact"),
   airConditioned: boolean("air_conditioned").notNull().default(true),
   airbags: integer("airbags"),
+  licensePlate: varchar("license_plate", { length: 20 }),
+  color: varchar("color", { length: 50 }),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),

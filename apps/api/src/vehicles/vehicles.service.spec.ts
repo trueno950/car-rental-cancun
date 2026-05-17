@@ -23,6 +23,8 @@ const vehicle: Vehicle = {
   category: "economy",
   airConditioned: true,
   airbags: 4,
+  licensePlate: null,
+  color: null,
 };
 
 function makeRepository(
@@ -96,6 +98,8 @@ describe("VehiclesService", () => {
         category: "economy",
         airConditioned: true,
         airbags: null,
+        licensePlate: null,
+        color: null,
       });
 
       expect(result).toEqual(vehicle);

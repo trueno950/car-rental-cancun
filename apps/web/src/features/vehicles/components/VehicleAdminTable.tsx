@@ -57,6 +57,9 @@ function VehicleRow({
       <tr className="hover:bg-muted/20 transition-colors">
         <td className="px-4 py-3 font-medium">{vehicle.make}</td>
         <td className="px-4 py-3">{vehicle.model}</td>
+        <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
+          {vehicle.licensePlate ?? <span className="opacity-40">—</span>}
+        </td>
         <td className="px-4 py-3">{vehicle.year}</td>
         <td className="px-4 py-3 font-medium">
           {formatCurrency(vehicle.dailyRate, locale)}
@@ -130,6 +133,7 @@ export function VehicleAdminTable({ vehicles, locale }: VehicleAdminTableProps) 
             {[
               t("table.columns.make"),
               t("table.columns.model"),
+              t("table.columns.licensePlate"),
               t("table.columns.year"),
               t("table.columns.dailyRate"),
               t("table.columns.available"),

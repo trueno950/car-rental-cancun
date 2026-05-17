@@ -26,6 +26,8 @@ const VEHICLE_SEEDS = [
     category: "economy",
     airConditioned: true,
     airbags: 4,
+    licensePlate: "ABC-123-Q",
+    color: "White",
   },
   {
     make: "Volkswagen",
@@ -42,6 +44,8 @@ const VEHICLE_SEEDS = [
     category: "compact",
     airConditioned: true,
     airbags: 6,
+    licensePlate: "DEF-456-Q",
+    color: "Silver",
   },
   {
     make: "Jeep",
@@ -58,6 +62,8 @@ const VEHICLE_SEEDS = [
     category: "suv",
     airConditioned: true,
     airbags: 2,
+    licensePlate: "GHI-789-Q",
+    color: "Black",
   },
   {
     make: "Nissan",
@@ -74,6 +80,8 @@ const VEHICLE_SEEDS = [
     category: "economy",
     airConditioned: true,
     airbags: 4,
+    licensePlate: "JKL-012-Q",
+    color: "Gray",
   },
 ] as const;
 

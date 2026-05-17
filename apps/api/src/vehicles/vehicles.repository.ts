@@ -87,6 +87,8 @@ export class VehiclesRepository {
         category: input.category,
         airConditioned: input.airConditioned,
         airbags: input.airbags ?? null,
+        licensePlate: input.licensePlate ?? null,
+        color: input.color ?? null,
       })
       .returning();
     return this.toDomain(row!);
@@ -112,6 +114,8 @@ export class VehiclesRepository {
     if (input.airConditioned !== undefined)
       patch.airConditioned = input.airConditioned;
     if (input.airbags !== undefined) patch.airbags = input.airbags;
+    if (input.licensePlate !== undefined) patch.licensePlate = input.licensePlate;
+    if (input.color !== undefined) patch.color = input.color;
     patch.updatedAt = new Date();
 
     const [row] = await this.databaseService.db
@@ -145,6 +149,8 @@ export class VehiclesRepository {
       category: row.category as Vehicle["category"],
       airConditioned: row.airConditioned,
       airbags: row.airbags,
+      licensePlate: row.licensePlate ?? null,
+      color: row.color ?? null,
     };
   }
 }

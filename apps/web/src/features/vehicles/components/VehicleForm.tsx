@@ -73,6 +73,8 @@ export function VehicleForm({
       category: initialValues?.category ?? "compact",
       airConditioned: initialValues?.airConditioned ?? true,
       airbags: initialValues?.airbags ?? null,
+      licensePlate: initialValues?.licensePlate ?? null,
+      color: initialValues?.color ?? null,
     },
   });
 
@@ -170,6 +172,55 @@ export function VehicleForm({
                       step="0.01"
                       className="rounded-2xl"
                       onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          {/* ── License plate & color ── */}
+          <div className="grid sm:grid-cols-2 gap-5">
+            <FormField
+              control={form.control}
+              name="licensePlate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("form.fields.licensePlate")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      value={field.value ?? ""}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === "" ? null : e.target.value,
+                        )
+                      }
+                      className="rounded-2xl uppercase"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="color"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("form.fields.color")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      value={field.value ?? ""}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === "" ? null : e.target.value,
+                        )
+                      }
+                      className="rounded-2xl"
                     />
                   </FormControl>
                   <FormMessage />

@@ -23,6 +23,8 @@ const vehicle = {
   category: "compact" as const,
   airConditioned: true,
   airbags: null,
+  licensePlate: null,
+  color: null,
 };
 
 function makeService(
@@ -123,6 +125,8 @@ describe("VehiclesController", () => {
       category: "economy" as const,
       airConditioned: true,
       airbags: null,
+      licensePlate: null,
+      color: null,
     };
 
     it("delegates to service.create and returns vehicle", async () => {

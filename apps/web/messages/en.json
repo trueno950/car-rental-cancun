@@ -308,6 +308,7 @@
       "columns": {
         "make": "Make",
         "model": "Model",
+        "licensePlate": "Plate",
         "year": "Year",
         "dailyRate": "Price / day",
         "available": "Availability",
@@ -343,7 +344,9 @@
         "fuelType": "Fuel type",
         "category": "Category",
         "airConditioned": "Air conditioning",
-        "airbags": "Airbags"
+        "airbags": "Airbags",
+        "licensePlate": "License plate",
+        "color": "Color"
       },
       "submit": {
         "create": "Create vehicle",
