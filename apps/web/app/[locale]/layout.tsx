@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import Link from "next/link";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -8,6 +7,7 @@ import { notFound } from "next/navigation";
 import { resolveLocale, routing } from "@core/i18n";
 import { getWebEnv } from "@core/env";
 import { auth, signOut } from "@core/auth";
+import { NavBar } from "@shared/components/ui/NavBar";
 
 type LocaleLayoutProps = {
   children: ReactNode;
@@ -62,56 +62,18 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <nav className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-background/95 px-4 py-3 backdrop-blur sm:px-6">
-        <Link
-          href={`/${locale}`}
-          className="text-sm font-semibold tracking-tight"
-        >
-          Rental Car
-        </Link>
-        <div className="flex items-center gap-4">
-          <Link
-            href={`/${locale}/vehicles`}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {t("vehicles")}
-          </Link>
-          {session ? (
-            <>
-              <Link
-                href={`/${locale}/bookings`}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {t("myBookings")}
-              </Link>
-              {(session.user?.role === "manager" ||
-                session.user?.role === "admin") && (
-                <Link
-                  href={`/${locale}/admin/vehicles`}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {t("adminVehicles")}
-                </Link>
-              )}
-              <form action={signOutAction}>
-                <button
-                  type="submit"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {t("signOut")}
-                </button>
-              </form>
-            </>
-          ) : (
-            <Link
-              href={`/${locale}/login`}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {t("signIn")}
-            </Link>
-          )}
-        </div>
-      </nav>
+      <NavBar
+        locale={locale}
+        session={session}
+        navLabels={{
+          vehicles: t("vehicles"),
+          myBookings: t("myBookings"),
+          adminVehicles: t("adminVehicles"),
+          signIn: t("signIn"),
+          signOut: t("signOut"),
+        }}
+        signOutAction={signOutAction}
+      />
       {children}
     </NextIntlClientProvider>
   );

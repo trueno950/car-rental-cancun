@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react"],
   },
   transpilePackages: ["@rental/validations", "next-intl"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
+      },
+    ],
+  },
 };
 
 export default withNextIntl(nextConfig);

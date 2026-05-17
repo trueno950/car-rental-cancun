@@ -1,4 +1,4 @@
-import { Check, X } from "lucide-react";
+import { Check, X, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
@@ -26,29 +26,34 @@ export default async function BookingConfirmationPage({
 
   if (booking.status === "confirmed") {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-muted/30 px-4">
-        <div className="flex flex-col items-center gap-6 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10">
-            <Check className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
+      <main className="flex min-h-screen items-center justify-center px-4 pt-20">
+        <div className="text-center max-w-md w-full">
+          <div
+            className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full"
+            style={{ background: "oklch(0.92 0.06 165)" }}
+          >
+            <Check className="h-10 w-10 text-emerald-700" strokeWidth={2.5} />
           </div>
-          <div className="space-y-2">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              {t("confirmedHeading")}
-            </h1>
-            <p className="max-w-sm text-sm text-muted-foreground">
-              {t("confirmedHelper")}
-            </p>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-3">
+            Listo
+          </p>
+          <h1 className="text-3xl font-bold tracking-tight mb-3">
+            {t("confirmedHeading")}
+          </h1>
+          <p className="text-base text-muted-foreground leading-relaxed mb-10">
+            {t("confirmedHelper")}
+          </p>
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
               href={`/${locale}/bookings/${booking.id}`}
-              className="rounded-2xl bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-all"
             >
               {t("viewBooking")}
+              <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href={`/${locale}/vehicles`}
-              className="rounded-2xl border border-border px-6 py-2.5 text-sm font-semibold hover:bg-muted transition-colors"
+              className="inline-flex items-center justify-center rounded-full border border-border px-7 py-3.5 text-sm font-semibold hover:bg-muted transition-colors"
             >
               {t("browseVehicles")}
             </Link>
@@ -60,24 +65,28 @@ export default async function BookingConfirmationPage({
 
   if (booking.status === "cancelled") {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-muted/30 px-4">
-        <div className="flex flex-col items-center gap-6 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10">
-            <X className="h-8 w-8 text-red-600 dark:text-red-400" />
+      <main className="flex min-h-screen items-center justify-center px-4 pt-20">
+        <div className="text-center max-w-md w-full">
+          <div
+            className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-destructive/10"
+          >
+            <X className="h-10 w-10 text-destructive" strokeWidth={2.5} />
           </div>
-          <div className="space-y-2">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              {t("cancelledHeading")}
-            </h1>
-            <p className="max-w-sm text-sm text-muted-foreground">
-              {t("cancelledHelper")}
-            </p>
-          </div>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-3">
+            Estado
+          </p>
+          <h1 className="text-3xl font-bold tracking-tight mb-3">
+            {t("cancelledHeading")}
+          </h1>
+          <p className="text-base text-muted-foreground leading-relaxed mb-10">
+            {t("cancelledHelper")}
+          </p>
           <Link
             href={`/${locale}/vehicles`}
-            className="rounded-2xl bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-all"
           >
             {t("browseVehicles")}
+            <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </main>
@@ -85,7 +94,7 @@ export default async function BookingConfirmationPage({
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-muted/30 px-4">
+    <main className="flex min-h-screen items-center justify-center px-4 pt-20">
       <BookingConfirmationPoller
         bookingId={booking.id}
         locale={locale}
