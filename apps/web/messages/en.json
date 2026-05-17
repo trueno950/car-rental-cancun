@@ -240,6 +240,12 @@
     "subtitle": "All reservations across the platform. Manage status transitions.",
     "tableHeading": "All bookings",
     "emptyState": "No bookings yet.",
+    "filters": {
+      "showing": "{filtered} of {total} bookings",
+      "clearAll": "Clear filters",
+      "fromLabel": "From",
+      "toLabel": "To"
+    },
     "statusLabels": {
       "pending": "Pending",
       "confirmed": "Confirmed",

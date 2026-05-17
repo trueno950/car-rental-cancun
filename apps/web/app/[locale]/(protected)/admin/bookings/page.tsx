@@ -1,9 +1,11 @@
 import { getTranslations } from "next-intl/server";
 
+import { BOOKING_STATUS } from "@rental/validations";
 import type { BookingStatus } from "@rental/validations";
 
 import {
   EmployeeBookingsTable,
+  BookingFiltersBar,
   getAllBookingsAction,
   updateBookingStatusAction,
 } from "@features/bookings";
@@ -11,7 +13,10 @@ import type { EmployeeBookingsTableCopy } from "@features/bookings";
 
 type AdminBookingsPageProps = {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ status?: string; from?: string; to?: string }>;
 };
+
+const STATUSES = Object.values(BOOKING_STATUS) as BookingStatus[];
 
 const STATUS_DOT: Record<BookingStatus, string> = {
   pending: "bg-yellow-500",
@@ -43,11 +48,36 @@ function StatCard({
 
 export default async function AdminBookingsPage({
   params,
+  searchParams,
 }: AdminBookingsPageProps) {
   const { locale } = await params;
+  const { status: statusParam, from = "", to = "" } = await searchParams;
   const t = await getTranslations({ locale, namespace: "AdminBookingsPage" });
 
   const bookings = await getAllBookingsAction();
+
+  const selectedStatuses: BookingStatus[] = statusParam
+    ? (statusParam
+        .split(",")
+        .filter((s): s is BookingStatus =>
+          STATUSES.includes(s as BookingStatus),
+        ))
+    : [];
+
+  const filteredBookings = bookings.filter((b) => {
+    if (selectedStatuses.length > 0 && !selectedStatuses.includes(b.status)) {
+      return false;
+    }
+    if (from) {
+      const start = new Date(b.startDate);
+      if (start < new Date(from)) return false;
+    }
+    if (to) {
+      const start = new Date(b.startDate);
+      if (start > new Date(to)) return false;
+    }
+    return true;
+  });
 
   const counts = bookings.reduce(
     (acc, b) => {
@@ -57,13 +87,9 @@ export default async function AdminBookingsPage({
     {} as Partial<Record<BookingStatus, number>>,
   );
 
-  const statuses: BookingStatus[] = [
-    "pending",
-    "confirmed",
-    "active",
-    "completed",
-    "cancelled",
-  ];
+  const statusLabels = Object.fromEntries(
+    STATUSES.map((s) => [s, t(`statusLabels.${s}`)]),
+  ) as Record<BookingStatus, string>;
 
   const copy: EmployeeBookingsTableCopy = {
     heading: t("tableHeading"),
@@ -98,18 +124,35 @@ export default async function AdminBookingsPage({
         </header>
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
-          {statuses.map((status) => (
+          {STATUSES.map((status) => (
             <StatCard
               key={status}
-              label={t(`statusLabels.${status}`)}
+              label={statusLabels[status]}
               count={counts[status] ?? 0}
               dotClass={STATUS_DOT[status]}
             />
           ))}
         </div>
 
+        <BookingFiltersBar
+          statuses={STATUSES}
+          selectedStatuses={selectedStatuses}
+          statusLabels={statusLabels}
+          counts={counts}
+          from={from}
+          to={to}
+          filteredCount={filteredBookings.length}
+          totalCount={bookings.length}
+          copy={{
+            showing: t("filters.showing"),
+            clearAll: t("filters.clearAll"),
+            fromLabel: t("filters.fromLabel"),
+            toLabel: t("filters.toLabel"),
+          }}
+        />
+
         <EmployeeBookingsTable
-          bookings={bookings}
+          bookings={filteredBookings}
           copy={copy}
           transitionAction={handleTransition}
         />

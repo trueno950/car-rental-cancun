@@ -7,6 +7,7 @@ export {
   updateBookingStatusAction,
 } from "./actions/booking-actions";
 export { BookingConfirmationPoller } from "./components/BookingConfirmationPoller";
+export { BookingFiltersBar } from "./components/BookingFiltersBar";
 export type { BookingConfirmationPollerCopy } from "./components/BookingConfirmationPoller";
 export { BookingForm } from "./components/BookingForm";
 export { BookingStatusBadge } from "./components/BookingStatusBadge";

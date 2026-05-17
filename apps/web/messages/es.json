@@ -240,6 +240,12 @@
     "subtitle": "Todas las reservas de la plataforma. Administrá las transiciones de estado.",
     "tableHeading": "Todas las reservas",
     "emptyState": "No hay reservas aún.",
+    "filters": {
+      "showing": "{filtered} de {total} reservas",
+      "clearAll": "Limpiar filtros",
+      "fromLabel": "Desde",
+      "toLabel": "Hasta"
+    },
     "statusLabels": {
       "pending": "Pendiente",
       "confirmed": "Confirmada",
