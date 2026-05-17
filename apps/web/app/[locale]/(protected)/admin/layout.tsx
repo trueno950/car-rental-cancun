@@ -39,7 +39,12 @@ export default async function AdminLayout({
     <div className="flex pt-20">
       <AdminSidebar
         locale={locale}
-        labels={{ bookings: t("bookings"), fleet: t("fleet"), users: t("users") }}
+        labels={{
+          dashboard: t("dashboard"),
+          bookings: t("bookings"),
+          fleet: t("fleet"),
+          users: t("users"),
+        }}
       />
       <div className="flex-1 min-w-0 bg-muted/30">
         {children}

@@ -53,6 +53,7 @@ export interface EmployeeBookingsTableCopy {
   colDates: string;
   colStatus: string;
   colTotal: string;
+  colNotes: string;
   colActions: string;
   empty: string;
   actionLabels: Partial<Record<BookingStatus, string>>;

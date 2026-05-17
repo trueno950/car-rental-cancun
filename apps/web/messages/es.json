@@ -124,6 +124,7 @@
     "colDates": "Fechas",
     "colStatus": "Estado",
     "colTotal": "Total",
+    "colNotes": "Notas",
     "colActions": "Acciones",
     "empty": "No hay reservas aún.",
     "actionConfirm": "Confirmar",
@@ -215,9 +216,24 @@
     "signOut": "Cerrar sesión"
   },
   "AdminLayout": {
+    "dashboard": "Panel",
     "bookings": "Reservas",
     "fleet": "Flota",
     "users": "Usuarios"
+  },
+  "AdminDashboardPage": {
+    "title": "Panel",
+    "subtitle": "Resumen de la plataforma de un vistazo.",
+    "stats": {
+      "completedRevenue": "Ingresos completados",
+      "completedRevenueHint": "Suma de reservas completadas",
+      "activeRentals": "Rentas activas",
+      "pendingActions": "Acciones pendientes",
+      "pendingActionsHint": "Pendientes + confirmadas — requieren atención",
+      "availableVehicles": "Vehículos disponibles",
+      "completedBookings": "Reservas completadas",
+      "totalUsers": "Usuarios registrados"
+    }
   },
   "AdminBookingsPage": {
     "title": "Reservas",
@@ -238,6 +254,7 @@
       "colDates": "Fechas",
       "colStatus": "Estado",
       "colTotal": "Total",
+      "colNotes": "Notas",
       "colActions": "Acciones"
     },
     "actions": {

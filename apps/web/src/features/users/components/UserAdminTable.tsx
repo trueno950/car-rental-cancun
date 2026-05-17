@@ -95,7 +95,7 @@ function UserRow({ user, copy }: UserRowProps) {
               user.isFrequent && "fill-current",
             )}
           />
-          {user.isFrequent ? copy.markFrequent : copy.removeFrequent}
+          {user.isFrequent ? copy.removeFrequent : copy.markFrequent}
         </button>
       </td>
       <td className="px-4 py-3">

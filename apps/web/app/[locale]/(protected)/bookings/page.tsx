@@ -140,6 +140,7 @@ export default async function BookingsPage({ params }: BookingsPageProps) {
       colDates: t("colDates"),
       colStatus: t("colStatus"),
       colTotal: t("colTotal"),
+      colNotes: t("colNotes"),
       colActions: t("colActions"),
       empty: t("empty"),
       actionLabels: {

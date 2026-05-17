@@ -53,6 +53,7 @@ export function EmployeeBookingsTable({
                   copy.colDates,
                   copy.colStatus,
                   copy.colTotal,
+                  copy.colNotes,
                   copy.colActions,
                 ].map((col) => (
                   <th
@@ -72,11 +73,19 @@ export function EmployeeBookingsTable({
                     <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
                       {booking.id.slice(0, 8)}…
                     </td>
-                    <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
-                      {booking.vehicleId.slice(0, 8)}…
+                    <td className="px-4 py-3 text-sm font-medium">
+                      {booking.vehicleName ?? (
+                        <span className="font-mono text-xs text-muted-foreground">
+                          {booking.vehicleId.slice(0, 8)}…
+                        </span>
+                      )}
                     </td>
-                    <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
-                      {booking.userId.slice(0, 8)}…
+                    <td className="px-4 py-3 text-sm">
+                      {booking.userName ?? (
+                        <span className="font-mono text-xs text-muted-foreground">
+                          {booking.userId.slice(0, 8)}…
+                        </span>
+                      )}
                     </td>
                     <td className="px-4 py-3 text-xs">
                       {formatDate(booking.startDate)} →{" "}
@@ -87,6 +96,20 @@ export function EmployeeBookingsTable({
                     </td>
                     <td className="px-4 py-3 font-medium">
                       {formatCurrency(booking.totalPrice)}
+                    </td>
+                    <td className="px-4 py-3 max-w-[160px]">
+                      {booking.notes ? (
+                        <span
+                          className="text-xs text-muted-foreground"
+                          title={booking.notes}
+                        >
+                          {booking.notes.length > 40
+                            ? `${booking.notes.slice(0, 40)}…`
+                            : booking.notes}
+                        </span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground/40">—</span>
+                      )}
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex flex-wrap gap-1">

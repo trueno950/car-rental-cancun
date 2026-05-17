@@ -73,6 +73,7 @@ export default async function AdminBookingsPage({
     colDates: t("table.colDates"),
     colStatus: t("table.colStatus"),
     colTotal: t("table.colTotal"),
+    colNotes: t("table.colNotes"),
     colActions: t("table.colActions"),
     empty: t("emptyState"),
     actionLabels: {

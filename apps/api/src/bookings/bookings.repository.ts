@@ -5,9 +5,15 @@ import { BOOKING_STATUS } from "@rental/validations";
 
 import { DatabaseService } from "../database/database.service";
 import { bookingsTable } from "../database/schema/bookings";
+import { usersTable } from "../database/schema/users";
 import { vehiclesTable } from "../database/schema/vehicles";
 
 type BookingRow = typeof bookingsTable.$inferSelect;
+type EnrichedRow = BookingRow & {
+  vehicleMake?: string | null;
+  vehicleModel?: string | null;
+  userName?: string | null;
+};
 
 export interface CreateBookingInput {
   userId: string;
@@ -107,22 +113,82 @@ export class BookingsRepository {
 
   async findByCustomer(userId: string): Promise<BookingResponse[]> {
     const rows = await this.databaseService.db
-      .select()
+      .select({
+        id: bookingsTable.id,
+        userId: bookingsTable.userId,
+        vehicleId: bookingsTable.vehicleId,
+        startDate: bookingsTable.startDate,
+        endDate: bookingsTable.endDate,
+        totalPriceCents: bookingsTable.totalPriceCents,
+        status: bookingsTable.status,
+        depositAmountCents: bookingsTable.depositAmountCents,
+        stripeCheckoutSessionId: bookingsTable.stripeCheckoutSessionId,
+        stripePaymentIntentId: bookingsTable.stripePaymentIntentId,
+        notes: bookingsTable.notes,
+        createdAt: bookingsTable.createdAt,
+        updatedAt: bookingsTable.updatedAt,
+        vehicleMake: vehiclesTable.make,
+        vehicleModel: vehiclesTable.model,
+        userName: usersTable.name,
+      })
       .from(bookingsTable)
+      .leftJoin(vehiclesTable, eq(bookingsTable.vehicleId, vehiclesTable.id))
+      .leftJoin(usersTable, eq(bookingsTable.userId, usersTable.id))
       .where(eq(bookingsTable.userId, userId));
 
     return rows.map((row) => this.toDomain(row));
   }
 
   async findAll(): Promise<BookingResponse[]> {
-    const rows = await this.databaseService.db.select().from(bookingsTable);
+    const rows = await this.databaseService.db
+      .select({
+        id: bookingsTable.id,
+        userId: bookingsTable.userId,
+        vehicleId: bookingsTable.vehicleId,
+        startDate: bookingsTable.startDate,
+        endDate: bookingsTable.endDate,
+        totalPriceCents: bookingsTable.totalPriceCents,
+        status: bookingsTable.status,
+        depositAmountCents: bookingsTable.depositAmountCents,
+        stripeCheckoutSessionId: bookingsTable.stripeCheckoutSessionId,
+        stripePaymentIntentId: bookingsTable.stripePaymentIntentId,
+        notes: bookingsTable.notes,
+        createdAt: bookingsTable.createdAt,
+        updatedAt: bookingsTable.updatedAt,
+        vehicleMake: vehiclesTable.make,
+        vehicleModel: vehiclesTable.model,
+        userName: usersTable.name,
+      })
+      .from(bookingsTable)
+      .leftJoin(vehiclesTable, eq(bookingsTable.vehicleId, vehiclesTable.id))
+      .leftJoin(usersTable, eq(bookingsTable.userId, usersTable.id));
+
     return rows.map((row) => this.toDomain(row));
   }
 
   async findById(id: string): Promise<BookingResponse | null> {
     const rows = await this.databaseService.db
-      .select()
+      .select({
+        id: bookingsTable.id,
+        userId: bookingsTable.userId,
+        vehicleId: bookingsTable.vehicleId,
+        startDate: bookingsTable.startDate,
+        endDate: bookingsTable.endDate,
+        totalPriceCents: bookingsTable.totalPriceCents,
+        status: bookingsTable.status,
+        depositAmountCents: bookingsTable.depositAmountCents,
+        stripeCheckoutSessionId: bookingsTable.stripeCheckoutSessionId,
+        stripePaymentIntentId: bookingsTable.stripePaymentIntentId,
+        notes: bookingsTable.notes,
+        createdAt: bookingsTable.createdAt,
+        updatedAt: bookingsTable.updatedAt,
+        vehicleMake: vehiclesTable.make,
+        vehicleModel: vehiclesTable.model,
+        userName: usersTable.name,
+      })
       .from(bookingsTable)
+      .leftJoin(vehiclesTable, eq(bookingsTable.vehicleId, vehiclesTable.id))
+      .leftJoin(usersTable, eq(bookingsTable.userId, usersTable.id))
       .where(eq(bookingsTable.id, id));
 
     return rows[0] ? this.toDomain(rows[0]) : null;
@@ -141,7 +207,7 @@ export class BookingsRepository {
     return this.toDomain(rows[0]!);
   }
 
-  toDomain(row: BookingRow): BookingResponse {
+  toDomain(row: EnrichedRow): BookingResponse {
     return {
       id: row.id,
       vehicleId: row.vehicleId,
@@ -156,6 +222,11 @@ export class BookingsRepository {
           : undefined,
       notes: row.notes,
       createdAt: row.createdAt.toISOString(),
+      vehicleName:
+        row.vehicleMake && row.vehicleModel
+          ? `${row.vehicleMake} ${row.vehicleModel}`
+          : undefined,
+      userName: row.userName ?? undefined,
     };
   }
 }

@@ -22,18 +22,33 @@ export const VehicleSchema = z.object({
   airbags: z.number().int().min(0).nullable(),
 });
 
+// Used only for parsing API responses — adds defaults so old API versions
+// (pre-spec-migration) don't break the web client. The output type is
+// identical to Vehicle, so callers see no difference.
+const VehicleResponseSchema = VehicleSchema.extend({
+  seats: z.number().int().min(1).max(20).default(5),
+  doors: z.number().int().min(2).max(8).default(4),
+  trunkLiters: z.number().int().positive().nullable().default(null),
+  maxPayloadKg: z.number().int().positive().nullable().default(null),
+  transmissionType: z.enum(TRANSMISSION_TYPES).default("automatic"),
+  fuelType: z.enum(FUEL_TYPES).default("gasoline"),
+  category: z.enum(VEHICLE_CATEGORIES).default("compact"),
+  airConditioned: z.boolean().default(true),
+  airbags: z.number().int().min(0).nullable().default(null),
+});
+
 export const CreateVehicleSchema = VehicleSchema.omit({ id: true });
 
 /** All fields from CreateVehicleSchema become optional; per-field constraints are preserved. */
 export const UpdateVehicleSchema = CreateVehicleSchema.partial();
 
 export const VehicleEnvelopeSchema = z.object({
-  data: VehicleSchema.array(),
+  data: VehicleResponseSchema.array(),
 });
 
 /** Single-vehicle response envelope returned by GET /vehicles/:id, POST /vehicles, PATCH /vehicles/:id. */
 export const VehicleSingleEnvelopeSchema = z.object({
-  data: VehicleSchema,
+  data: VehicleResponseSchema,
 });
 
 export const VehicleAvailabilityQuerySchema = z.object({

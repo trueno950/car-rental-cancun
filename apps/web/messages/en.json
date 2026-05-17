@@ -124,6 +124,7 @@
     "colDates": "Dates",
     "colStatus": "Status",
     "colTotal": "Total",
+    "colNotes": "Notes",
     "colActions": "Actions",
     "empty": "No bookings yet.",
     "actionConfirm": "Confirm",
@@ -215,9 +216,24 @@
     "signOut": "Sign out"
   },
   "AdminLayout": {
+    "dashboard": "Dashboard",
     "bookings": "Bookings",
     "fleet": "Fleet",
     "users": "Users"
+  },
+  "AdminDashboardPage": {
+    "title": "Dashboard",
+    "subtitle": "Platform overview at a glance.",
+    "stats": {
+      "completedRevenue": "Completed revenue",
+      "completedRevenueHint": "Sum of all completed bookings",
+      "activeRentals": "Active rentals",
+      "pendingActions": "Pending actions",
+      "pendingActionsHint": "Pending + confirmed — need attention",
+      "availableVehicles": "Available vehicles",
+      "completedBookings": "Completed bookings",
+      "totalUsers": "Registered users"
+    }
   },
   "AdminBookingsPage": {
     "title": "Bookings",
@@ -238,6 +254,7 @@
       "colDates": "Dates",
       "colStatus": "Status",
       "colTotal": "Total",
+      "colNotes": "Notes",
       "colActions": "Actions"
     },
     "actions": {

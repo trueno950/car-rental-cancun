@@ -228,6 +228,8 @@ export const BookingResponseSchema = z.object({
   totalPrice: z.number(),
   notes: z.string().nullable().optional(),
   createdAt: z.string(),
+  vehicleName: z.string().optional(),
+  userName: z.string().optional(),
 });
 
 export const BookingTransitionRequestSchema = z.object({
