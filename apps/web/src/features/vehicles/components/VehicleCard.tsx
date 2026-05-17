@@ -1,9 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { Users, Fuel, Zap, Wind } from "lucide-react";
+import { Users, Fuel, Zap, DoorOpen } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import type { VehicleCardProps } from "../types";
-import { getVehicleSpecs, getVehicleImageSeed } from "../lib/vehicle-specs";
+import { getVehicleImageSeed } from "../lib/vehicle-specs";
 
 function formatCurrency(amount: number, locale: string) {
   return new Intl.NumberFormat(locale, {
@@ -14,10 +17,29 @@ function formatCurrency(amount: number, locale: string) {
 }
 
 export function VehicleCard({ vehicle, copy, locale }: VehicleCardProps) {
-  const specs = getVehicleSpecs(vehicle.make, vehicle.model);
-  const imageSeed = getVehicleImageSeed(vehicle.make, vehicle.model);
+  const tSpecs = useTranslations("VehicleSpecs");
+  const imageSeed = getVehicleImageSeed(vehicle.make, vehicle.model, vehicle.category);
   const imageUrl = `https://picsum.photos/seed/${imageSeed}/800/520`;
   const detailHref = `/${locale}/vehicles/${vehicle.id}`;
+
+  const chips = [
+    {
+      icon: Users,
+      value: `${vehicle.seats} ${tSpecs("units.persons")}`,
+    },
+    {
+      icon: Zap,
+      value: tSpecs(`transmission.${vehicle.transmissionType}`),
+    },
+    {
+      icon: Fuel,
+      value: tSpecs(`fuel.${vehicle.fuelType}`),
+    },
+    {
+      icon: DoorOpen,
+      value: `${vehicle.doors} ${tSpecs("units.doors")}`,
+    },
+  ];
 
   return (
     <article
@@ -68,32 +90,14 @@ export function VehicleCard({ vehicle, copy, locale }: VehicleCardProps) {
         </Link>
 
         <div className="grid grid-cols-2 gap-2">
-          <div className="flex items-center gap-2 rounded-xl bg-muted/60 px-3 py-2">
-            <Users className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
-            <span className="text-xs text-muted-foreground">{specs.seats} pasajeros</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-xl bg-muted/60 px-3 py-2">
-            <Zap className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
-            <span className="text-xs text-muted-foreground">{specs.transmission}</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-xl bg-muted/60 px-3 py-2">
-            <Fuel className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
-            <span className="text-xs text-muted-foreground">{specs.fuel}</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-xl bg-muted/60 px-3 py-2">
-            <Wind className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
-            <span className="text-xs text-muted-foreground">Aire acond.</span>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-1 flex-wrap">
-          {specs.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full bg-primary/8 px-2.5 py-1 text-[11px] font-medium text-primary"
+          {chips.map(({ icon: Icon, value }) => (
+            <div
+              key={value}
+              className="flex items-center gap-2 rounded-xl bg-muted/60 px-3 py-2"
             >
-              {tag}
-            </span>
+              <Icon className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+              <span className="text-xs text-muted-foreground">{value}</span>
+            </div>
           ))}
         </div>
 
@@ -102,7 +106,7 @@ export function VehicleCard({ vehicle, copy, locale }: VehicleCardProps) {
             href={detailHref}
             className="flex-1 inline-flex items-center justify-center rounded-xl border border-border px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted transition-colors"
           >
-            Ver detalles
+            {copy.viewDetails}
           </Link>
           {vehicle.available && (
             <Link

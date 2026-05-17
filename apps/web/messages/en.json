@@ -140,7 +140,71 @@
     "availabilityUnavailable": "Currently unavailable",
     "perDay": "day",
     "yearLabel": "Year",
-    "bookButton": "Book now"
+    "bookButton": "Book now",
+    "viewDetails": "View details"
+  },
+  "VehicleSpecs": {
+    "labels": {
+      "seats": "Passengers",
+      "doors": "Doors",
+      "trunkLiters": "Trunk",
+      "maxPayloadKg": "Max. payload",
+      "transmissionType": "Transmission",
+      "fuelType": "Fuel",
+      "airConditioned": "A/C",
+      "airbags": "Airbags",
+      "category": "Category"
+    },
+    "transmission": {
+      "automatic": "Automatic",
+      "manual": "Manual",
+      "4x4": "4×4"
+    },
+    "fuel": {
+      "gasoline": "Gasoline",
+      "diesel": "Diesel",
+      "hybrid": "Hybrid",
+      "electric": "Electric"
+    },
+    "category": {
+      "economy": "Economy",
+      "compact": "Compact",
+      "suv": "SUV",
+      "luxury": "Luxury"
+    },
+    "units": {
+      "persons": "persons",
+      "doors": "doors",
+      "liters": "L",
+      "kg": "kg",
+      "airbags": "airbags",
+      "yes": "Yes",
+      "no": "No"
+    }
+  },
+  "VehicleDetailPage": {
+    "backToFleet": "Our fleet",
+    "from": "From",
+    "allInclusive": "all-inclusive",
+    "specsHeading": "Specifications",
+    "includedHeading": "What's included",
+    "pickupHeading": "Pickup & return",
+    "pickupNote": "We'll coordinate delivery upon booking confirmation. No extra charge.",
+    "priceTagline": "All-inclusive price · No surprises",
+    "included": {
+      "insurance": "Liability insurance included",
+      "taxes": "Taxes and fees included",
+      "roadside": "24/7 roadside assistance",
+      "mileage": "No mileage charges",
+      "delivery": "Airport or hotel delivery",
+      "confirmation": "Instant booking confirmation"
+    },
+    "loginToBook": "Sign in to book",
+    "noAccount": "Don't have an account?",
+    "register": "Register for free",
+    "cancellationTitle": "Flexible cancellation",
+    "cancellationText": "Modify or cancel your booking up to 48h before pickup, free of charge.",
+    "viewOtherVehicles": "Browse other vehicles"
   },
   "nav": {
     "home": "Home",
@@ -241,7 +305,16 @@
         "model": "Model",
         "year": "Year",
         "dailyRate": "Price per day",
-        "available": "Available for booking"
+        "available": "Available for booking",
+        "seats": "Seats",
+        "doors": "Doors",
+        "trunkLiters": "Trunk capacity (liters)",
+        "maxPayloadKg": "Max. payload (kg)",
+        "transmissionType": "Transmission",
+        "fuelType": "Fuel type",
+        "category": "Category",
+        "airConditioned": "Air conditioning",
+        "airbags": "Airbags"
       },
       "submit": {
         "create": "Create vehicle",

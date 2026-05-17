@@ -140,7 +140,71 @@
     "availabilityUnavailable": "No disponible",
     "perDay": "día",
     "yearLabel": "Año",
-    "bookButton": "Reservar"
+    "bookButton": "Reservar",
+    "viewDetails": "Ver detalles"
+  },
+  "VehicleSpecs": {
+    "labels": {
+      "seats": "Pasajeros",
+      "doors": "Puertas",
+      "trunkLiters": "Maletero",
+      "maxPayloadKg": "Carga máx.",
+      "transmissionType": "Transmisión",
+      "fuelType": "Combustible",
+      "airConditioned": "Aire acond.",
+      "airbags": "Airbags",
+      "category": "Categoría"
+    },
+    "transmission": {
+      "automatic": "Automático",
+      "manual": "Manual",
+      "4x4": "4×4"
+    },
+    "fuel": {
+      "gasoline": "Gasolina",
+      "diesel": "Diésel",
+      "hybrid": "Híbrido",
+      "electric": "Eléctrico"
+    },
+    "category": {
+      "economy": "Económico",
+      "compact": "Compacto",
+      "suv": "SUV",
+      "luxury": "Lujo"
+    },
+    "units": {
+      "persons": "personas",
+      "doors": "puertas",
+      "liters": "L",
+      "kg": "kg",
+      "airbags": "airbags",
+      "yes": "Sí",
+      "no": "No"
+    }
+  },
+  "VehicleDetailPage": {
+    "backToFleet": "Nuestra flota",
+    "from": "Desde",
+    "allInclusive": "todo incluido",
+    "specsHeading": "Especificaciones",
+    "includedHeading": "Incluido en el precio",
+    "pickupHeading": "Entrega y devolución",
+    "pickupNote": "Coordinamos la entrega al confirmar tu reserva. Sin costo adicional.",
+    "priceTagline": "Precio todo incluido · Sin sorpresas",
+    "included": {
+      "insurance": "Seguro de responsabilidad civil incluido",
+      "taxes": "Impuestos y cargos incluidos",
+      "roadside": "Asistencia en carretera 24/7",
+      "mileage": "Sin cobros por kilometraje",
+      "delivery": "Entrega en aeropuerto o hotel",
+      "confirmation": "Confirmación instantánea de reserva"
+    },
+    "loginToBook": "Iniciar sesión para reservar",
+    "noAccount": "¿No tenés cuenta?",
+    "register": "Registrate gratis",
+    "cancellationTitle": "Cancelación flexible",
+    "cancellationText": "Modificá o cancelá tu reserva hasta 48h antes de la entrega sin costo.",
+    "viewOtherVehicles": "Ver otros vehículos"
   },
   "nav": {
     "home": "Inicio",
@@ -241,7 +305,16 @@
         "model": "Modelo",
         "year": "Año",
         "dailyRate": "Precio por día",
-        "available": "Disponible para reservas"
+        "available": "Disponible para reservas",
+        "seats": "Asientos",
+        "doors": "Puertas",
+        "trunkLiters": "Capacidad del maletero (litros)",
+        "maxPayloadKg": "Carga máxima (kg)",
+        "transmissionType": "Transmisión",
+        "fuelType": "Tipo de combustible",
+        "category": "Categoría",
+        "airConditioned": "Aire acondicionado",
+        "airbags": "Airbags"
       },
       "submit": {
         "create": "Crear vehículo",

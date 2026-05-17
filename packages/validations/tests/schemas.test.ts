@@ -17,6 +17,18 @@ import {
 
 describe("shared validation contracts", () => {
   it("accepts a valid vehicle payload", () => {
+    const specFields = {
+      seats: 5,
+      doors: 4,
+      trunkLiters: 428,
+      maxPayloadKg: 450,
+      transmissionType: "automatic" as const,
+      fuelType: "gasoline" as const,
+      category: "compact" as const,
+      airConditioned: true,
+      airbags: 4,
+    };
+
     const parsed = VehicleSchema.parse({
       id: "550e8400-e29b-41d4-a716-446655440000",
       make: "Nissan",
@@ -24,6 +36,7 @@ describe("shared validation contracts", () => {
       year: 2024,
       dailyRate: 55,
       available: true,
+      ...specFields,
     });
 
     expect(parsed.make).toBe("Nissan");
@@ -34,6 +47,7 @@ describe("shared validation contracts", () => {
         year: 2025,
         dailyRate: 61,
         available: false,
+        ...specFields,
       }).model,
     ).toBe("Yaris");
   });

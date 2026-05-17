@@ -14,6 +14,15 @@ const vehicle: Vehicle = {
   year: 2023,
   dailyRate: 45,
   available: true,
+  seats: 5,
+  doors: 4,
+  trunkLiters: 270,
+  maxPayloadKg: 355,
+  transmissionType: "automatic",
+  fuelType: "gasoline",
+  category: "economy",
+  airConditioned: true,
+  airbags: 4,
 };
 
 function makeRepository(
@@ -78,6 +87,15 @@ describe("VehiclesService", () => {
         year: 2023,
         dailyRate: 45,
         available: true,
+        seats: 5,
+        doors: 4,
+        trunkLiters: null,
+        maxPayloadKg: null,
+        transmissionType: "automatic",
+        fuelType: "gasoline",
+        category: "economy",
+        airConditioned: true,
+        airbags: null,
       });
 
       expect(result).toEqual(vehicle);

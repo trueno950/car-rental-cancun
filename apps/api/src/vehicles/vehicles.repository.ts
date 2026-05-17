@@ -78,9 +78,18 @@ export class VehiclesRepository {
         year: input.year,
         dailyRateCents: Math.round(input.dailyRate * 100),
         available: input.available,
+        seats: input.seats,
+        doors: input.doors,
+        trunkLiters: input.trunkLiters ?? null,
+        maxPayloadKg: input.maxPayloadKg ?? null,
+        transmissionType: input.transmissionType,
+        fuelType: input.fuelType,
+        category: input.category,
+        airConditioned: input.airConditioned,
+        airbags: input.airbags ?? null,
       })
       .returning();
-    return this.toDomain(row);
+    return this.toDomain(row!);
   }
 
   async update(id: string, input: UpdateVehicleDto): Promise<Vehicle> {
@@ -91,6 +100,18 @@ export class VehiclesRepository {
     if (input.dailyRate !== undefined)
       patch.dailyRateCents = Math.round(input.dailyRate * 100);
     if (input.available !== undefined) patch.available = input.available;
+    if (input.seats !== undefined) patch.seats = input.seats;
+    if (input.doors !== undefined) patch.doors = input.doors;
+    if (input.trunkLiters !== undefined) patch.trunkLiters = input.trunkLiters;
+    if (input.maxPayloadKg !== undefined)
+      patch.maxPayloadKg = input.maxPayloadKg;
+    if (input.transmissionType !== undefined)
+      patch.transmissionType = input.transmissionType;
+    if (input.fuelType !== undefined) patch.fuelType = input.fuelType;
+    if (input.category !== undefined) patch.category = input.category;
+    if (input.airConditioned !== undefined)
+      patch.airConditioned = input.airConditioned;
+    if (input.airbags !== undefined) patch.airbags = input.airbags;
     patch.updatedAt = new Date();
 
     const [row] = await this.databaseService.db
@@ -98,7 +119,7 @@ export class VehiclesRepository {
       .set(patch)
       .where(eq(vehiclesTable.id, id))
       .returning();
-    return this.toDomain(row);
+    return this.toDomain(row!);
   }
 
   async delete(id: string): Promise<void> {
@@ -115,6 +136,15 @@ export class VehiclesRepository {
       year: row.year,
       dailyRate: row.dailyRateCents / 100,
       available: row.available,
+      seats: row.seats,
+      doors: row.doors,
+      trunkLiters: row.trunkLiters,
+      maxPayloadKg: row.maxPayloadKg,
+      transmissionType: row.transmissionType as Vehicle["transmissionType"],
+      fuelType: row.fuelType as Vehicle["fuelType"],
+      category: row.category as Vehicle["category"],
+      airConditioned: row.airConditioned,
+      airbags: row.airbags,
     };
   }
 }

@@ -23,6 +23,7 @@ export default async function VehicleCatalogPage({
     perDay: t("perDay"),
     yearLabel: t("yearLabel"),
     bookButton: t("bookButton"),
+    viewDetails: t("viewDetails"),
   };
 
   const vehicles = await listVehiclesAction();

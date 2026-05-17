@@ -30,6 +30,15 @@ const VALID_VEHICLE_BODY = {
   year: 2024,
   dailyRate: 65.5,
   available: true,
+  seats: 5,
+  doors: 4,
+  trunkLiters: 428,
+  maxPayloadKg: 450,
+  transmissionType: "automatic",
+  fuelType: "gasoline",
+  category: "compact",
+  airConditioned: true,
+  airbags: 4,
 };
 
 describe("GET /vehicles (integration)", () => {

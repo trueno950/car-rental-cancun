@@ -14,6 +14,15 @@ const vehicle = {
   year: 2023,
   dailyRate: 50,
   available: true,
+  seats: 5,
+  doors: 4,
+  trunkLiters: null,
+  maxPayloadKg: null,
+  transmissionType: "automatic" as const,
+  fuelType: "gasoline" as const,
+  category: "compact" as const,
+  airConditioned: true,
+  airbags: null,
 };
 
 function makeService(
@@ -105,6 +114,15 @@ describe("VehiclesController", () => {
       year: 2023,
       dailyRate: 50,
       available: true,
+      seats: 5,
+      doors: 4,
+      trunkLiters: null,
+      maxPayloadKg: null,
+      transmissionType: "automatic" as const,
+      fuelType: "gasoline" as const,
+      category: "economy" as const,
+      airConditioned: true,
+      airbags: null,
     };
 
     it("delegates to service.create and returns vehicle", async () => {

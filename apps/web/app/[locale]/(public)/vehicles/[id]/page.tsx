@@ -8,6 +8,9 @@ import {
   Fuel,
   Zap,
   Wind,
+  DoorOpen,
+  Package,
+  Weight,
   Shield,
   MapPin,
   CalendarCheck,
@@ -17,15 +20,76 @@ import {
 
 import { auth } from "@core/auth";
 import { listVehiclesAction } from "@features/vehicles";
-import { getVehicleSpecs, getVehicleImageSeed } from "@features/vehicles/lib/vehicle-specs";
+import { getVehicleImageSeed } from "@features/vehicles/lib/vehicle-specs";
+import type { Vehicle } from "@rental/validations";
 
 type VehicleDetailPageProps = {
   params: Promise<{ locale: string; id: string }>;
 };
 
+function buildSpecItems(vehicle: Vehicle, tSpecs: (key: string) => string) {
+  const items = [
+    {
+      icon: Users,
+      label: tSpecs("labels.seats"),
+      value: `${vehicle.seats} ${tSpecs("units.persons")}`,
+    },
+    {
+      icon: DoorOpen,
+      label: tSpecs("labels.doors"),
+      value: `${vehicle.doors} ${tSpecs("units.doors")}`,
+    },
+    {
+      icon: Zap,
+      label: tSpecs("labels.transmissionType"),
+      value: tSpecs(`transmission.${vehicle.transmissionType}`),
+    },
+    {
+      icon: Fuel,
+      label: tSpecs("labels.fuelType"),
+      value: tSpecs(`fuel.${vehicle.fuelType}`),
+    },
+    {
+      icon: Wind,
+      label: tSpecs("labels.airConditioned"),
+      value: vehicle.airConditioned ? tSpecs("units.yes") : tSpecs("units.no"),
+    },
+  ];
+
+  if (vehicle.trunkLiters != null) {
+    items.push({
+      icon: Package,
+      label: tSpecs("labels.trunkLiters"),
+      value: `${vehicle.trunkLiters} ${tSpecs("units.liters")}`,
+    });
+  }
+
+  if (vehicle.maxPayloadKg != null) {
+    items.push({
+      icon: Weight,
+      label: tSpecs("labels.maxPayloadKg"),
+      value: `${vehicle.maxPayloadKg} ${tSpecs("units.kg")}`,
+    });
+  }
+
+  if (vehicle.airbags != null) {
+    items.push({
+      icon: Shield,
+      label: tSpecs("labels.airbags"),
+      value: `${vehicle.airbags} ${tSpecs("units.airbags")}`,
+    });
+  }
+
+  return items;
+}
+
 export default async function VehicleDetailPage({ params }: VehicleDetailPageProps) {
   const { locale, id } = await params;
-  const t = await getTranslations({ locale, namespace: "VehicleCatalogPage" });
+  const [t, tCatalog, tSpecs] = await Promise.all([
+    getTranslations({ locale, namespace: "VehicleDetailPage" }),
+    getTranslations({ locale, namespace: "VehicleCatalogPage" }),
+    getTranslations({ locale, namespace: "VehicleSpecs" }),
+  ]);
   const session = await auth();
 
   const vehicles = await listVehiclesAction();
@@ -33,8 +97,7 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
 
   if (!vehicle) notFound();
 
-  const specs = getVehicleSpecs(vehicle.make, vehicle.model);
-  const imageSeed = getVehicleImageSeed(vehicle.make, vehicle.model);
+  const imageSeed = getVehicleImageSeed(vehicle.make, vehicle.model, vehicle.category);
   const imageUrl = `https://picsum.photos/seed/${imageSeed}/1200/800`;
 
   const dailyRate = new Intl.NumberFormat(locale, {
@@ -43,20 +106,15 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
     maximumFractionDigits: 0,
   }).format(vehicle.dailyRate);
 
-  const specItems = [
-    { icon: Users, label: "Pasajeros", value: `${specs.seats} personas` },
-    { icon: Zap, label: "Transmisión", value: specs.transmission },
-    { icon: Fuel, label: "Combustible", value: specs.fuel },
-    { icon: Wind, label: "Climatización", value: "Aire acondicionado" },
-  ];
+  const specItems = buildSpecItems(vehicle, (key) => tSpecs(key as Parameters<typeof tSpecs>[0]));
 
   const included = [
-    "Seguro de responsabilidad civil incluido",
-    "Impuestos y cargos incluidos",
-    "Asistencia en carretera 24/7",
-    "Sin cobros por kilometraje",
-    "Entrega en aeropuerto o hotel",
-    "Confirmación instantánea de reserva",
+    t("included.insurance"),
+    t("included.taxes"),
+    t("included.roadside"),
+    t("included.mileage"),
+    t("included.delivery"),
+    t("included.confirmation"),
   ];
 
   return (
@@ -74,13 +132,13 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
             className="inline-flex items-center gap-1.5 text-xs text-white/50 hover:text-white/80 transition-colors mb-6"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            Nuestra flota
+            {t("backToFleet")}
           </Link>
 
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-2">
-                {vehicle.year} · {vehicle.available ? t("availabilityAvailable") : t("availabilityUnavailable")}
+                {vehicle.year} · {vehicle.available ? tCatalog("availabilityAvailable") : tCatalog("availabilityUnavailable")}
               </p>
               <h1
                 className="font-bold text-background leading-[1.08]"
@@ -90,11 +148,11 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
               </h1>
             </div>
             <div className="text-right">
-              <p className="text-background/50 text-xs mb-1">Desde</p>
+              <p className="text-background/50 text-xs mb-1">{t("from")}</p>
               <p className="text-background font-bold text-4xl leading-none">
                 {dailyRate}
               </p>
-              <p className="text-background/50 text-sm mt-1">/{t("perDay")} · todo incluido</p>
+              <p className="text-background/50 text-sm mt-1">/{tCatalog("perDay")} · {t("allInclusive")}</p>
             </div>
           </div>
         </div>
@@ -113,18 +171,13 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
                 priority
                 sizes="(max-width: 1024px) 100vw, 65vw"
               />
-              {specs.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="absolute top-4 left-4 rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white"
-                >
-                  {tag}
-                </span>
-              ))}
+              <span className="absolute top-4 left-4 rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white">
+                {tSpecs(`category.${vehicle.category}`)}
+              </span>
             </div>
 
             <div>
-              <h2 className="text-lg font-bold mb-4">Especificaciones</h2>
+              <h2 className="text-lg font-bold mb-4">{t("specsHeading")}</h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {specItems.map(({ icon: Icon, label, value }) => (
                   <div
@@ -142,7 +195,7 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
             </div>
 
             <div>
-              <h2 className="text-lg font-bold mb-4">Incluido en el precio</h2>
+              <h2 className="text-lg font-bold mb-4">{t("includedHeading")}</h2>
               <div className="grid sm:grid-cols-2 gap-2.5">
                 {included.map((item) => (
                   <div key={item} className="flex items-start gap-2.5">
@@ -154,21 +207,21 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
             </div>
 
             <div className="rounded-2xl bg-muted/40 border border-border p-6">
-              <h2 className="text-base font-bold mb-3">Entrega y devolución</h2>
+              <h2 className="text-base font-bold mb-3">{t("pickupHeading")}</h2>
               <div className="space-y-3">
                 {[
-                  { icon: MapPin, text: "Aeropuerto Internacional de Cancún (CUN)" },
-                  { icon: MapPin, text: "Hoteles en Zona Hotelera" },
-                  { icon: MapPin, text: "Centro de Cancún" },
-                ].map(({ icon: Icon, text }) => (
+                  "Aeropuerto Internacional de Cancún (CUN)",
+                  "Hoteles en Zona Hotelera",
+                  "Centro de Cancún",
+                ].map((text) => (
                   <div key={text} className="flex items-center gap-2.5 text-sm text-muted-foreground">
-                    <Icon className="h-4 w-4 text-primary flex-shrink-0" />
+                    <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
                     {text}
                   </div>
                 ))}
               </div>
               <p className="text-xs text-muted-foreground mt-4 pt-4 border-t border-border">
-                Coordinamos la entrega al confirmar tu reserva. Sin costo adicional.
+                {t("pickupNote")}
               </p>
             </div>
           </div>
@@ -178,9 +231,9 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
               <div className="p-6 border-b border-border">
                 <div className="flex items-baseline gap-1 mb-1">
                   <span className="text-3xl font-bold">{dailyRate}</span>
-                  <span className="text-sm text-muted-foreground">/{t("perDay")}</span>
+                  <span className="text-sm text-muted-foreground">/{tCatalog("perDay")}</span>
                 </div>
-                <p className="text-xs text-primary font-medium">Precio todo incluido · Sin sorpresas</p>
+                <p className="text-xs text-primary font-medium">{t("priceTagline")}</p>
               </div>
 
               <div className="p-6 space-y-4">
@@ -203,7 +256,7 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
                       href={`/${locale}/bookings/new?vehicleId=${vehicle.id}`}
                       className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-all hover:scale-[1.01]"
                     >
-                      {t("bookButton")}
+                      {tCatalog("bookButton")}
                       <ArrowRight className="h-4 w-4" />
                     </Link>
                   ) : (
@@ -212,28 +265,28 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
                         href={`/${locale}/login`}
                         className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-all"
                       >
-                        Iniciar sesión para reservar
+                        {t("loginToBook")}
                       </Link>
                       <p className="text-xs text-muted-foreground text-center">
-                        ¿No tenés cuenta?{" "}
+                        {t("noAccount")}{" "}
                         <Link href={`/${locale}/register`} className="text-primary hover:underline">
-                          Registrate gratis
+                          {t("register")}
                         </Link>
                       </p>
                     </div>
                   )
                 ) : (
                   <div className="rounded-xl bg-muted px-6 py-4 text-center text-sm font-medium text-muted-foreground">
-                    {t("availabilityUnavailable")}
+                    {tCatalog("availabilityUnavailable")}
                   </div>
                 )}
               </div>
             </div>
 
             <div className="rounded-2xl bg-primary/5 border border-primary/20 p-4">
-              <p className="text-xs text-primary font-medium mb-1.5">Cancelación flexible</p>
+              <p className="text-xs text-primary font-medium mb-1.5">{t("cancellationTitle")}</p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Modificá o cancelá tu reserva hasta 48h antes de la entrega sin costo.
+                {t("cancellationText")}
               </p>
             </div>
 
@@ -242,7 +295,7 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
               className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors py-2"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
-              Ver otros vehículos
+              {t("viewOtherVehicles")}
             </Link>
           </aside>
         </div>

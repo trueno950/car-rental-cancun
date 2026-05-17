@@ -14,6 +14,15 @@ function makeRow(overrides: Record<string, unknown> = {}) {
     year: 2023,
     dailyRateCents: 9550, // 95.50
     available: true,
+    seats: 5,
+    doors: 4,
+    trunkLiters: null,
+    maxPayloadKg: null,
+    transmissionType: "automatic",
+    fuelType: "gasoline",
+    category: "economy",
+    airConditioned: true,
+    airbags: null,
     createdAt: new Date("2024-01-01"),
     updatedAt: new Date("2024-01-01"),
     ...overrides,
@@ -52,9 +61,18 @@ describe("VehiclesRepository.insert", () => {
       year: 2023,
       dailyRate: 95.5,
       available: true,
+      seats: 5,
+      doors: 4,
+      trunkLiters: null,
+      maxPayloadKg: null,
+      transmissionType: "automatic" as const,
+      fuelType: "gasoline" as const,
+      category: "economy" as const,
+      airConditioned: true,
+      airbags: null,
     });
 
-    const valuesArg = db._queryBuilder.values.mock.calls[0][0] as Record<
+    const valuesArg = db._queryBuilder.values.mock.calls[0]![0] as Record<
       string,
       unknown
     >;
@@ -72,6 +90,15 @@ describe("VehiclesRepository.insert", () => {
       year: 2023,
       dailyRate: 95.5,
       available: true,
+      seats: 5,
+      doors: 4,
+      trunkLiters: null,
+      maxPayloadKg: null,
+      transmissionType: "automatic" as const,
+      fuelType: "gasoline" as const,
+      category: "economy" as const,
+      airConditioned: true,
+      airbags: null,
     });
 
     expect(vehicle.dailyRate).toBe(95.5);
@@ -88,9 +115,18 @@ describe("VehiclesRepository.insert", () => {
       year: 2023,
       dailyRate: 49.99,
       available: true,
+      seats: 5,
+      doors: 4,
+      trunkLiters: null,
+      maxPayloadKg: null,
+      transmissionType: "automatic" as const,
+      fuelType: "gasoline" as const,
+      category: "economy" as const,
+      airConditioned: true,
+      airbags: null,
     });
 
-    const valuesArg = db._queryBuilder.values.mock.calls[0][0] as Record<
+    const valuesArg = db._queryBuilder.values.mock.calls[0]![0] as Record<
       string,
       unknown
     >;
@@ -105,7 +141,7 @@ describe("VehiclesRepository.update", () => {
 
     await repo.update(VEHICLE_ID, { dailyRate: 100 });
 
-    const setArg = db._queryBuilder.set.mock.calls[0][0] as Record<
+    const setArg = db._queryBuilder.set.mock.calls[0]![0] as Record<
       string,
       unknown
     >;
@@ -123,7 +159,7 @@ describe("VehiclesRepository.update", () => {
 
     await repo.update(VEHICLE_ID, { dailyRate: 75 });
 
-    const setArg = db._queryBuilder.set.mock.calls[0][0] as Record<
+    const setArg = db._queryBuilder.set.mock.calls[0]![0] as Record<
       string,
       unknown
     >;
@@ -137,7 +173,7 @@ describe("VehiclesRepository.update", () => {
 
     await repo.update(VEHICLE_ID, { make: "Honda" });
 
-    const setArg = db._queryBuilder.set.mock.calls[0][0] as Record<
+    const setArg = db._queryBuilder.set.mock.calls[0]![0] as Record<
       string,
       unknown
     >;

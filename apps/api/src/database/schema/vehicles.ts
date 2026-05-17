@@ -14,6 +14,17 @@ export const vehiclesTable = pgTable("vehicles", {
   year: integer("year").notNull(),
   dailyRateCents: integer("daily_rate_cents").notNull(),
   available: boolean("available").notNull().default(true),
+  seats: integer("seats").notNull().default(5),
+  doors: integer("doors").notNull().default(4),
+  trunkLiters: integer("trunk_liters"),
+  maxPayloadKg: integer("max_payload_kg"),
+  transmissionType: varchar("transmission_type", { length: 50 })
+    .notNull()
+    .default("automatic"),
+  fuelType: varchar("fuel_type", { length: 50 }).notNull().default("gasoline"),
+  category: varchar("category", { length: 50 }).notNull().default("compact"),
+  airConditioned: boolean("air_conditioned").notNull().default(true),
+  airbags: integer("airbags"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
