@@ -1,6 +1,7 @@
 export {
   listVehiclesAction,
   getVehicleByIdAction,
+  getPublicVehicleByIdAction,
   createVehicleAction,
   updateVehicleAction,
   deleteVehicleAction,

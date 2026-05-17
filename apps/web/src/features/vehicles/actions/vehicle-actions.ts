@@ -26,6 +26,13 @@ export async function listVehiclesAction(): Promise<Vehicle[]> {
   return fetchVehicles();
 }
 
+export async function getPublicVehicleByIdAction(
+  id: string,
+): Promise<Vehicle | null> {
+  const { fetchVehicleByIdPublic } = await import("../services/vehicles.service");
+  return fetchVehicleByIdPublic(id);
+}
+
 export async function getVehicleByIdAction(
   id: string,
 ): Promise<Vehicle | null> {

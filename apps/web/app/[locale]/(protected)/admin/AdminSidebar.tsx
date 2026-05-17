@@ -37,7 +37,7 @@ export function AdminSidebar({ locale, labels }: AdminSidebarProps) {
   ];
 
   return (
-    <aside className="w-56 shrink-0 self-start sticky top-[57px] h-[calc(100vh-57px)] border-r border-border bg-sidebar overflow-y-auto">
+    <aside className="w-56 shrink-0 self-start sticky top-[80px] h-[calc(100vh-80px)] border-r border-border bg-sidebar overflow-y-auto">
       <nav className="p-3 space-y-1">
         {navItems.map(({ href, label, Icon }) => (
           <Link

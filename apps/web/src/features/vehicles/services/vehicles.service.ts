@@ -19,6 +19,18 @@ interface VehiclesAdminClientOptions extends VehiclesApiClientOptions {
   token: string;
 }
 
+export async function fetchVehicleByIdPublic(
+  id: string,
+  options: VehiclesApiClientOptions = {},
+): Promise<Vehicle | null> {
+  try {
+    const vehicles = await fetchVehicles(options);
+    return vehicles.find((v) => v.id === id) ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchVehicles(
   options: VehiclesApiClientOptions = {},
 ): Promise<Vehicle[]> {

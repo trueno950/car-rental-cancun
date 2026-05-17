@@ -17,13 +17,14 @@ export function VehicleCard({ vehicle, copy, locale }: VehicleCardProps) {
   const specs = getVehicleSpecs(vehicle.make, vehicle.model);
   const imageSeed = getVehicleImageSeed(vehicle.make, vehicle.model);
   const imageUrl = `https://picsum.photos/seed/${imageSeed}/800/520`;
+  const detailHref = `/${locale}/vehicles/${vehicle.id}`;
 
   return (
     <article
       aria-label={`${vehicle.make} ${vehicle.model} ${vehicle.year}`}
       className="group flex flex-col rounded-2xl border border-border bg-card overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 hover:-translate-y-1"
     >
-      <div className="relative h-52 overflow-hidden bg-muted">
+      <Link href={detailHref} className="relative h-52 overflow-hidden bg-muted block">
         <Image
           src={imageUrl}
           alt={`${vehicle.make} ${vehicle.model}`}
@@ -32,7 +33,6 @@ export function VehicleCard({ vehicle, copy, locale }: VehicleCardProps) {
           style={{ filter: "contrast(1.08) saturate(0.85)" }}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
-
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
         <div className="absolute top-3 left-3">
@@ -55,17 +55,17 @@ export function VehicleCard({ vehicle, copy, locale }: VehicleCardProps) {
             <p className="text-white/60 text-[10px] mt-0.5">/{copy.perDay}</p>
           </div>
         </div>
-      </div>
+      </Link>
 
       <div className="flex flex-col gap-4 p-5 flex-1">
-        <div>
-          <h2 className="text-lg font-bold tracking-tight text-foreground leading-tight">
+        <Link href={detailHref} className="group/title">
+          <h2 className="text-lg font-bold tracking-tight text-foreground leading-tight group-hover/title:text-primary transition-colors">
             {vehicle.make} {vehicle.model}
           </h2>
           <p className="text-sm text-muted-foreground mt-0.5">
             {copy.yearLabel} {vehicle.year}
           </p>
-        </div>
+        </Link>
 
         <div className="grid grid-cols-2 gap-2">
           <div className="flex items-center gap-2 rounded-xl bg-muted/60 px-3 py-2">
@@ -86,7 +86,7 @@ export function VehicleCard({ vehicle, copy, locale }: VehicleCardProps) {
           </div>
         </div>
 
-        <div className="flex items-center gap-1 flex-wrap mt-auto">
+        <div className="flex items-center gap-1 flex-wrap">
           {specs.tags.map((tag) => (
             <span
               key={tag}
@@ -97,18 +97,22 @@ export function VehicleCard({ vehicle, copy, locale }: VehicleCardProps) {
           ))}
         </div>
 
-        {vehicle.available ? (
+        <div className="flex gap-2 mt-auto">
           <Link
-            href={`/${locale}/bookings/new?vehicleId=${vehicle.id}`}
-            className="mt-1 inline-flex w-full items-center justify-center rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-all duration-200 hover:scale-[1.01]"
+            href={detailHref}
+            className="flex-1 inline-flex items-center justify-center rounded-xl border border-border px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted transition-colors"
           >
-            {copy.bookButton}
+            Ver detalles
           </Link>
-        ) : (
-          <div className="mt-1 inline-flex w-full items-center justify-center rounded-xl bg-muted px-4 py-3 text-sm font-medium text-muted-foreground cursor-not-allowed">
-            {copy.availabilityUnavailable}
-          </div>
-        )}
+          {vehicle.available && (
+            <Link
+              href={`/${locale}/bookings/new?vehicleId=${vehicle.id}`}
+              className="flex-1 inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-all"
+            >
+              {copy.bookButton}
+            </Link>
+          )}
+        </div>
       </div>
     </article>
   );

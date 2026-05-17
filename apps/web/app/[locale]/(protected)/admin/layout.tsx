@@ -36,7 +36,7 @@ export default async function AdminLayout({
   const t = await getTranslations({ locale, namespace: "AdminLayout" });
 
   return (
-    <div className="flex">
+    <div className="flex pt-20">
       <AdminSidebar
         locale={locale}
         labels={{ bookings: t("bookings"), fleet: t("fleet"), users: t("users") }}

@@ -41,7 +41,7 @@
   --sidebar-border: oklch(0.9202 0.0202 200.6310);
   --sidebar-ring: oklch(0.5606 0.1650 288.1741);
   --destructive-foreground: oklch(1.0000 0 0);
-  --font-sans: Inter, sans-serif;
+  --font-sans: Outfit, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: JetBrains Mono, monospace;
   --shadow-color: #2d2d53;
@@ -99,7 +99,7 @@
   --sidebar-ring: oklch(0.7155 0.1583 288.7763);
   --destructive-foreground: oklch(0.9859 0.0040 286.3269);
   --radius: 0.5rem;
-  --font-sans: Inter, sans-serif;
+  --font-sans: Outfit, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: JetBrains Mono, monospace;
   --shadow-color: #2d2d53;
@@ -158,7 +158,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: Inter, sans-serif;
+  --font-sans: Outfit, sans-serif;
   --font-heading: var(--font-sans);
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
