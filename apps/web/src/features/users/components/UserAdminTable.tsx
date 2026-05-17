@@ -66,6 +66,15 @@ function UserRow({ user, copy }: UserRowProps) {
         </div>
       </td>
       <td className="px-4 py-3 text-sm text-muted-foreground">{user.email}</td>
+      <td className="px-4 py-3 text-xs text-muted-foreground">
+        {user.createdAt
+          ? new Date(user.createdAt).toLocaleDateString(undefined, {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })
+          : "—"}
+      </td>
       <td className="px-4 py-3">
         <span
           className={cn(
@@ -136,6 +145,7 @@ export function UserAdminTable({ users, copy }: UserAdminTableProps) {
             {[
               copy.colName,
               copy.colEmail,
+              copy.colCreatedAt,
               copy.colRole,
               copy.colFrequent,
               copy.colActions,

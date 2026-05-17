@@ -52,6 +52,7 @@ export class UsersRepository {
       name: row.name,
       role: UserRoleSchema.parse(row.role),
       isFrequent: row.isFrequent,
+      createdAt: row.createdAt.toISOString(),
     };
   }
 }

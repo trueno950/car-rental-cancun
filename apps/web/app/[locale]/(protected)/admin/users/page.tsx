@@ -30,6 +30,7 @@ export default async function AdminUsersPage({
             empty: t("emptyState"),
             colName: t("table.columns.name"),
             colEmail: t("table.columns.email"),
+            colCreatedAt: t("table.columns.createdAt"),
             colRole: t("table.columns.role"),
             colFrequent: t("table.columns.frequent"),
             colActions: t("table.columns.actions"),

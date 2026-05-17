@@ -51,6 +51,7 @@ export const ApiUserSchema = z.object({
   name: z.string().min(1),
   role: UserRoleSchema, // always present after validate() applies default
   isFrequent: z.boolean().optional(),
+  createdAt: z.string().datetime().optional(),
 });
 
 export const UpdateUserRoleSchema = z.object({

@@ -278,6 +278,7 @@
       "columns": {
         "name": "Nombre",
         "email": "Email",
+        "createdAt": "Miembro desde",
         "role": "Rol",
         "frequent": "Frecuente",
         "actions": "Cambiar rol"

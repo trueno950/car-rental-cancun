@@ -6,6 +6,7 @@ export type UserAdminTableCopy = {
   colEmail: string;
   colRole: string;
   colFrequent: string;
+  colCreatedAt: string;
   colActions: string;
   roleLabels: Record<UserRole, string>;
   markFrequent: string;
