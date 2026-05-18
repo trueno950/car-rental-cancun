@@ -2,6 +2,10 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import {
+  uploadVehicleImageAction,
+  deleteVehicleImageAction,
+} from "../actions/vehicle-actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
@@ -56,6 +60,7 @@ export function VehicleForm({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(CreateVehicleSchema),
@@ -85,12 +90,31 @@ export function VehicleForm({
     setError(null);
     startTransition(async () => {
       try {
+        let imageUrl = values.imageUrl;
+
+        if (pendingFile) {
+          const formData = new FormData();
+          formData.append("file", pendingFile);
+          const newUrl = await uploadVehicleImageAction(formData);
+          imageUrl = newUrl;
+          // Best-effort: delete old image after new upload succeeds
+          if (values.imageUrl) {
+            try {
+              await deleteVehicleImageAction(values.imageUrl);
+            } catch {
+              // non-blocking
+            }
+          }
+        }
+
+        const finalValues = { ...values, imageUrl };
+
         if (mode === "create") {
-          await onSubmit(values);
+          await onSubmit(finalValues);
         } else {
           await (
             onSubmit as (values: UpdateVehicleDto) => Promise<VehicleView>
-          )(values);
+          )(finalValues);
         }
         router.push(`/${locale}/admin/vehicles`);
       } catch (err) {
@@ -119,7 +143,9 @@ export function VehicleForm({
                 <FormControl>
                   <VehicleImageUpload
                     value={field.value}
+                    pendingFile={pendingFile}
                     onChange={field.onChange}
+                    onFileSelect={setPendingFile}
                     labels={{
                       upload: t("form.image.upload"),
                       change: t("form.image.change"),

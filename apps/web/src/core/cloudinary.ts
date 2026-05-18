@@ -29,3 +29,17 @@ export async function uploadVehicleImage(file: File): Promise<string> {
 
   return result.secure_url;
 }
+
+/**
+ * Extracts the Cloudinary public_id from a secure_url.
+ * e.g. https://res.cloudinary.com/demo/image/upload/v123/vehicles/abc.jpg → vehicles/abc
+ */
+export function extractCloudinaryPublicId(url: string): string | null {
+  const match = url.match(/\/upload\/(?:v\d+\/)?(.+?)(\.[^./]+)?$/);
+  return match?.[1] ?? null;
+}
+
+export async function deleteVehicleImage(publicId: string): Promise<void> {
+  const cld = getCloudinary();
+  await cld.uploader.destroy(publicId);
+}

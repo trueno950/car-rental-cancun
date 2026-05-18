@@ -16,7 +16,11 @@ import {
   adminDeleteVehicle,
   fetchVehicles,
 } from "../services/vehicles.service";
-import { uploadVehicleImage } from "@core/cloudinary";
+import {
+  uploadVehicleImage,
+  deleteVehicleImage,
+  extractCloudinaryPublicId,
+} from "@core/cloudinary";
 
 async function getToken(): Promise<string> {
   const session = await auth();
@@ -83,4 +87,11 @@ export async function uploadVehicleImageAction(
     throw new Error("No file provided");
   }
   return uploadVehicleImage(file);
+}
+
+export async function deleteVehicleImageAction(url: string): Promise<void> {
+  await getToken();
+  const publicId = extractCloudinaryPublicId(url);
+  if (!publicId) return;
+  await deleteVehicleImage(publicId);
 }
